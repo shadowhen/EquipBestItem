@@ -540,8 +540,7 @@ namespace EquipBestItem
                     Math.Abs(filterArmor.ArmorWeight) +
                     Math.Abs(filterArmor.LegArmor);
 
-                ItemModifier mod =
-                    sourceItem.ItemModifier;
+                ItemModifier mod = sourceItem.ItemModifier;
 
                 int HeadArmor = armorComponentItem.HeadArmor,
                     BodyArmor = armorComponentItem.BodyArmor,
@@ -614,7 +613,7 @@ namespace EquipBestItem
                     SwingSpeed = mod.ModifySpeed(SwingSpeed);
                     ThrustDamage = mod.ModifyDamage(ThrustDamage);
                     ThrustSpeed = mod.ModifySpeed(ThrustSpeed);
-                    MaxDataValue += mod.HitPoints;
+                    //MaxDataValue += mod.HitPoints;
                     //WeaponWeight *= mod.WeightMultiplier;
 
                 }
@@ -665,9 +664,9 @@ namespace EquipBestItem
                     sourceItem.ItemModifier;
                 if (mod != null)
                 {
-                    ChargeDamage = mod.ModifyHorseCharge(ChargeDamage);
-                    Maneuver = mod.ModifyHorseManuever(Maneuver);
-                    Speed = mod.ModifyHorseSpeed(Speed);
+                    ChargeDamage = mod.ModifyMountCharge(ChargeDamage);
+                    Maneuver = mod.ModifyMountManeuver(Maneuver);
+                    Speed = mod.ModifyMountSpeed(Speed);
                 }
 
                 var weights = _characterSettings.FilterMount;
