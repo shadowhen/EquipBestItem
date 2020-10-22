@@ -26,8 +26,17 @@ This mod adds buttons which equip the character's equipment with the best items.
 
 ## Installation
 
-You can download the mod at [NexusMods](https://www.nexusmods.com/mountandblade2bannerlord/mods/369)
+### Easy way
+
+You can download the mod at [NexusMods](https://www.nexusmods.com/mountandblade2bannerlord/mods/1996)
 and follow instructions.
+
+###  Build using Visual Studio
+1. Clone this repositiory into your Mount & Blade II Bannerlord/modules/
+2. Go to EquipBestItem/src/ and open the solution using Visual Studio
+3. Build and run the solution
+4. Make sure EquipBestItem is selected on the launcher
+5. Press play and confirm
 
 ## License
 
