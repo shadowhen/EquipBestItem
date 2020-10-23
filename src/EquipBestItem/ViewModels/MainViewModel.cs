@@ -553,10 +553,17 @@ namespace EquipBestItem
 
                 if (mod != null)
                 {
-                    HeadArmor = mod.ModifyArmor(HeadArmor);
-                    BodyArmor = mod.ModifyArmor(BodyArmor);
-                    LegArmor = mod.ModifyArmor(LegArmor);
-                    ArmArmor = mod.ModifyArmor(ArmArmor);
+                    // Since armor values are positive numbers, we need to check 
+                    // if the given values have positive number before we apply
+                    // any modifiers to it.
+                    if (HeadArmor > 0f)
+                        HeadArmor = mod.ModifyArmor(HeadArmor);
+                    if (BodyArmor > 0f)
+                        BodyArmor = mod.ModifyArmor(BodyArmor);
+                    if (LegArmor > 0f)
+                        LegArmor = mod.ModifyArmor(LegArmor);
+                    if (ArmArmor > 0f)
+                        ArmArmor = mod.ModifyArmor(ArmArmor);
                     //Weight *= mod.WeightMultiplier;
                 }
 
@@ -610,13 +617,20 @@ namespace EquipBestItem
                 ItemModifier mod = sourceItem.ItemModifier;
                 if (mod != null)
                 {
-                    BodyArmor = mod.ModifyArmor(BodyArmor);
-                    MissileSpeed = mod.ModifyMissileSpeed(MissileSpeed);
-                    SwingDamage = mod.ModifyDamage(SwingDamage);
-                    SwingSpeed = mod.ModifySpeed(SwingSpeed);
-                    ThrustDamage = mod.ModifyDamage(ThrustDamage);
-                    ThrustSpeed = mod.ModifySpeed(ThrustSpeed);
-                    //MaxDataValue += mod.HitPoints;
+                    if (BodyArmor > 0f)
+                        BodyArmor = mod.ModifyArmor(BodyArmor);
+                    if (MissileSpeed > 0f)
+                        MissileSpeed = mod.ModifyMissileSpeed(MissileSpeed);
+                    if (SwingDamage > 0f)
+                        SwingDamage = mod.ModifyDamage(SwingDamage);
+                    if (SwingSpeed > 0f)
+                        SwingSpeed = mod.ModifySpeed(SwingSpeed);
+                    if (ThrustDamage > 0f)
+                        ThrustDamage = mod.ModifyDamage(ThrustDamage);
+                    if (ThrustDamage > 0f)
+                        ThrustSpeed = mod.ModifySpeed(ThrustSpeed);
+                    if (MaxDataValue > 0f)
+                        MaxDataValue = mod.ModifyHitPoints((short)MaxDataValue);
                     //WeaponWeight *= mod.WeightMultiplier;
 
                 }
