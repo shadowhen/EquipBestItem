@@ -390,6 +390,7 @@ namespace EquipBestItem
         {
             _characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
 
+            /*
             if (_inventory.IsInWarSet)
             {
                 Equipment battleEquipment = character.FirstBattleEquipment;
@@ -400,6 +401,11 @@ namespace EquipBestItem
                 Equipment civilEquipment = character.FirstCivilianEquipment;
                 EquipCharacterEquipment(character, civilEquipment, true);
             }
+            */
+
+            Equipment characterEquipment =
+                _inventory.IsInWarSet ? character.FirstBattleEquipment : character.FirstCivilianEquipment;
+            EquipCharacterEquipment(character, characterEquipment, !_inventory.IsInWarSet);
         }
 
         private static void EquipMessage(EquipmentIndex equipmentIndex, CharacterObject character)
