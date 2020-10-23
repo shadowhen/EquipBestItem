@@ -48,7 +48,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>D:\Games\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\EquipBestItem\bin\Win64_Shipping_Client\</OutputPath>
+    <OutputPath>..\..\bin\Win64_Shipping_Client\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>true</Optimize>
