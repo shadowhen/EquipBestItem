@@ -571,6 +571,12 @@ namespace EquipBestItem
                     if (ArmArmor > 0f)
                         ArmArmor = mod.ModifyArmor(ArmArmor);
                     //Weight *= mod.WeightMultiplier;
+
+                    HeadArmor = HeadArmor < 0 ? 0 : HeadArmor;
+                    BodyArmor = BodyArmor < 0 ? 0 : BodyArmor;
+                    LegArmor = LegArmor < 0 ? 0 : LegArmor;
+                    ArmArmor = ArmArmor < 0 ? 0 : ArmArmor;
+                    
                 }
 
                 value = (
@@ -633,12 +639,19 @@ namespace EquipBestItem
                         SwingSpeed = mod.ModifySpeed(SwingSpeed);
                     if (ThrustDamage > 0f)
                         ThrustDamage = mod.ModifyDamage(ThrustDamage);
-                    if (ThrustDamage > 0f)
+                    if (ThrustSpeed > 0f)
                         ThrustSpeed = mod.ModifySpeed(ThrustSpeed);
                     if (MaxDataValue > 0f)
                         MaxDataValue = mod.ModifyHitPoints((short)MaxDataValue);
                     //WeaponWeight *= mod.WeightMultiplier;
 
+                    BodyArmor = BodyArmor < 0 ? 0 : BodyArmor;
+                    MissileSpeed = MissileSpeed < 0 ? 0 : MissileSpeed;
+                    SwingDamage = SwingDamage < 0 ? 0 : SwingDamage;
+                    SwingSpeed = SwingSpeed < 0 ? 0 : SwingSpeed;
+                    ThrustDamage = ThrustDamage < 0 ? 0 : ThrustDamage;
+                    ThrustSpeed = ThrustSpeed < 0 ? 0 : ThrustSpeed;
+                    MaxDataValue = MaxDataValue < 0 ? 0 : MaxDataValue;
                 }
 
                 var weights = _characterSettings.FilterWeapon[GetEquipmentSlot(slot)];
