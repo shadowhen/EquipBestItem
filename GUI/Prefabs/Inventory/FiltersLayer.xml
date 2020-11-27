@@ -46,11 +46,17 @@
         <!--Close Buttons-->
         <!--<Standard.TriplePopupCloseButtons MarginTop="!CloseButtons.Margin.Top" Parameter.CancelButtonAction="ExecuteCancel" Parameter.CancelButtonText="@CancelText" Parameter.DoneButtonAction="ExecuteDone" Parameter.DoneButtonText="@DoneText" Parameter.ResetButtonAction="ExecuteReset" Parameter.ResetButtonHintDataSource="{ResetHint}" />-->
         <!-- <ButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="25" SuggestedHeight="23" Brush="Inventory.EquipBetterItem.LockedSlot" VerticalAlignment="Top" HorizontalAlignment="Left" IsSelected="@IsWeaponSlotHidden" Command.Click="ExecuteShowHideWeapon1Filter"/> -->
-        <Widget IsHidden="@IsHiddenFilterLayer" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="437" SuggestedHeight="830" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="50" Brush="Frame1Brush">
+        <Widget IsHidden="@IsHiddenFilterLayer" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="437" SuggestedHeight="830" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="50">
           <Children>
 
+            <Widget IsHidden="@IsHiddenFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="Frame1_canvas">
+              <Children>
+                <Widget IsHidden="@IsHiddenFilterLayer" ExtendTop="27" ExtendLeft="26" ExtendRight="27" ExtendBottom="29" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="Frame1_frame"/>
+              </Children>
+            </Widget>
+
             <!--Top Panel Name Text-->
-            <Widget IsHidden="@IsHiddenFilterLayer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="592" SuggestedHeight="161" HorizontalAlignment="Center" PositionYOffset="-141" Sprite="StdAssets\tabbar_popup" Brush.VerticalFlip="true" IsDisabled="true">
+            <Widget IsHidden="@IsHiddenFilterLayer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="592" SuggestedHeight="161" HorizontalAlignment="Center" PositionYOffset="-141" Sprite="StdAssets\tabbar_popup" VerticalFlip="true" IsDisabled="true">
               <Children>
                 <RichTextWidget IsHidden="@IsWeaponLayer" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="25" VerticalAlignment="Center" Brush="Recruitment.Popup.Title.Text" Brush.FontSize="40" IsDisabled="true" Text="@Title" />
               </Children>
