@@ -227,7 +227,6 @@
     <Content Include="GUI\Brushes\EquipBestItemBrush.xml" />
     <Content Include="GUI\Prefabs\Inventory\EBIInventory.xml" />
     <Content Include="GUI\Prefabs\Inventory\FiltersLayer.xml" />
-    <Content Include="SubModule.xml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
