@@ -43,7 +43,7 @@ namespace EquipBestItem
 
             CharacterObject character = _characterData.GetCharacterObject();
 
-            // Loops through the list to find the best equipment item
+            // Loops through the inventory list to find the best equipment item
             foreach (SPItemVM item in itemListVM)
             {
                 if (IsCamel(item) || IsCamelHarness(item))
@@ -60,63 +60,53 @@ namespace EquipBestItem
                     {
                         if (equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass &&
                             GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage)
-                            if (bestEquipmentElement.IsEmpty)
-                                if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(equipmentElement, slot) &&
-                                    ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                                    bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
-                                else
-                                    continue;
-                            else
-                                if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(bestEquipmentElement, slot) &&
-                                    ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                                bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
+                        {
+                            bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
+                        }
                     }
-                    else if (item.ItemType == slot && item.IsEquipableItem && item.IsCivilianItem &&
+                    else if (item.ItemType == slot && 
+                        item.IsEquipableItem && 
+                        item.IsCivilianItem && 
                         CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement))
-                        if (bestEquipmentElement.IsEmpty)
-                            if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(equipmentElement, slot) &&
-                                ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                                bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
-                            else
-                                continue;
-                        else
-                            if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(bestEquipmentElement, slot) &&
-                                ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                            bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
+                    {
+                        bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
+                    }
                 }
                 else
                 {
-                    if (slot < EquipmentIndex.NonWeaponItemBeginSlot && item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null && item.IsEquipableItem &&
+                    if (slot < EquipmentIndex.NonWeaponItemBeginSlot && 
+                        item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null && 
+                        item.IsEquipableItem &&
                         CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement))
                     {
                         if (equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass &&
                             GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage)
-                            if (bestEquipmentElement.IsEmpty)
-                                if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(equipmentElement, slot) &&
-                                    ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                                    bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
-                                else
-                                    continue;
-                            else
-                                if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(bestEquipmentElement, slot) &&
-                                    ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                                bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
+                        {
+                            bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
+                        }
                     }
-                    else if (item.ItemType == slot && item.IsEquipableItem &&
+                    else if (item.ItemType == slot && 
+                        item.IsEquipableItem &&
                         CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement))
-                        if (bestEquipmentElement.IsEmpty)
-                            if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(equipmentElement, slot) &&
-                                ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                                bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
-                            else
-                                continue;
-                        else
-                            if (ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) > ItemIndexCalculation(bestEquipmentElement, slot) &&
-                                ItemIndexCalculation(item.ItemRosterElement.EquipmentElement, slot) != 0f)
-                            bestEquipmentElement = item.ItemRosterElement.EquipmentElement;
+                    {
+                        bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
+                    }
                 }
+
             }
 
+            return bestEquipmentElement;
+        }
+
+        private EquipmentElement GetBestEquipmentElement(EquipmentIndex slot, EquipmentElement inventoryEquipmentElement, EquipmentElement currentEquipmentElement, EquipmentElement bestEquipmentElement)
+        {
+            float inventoryItemValue = ItemIndexCalculation(inventoryEquipmentElement, slot);
+            float currentItemValue = bestEquipmentElement.IsEmpty ? ItemIndexCalculation(currentEquipmentElement, slot) : ItemIndexCalculation(bestEquipmentElement, slot);
+
+            if (inventoryItemValue > currentItemValue && inventoryItemValue != 0f)
+            {
+                return inventoryEquipmentElement;
+            }
             return bestEquipmentElement;
         }
 
