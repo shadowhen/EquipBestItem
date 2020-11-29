@@ -16,16 +16,21 @@ namespace EquipBestItem.Layers
         }
 
         bool IsAltPressed = false;
-        bool _lastSetState;
+        bool _leftMouseButtonWasReleased = false;
 
         protected override void OnLateUpdate(float dt)
         {
             base.OnLateUpdate(dt);
 
-            if (_lastSetState != InventoryBehavior.Inventory.IsInWarSet)
+            if (TaleWorlds.InputSystem.Input.IsKeyReleased(TaleWorlds.InputSystem.InputKey.LeftMouseButton) && !_leftMouseButtonWasReleased)
             {
                 _viewModel.RefreshValues();
-                _lastSetState = InventoryBehavior.Inventory.IsInWarSet;
+                _leftMouseButtonWasReleased = true;
+            }
+
+            if (TaleWorlds.InputSystem.Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.LeftMouseButton) && _leftMouseButtonWasReleased)
+            {
+                _leftMouseButtonWasReleased = false;
             }
 
             if (TaleWorlds.InputSystem.Input.IsKeyDown(TaleWorlds.InputSystem.InputKey.LeftAlt) && !IsAltPressed)
