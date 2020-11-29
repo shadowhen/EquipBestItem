@@ -207,6 +207,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\InventoryBehavior.cs" />
+    <Compile Include="BestEquipmentUpgrader.cs" />
+    <Compile Include="CharacterData.cs" />
     <Compile Include="Layers\MainLayer.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
@@ -222,11 +224,6 @@
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="GUI\Brushes\EquipBestItemBrush.xml" />
-    <Content Include="GUI\Prefabs\Inventory\EBIInventory.xml" />
-    <Content Include="GUI\Prefabs\Inventory\FiltersLayer.xml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
