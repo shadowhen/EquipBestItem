@@ -68,6 +68,11 @@ namespace EquipBestItem
             Weapon4 = 3
         }
 
+        public CharacterSettings()
+        {
+
+        }
+
         public CharacterSettings(string name)
         {
             Name = name;
@@ -85,8 +90,23 @@ namespace EquipBestItem
             _filterMount = new FilterMountSettings();
         }
 
-        public CharacterSettings()
+        public CharacterSettings(CharacterSettings other)
         {
+            if (other == null) return;
+
+            Name = other.Name;
+
+            for (int i = 0; i < 4; i++)
+            {
+                FilterWeapon.Add(new FilterWeaponSettings(other.FilterWeapon[i]));
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                FilterArmor.Add(new FilterArmorSettings(other.FilterArmor[i]));
+            }
+
+            FilterMount = new FilterMountSettings(other.FilterMount);
         }
     }
 }

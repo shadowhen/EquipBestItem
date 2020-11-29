@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Core;
+﻿using System;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace EquipBestItem
@@ -8,6 +9,16 @@ namespace EquipBestItem
         public CharacterSettings CharacterSettings;
 
         public static int CurrentSlot = 0;
+
+        private enum FilterItemState { None, Armor, Weapon, Mount }
+        private FilterItemState _filterItemState = FilterItemState.None;
+
+        private FilterArmorSettings _clipboardFilterArmorSettings;
+        private FilterWeaponSettings _clipboardFilterWeaponSettings;
+        private FilterMountSettings _clipboardFilterMountSettings;
+        private CharacterSettings _clipboardCharacterSettings;
+
+        private bool _pastedCharacterSettings = false;
 
         #region DataSourcePropertys
         private bool _isHelmFilterSelected;
@@ -462,6 +473,54 @@ namespace EquipBestItem
             }
         }
 
+        private bool _clipboardFilterArmorSettingsCopied;
+
+        [DataSourceProperty]
+        public bool IsFilterArmorSettingsCopied
+        {
+            get => _clipboardFilterArmorSettingsCopied;
+            private set
+            {
+                _clipboardFilterArmorSettingsCopied = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _clipboardFilterWeaponSettingsCopied;
+        [DataSourceProperty]
+        public bool IsFilterWeaponSettingsCopied
+        {
+            get => _clipboardFilterWeaponSettingsCopied;
+            private set
+            {
+                _clipboardFilterWeaponSettingsCopied = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _clipboardFilterMountSettingsCopied;
+        [DataSourceProperty]
+        public bool IsFilterMountSettingsCopied
+        {
+            get => _clipboardFilterMountSettingsCopied;
+            private set
+            {
+                _clipboardFilterMountSettingsCopied = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _clipboardCharacterSettingsCopied;
+        [DataSourceProperty]
+        public bool IsCharacterSettingsCopied
+        {
+            get => _clipboardCharacterSettingsCopied;
+            private set
+            {
+                _clipboardCharacterSettingsCopied = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _swingDamage;
         [DataSourceProperty]
@@ -819,7 +878,15 @@ namespace EquipBestItem
             base.RefreshValues();
             try
             {
-                this.CharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
+                if (!_pastedCharacterSettings)
+                {
+                    this.CharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
+                }
+                else
+                {
+                    SettingsLoader.Instance.SetCharacterSettingsByName(CharacterSettings, InventoryBehavior.Inventory.CurrentCharacterName);
+                    _pastedCharacterSettings = false;
+                }
             }
             catch (MBException e)
             {
@@ -1331,6 +1398,7 @@ namespace EquipBestItem
             this.IsWeaponSlotHidden = false;
             this.IsArmorSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Weapon;
             this.RefreshValues();
         }
 
@@ -1346,6 +1414,7 @@ namespace EquipBestItem
             this.IsWeaponSlotHidden = false;
             this.IsArmorSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Weapon;
             this.RefreshValues();
         }
 
@@ -1361,6 +1430,7 @@ namespace EquipBestItem
             this.IsWeaponSlotHidden = false;
             this.IsArmorSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Weapon;
             this.RefreshValues();
         }
 
@@ -1376,6 +1446,7 @@ namespace EquipBestItem
             this.IsWeaponSlotHidden = false;
             this.IsArmorSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Weapon;
             this.RefreshValues();
         }
 
@@ -1392,6 +1463,7 @@ namespace EquipBestItem
             this.IsArmorSlotHidden = false;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Armor;
             this.RefreshValues();
         }
 
@@ -1408,6 +1480,7 @@ namespace EquipBestItem
             this.IsArmorSlotHidden = false;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Armor;
             this.RefreshValues();
         }
 
@@ -1424,6 +1497,7 @@ namespace EquipBestItem
             this.IsArmorSlotHidden = false;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Armor;
             this.RefreshValues();
         }
 
@@ -1440,6 +1514,7 @@ namespace EquipBestItem
             this.IsArmorSlotHidden = false;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Armor;
             this.RefreshValues();
         }
 
@@ -1453,9 +1528,11 @@ namespace EquipBestItem
             else
                 this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
 
+            
             this.IsArmorSlotHidden = false;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Armor;
             this.RefreshValues();
         }
 
@@ -1469,6 +1546,7 @@ namespace EquipBestItem
             this.IsArmorSlotHidden = true;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = false;
+            _filterItemState = FilterItemState.Mount;
             this.RefreshValues();
         }
 
@@ -1485,6 +1563,7 @@ namespace EquipBestItem
             this.IsArmorSlotHidden = false;
             this.IsWeaponSlotHidden = true;
             this.IsMountSlotHidden = true;
+            _filterItemState = FilterItemState.Armor;
             this.RefreshValues();
         }
 
@@ -1532,6 +1611,22 @@ namespace EquipBestItem
             this.RefreshValues();
         }
 
+        public void ExecuteItemClear()
+        {
+            switch (_filterItemState)
+            {
+                case FilterItemState.Armor:
+                    ExecuteArmorClear();
+                    break;
+                case FilterItemState.Weapon:
+                    ExecuteWeaponClear();
+                    break;
+                case FilterItemState.Mount:
+                    ExecuteMountClear();
+                    break;
+            }
+        }
+
         public void ExecuteMountLock()
         {
             this.CharacterSettings.FilterMount.ChargeDamage = 0;
@@ -1568,6 +1663,81 @@ namespace EquipBestItem
             this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength = 0;
             this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight = 0;
             this.RefreshValues();
+        }
+
+        public void ExecuteItemLock()
+        {
+            switch (_filterItemState)
+            {
+                case FilterItemState.Armor:
+                    ExecuteArmorLock();
+                    break;
+                case FilterItemState.Weapon:
+                    ExecuteWeaponLock();
+                    break;
+                case FilterItemState.Mount:
+                    ExecuteMountLock();
+                    break;
+            }
+        }
+
+        public void ExecuteCopyFilterSettings()
+        {
+            switch (_filterItemState)
+            {
+                case FilterItemState.Armor:
+                    _clipboardFilterArmorSettings = new FilterArmorSettings(CharacterSettings.FilterArmor[CurrentSlot]);
+                    IsFilterArmorSettingsCopied = true;
+                    InformationManager.DisplayMessage(new InformationMessage("Armor settings copied"));
+                    break;
+                case FilterItemState.Weapon:
+                    _clipboardFilterWeaponSettings = new FilterWeaponSettings(CharacterSettings.FilterWeapon[CurrentSlot]);
+                    IsFilterWeaponSettingsCopied = true;
+                    InformationManager.DisplayMessage(new InformationMessage("Weapon settings copied"));
+                    break;
+                case FilterItemState.Mount:
+                    _clipboardFilterMountSettings = new FilterMountSettings(CharacterSettings.FilterMount);
+                    IsFilterMountSettingsCopied = true;
+                    InformationManager.DisplayMessage(new InformationMessage("Mount settings copied"));
+                    break;
+            }
+        }
+
+        public void ExecutePasteFilterSettings()
+        {
+            switch (_filterItemState)
+            {
+                case FilterItemState.Armor:
+                    CharacterSettings.FilterArmor[CurrentSlot] = new FilterArmorSettings(_clipboardFilterArmorSettings);
+                    InformationManager.DisplayMessage(new InformationMessage("Armor settings pasted"));
+                    break;
+                case FilterItemState.Weapon:
+                    CharacterSettings.FilterWeapon[CurrentSlot] = new FilterWeaponSettings(_clipboardFilterWeaponSettings);
+                    InformationManager.DisplayMessage(new InformationMessage("Weapon settings pasted"));
+                    break;
+                case FilterItemState.Mount:
+                    CharacterSettings.FilterMount = new FilterMountSettings(_clipboardFilterMountSettings);
+                    InformationManager.DisplayMessage(new InformationMessage("Mount settings pasted"));
+                    break;
+            }
+            RefreshValues();
+        }
+
+        public void ExecuteCopyCharacterSettings()
+        {
+            _clipboardCharacterSettings = new CharacterSettings(CharacterSettings);
+            IsCharacterSettingsCopied = true;
+            InformationManager.DisplayMessage(new InformationMessage("Character settings copied"));
+        }
+
+        public void ExecutePasteCharacterSettings()
+        {
+            var tempName = CharacterSettings.Name;
+            CharacterSettings = new CharacterSettings(_clipboardCharacterSettings);
+            CharacterSettings.Name = tempName;
+            _pastedCharacterSettings = true;
+            InformationManager.DisplayMessage(new InformationMessage("Character settings pasted"));
+            RefreshValues();
         }
 
         #endregion ExecuteMethods

@@ -1,5 +1,4 @@
-﻿using TaleWorlds.Core;
-using TaleWorlds.Engine.GauntletUI;
+﻿using TaleWorlds.Engine.GauntletUI;
 
 namespace EquipBestItem.Layers
 {

@@ -15,6 +15,25 @@ namespace EquipBestItem
         public float ChargeBonus { get; set; } = 1f;
         public float ArmorWeight { get; set; } = 0;
 
+        public FilterArmorSettings()
+        {
+
+        }
+
+        public FilterArmorSettings(FilterArmorSettings other)
+        {
+            if (other == null) return;
+
+            HeadArmor = other.HeadArmor;
+            ArmorBodyArmor = other.ArmorBodyArmor;
+            LegArmor = other.LegArmor;
+            ArmArmor = other.ArmArmor;
+            ManeuverBonus = other.ManeuverBonus;
+            SpeedBonus = other.SpeedBonus;
+            ChargeBonus = other.ChargeBonus;
+            ArmorWeight = other.ArmorWeight;
+        }
+
         public bool ThisFilterNotDefault()
         {
             if (this.HeadArmor != 1f) return true;

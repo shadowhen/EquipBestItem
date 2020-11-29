@@ -118,5 +118,25 @@ namespace EquipBestItem
 
             return characterSettings;
         }
+
+        public bool SetCharacterSettingsByName(CharacterSettings characterSettings, string name)
+        {
+            if (!InventoryBehavior.Inventory.IsInWarSet)
+                name += "_civil";
+
+            if (this.CharacterSettings != null)
+            {
+                for (int i = 0; i < CharacterSettings.Count; i++)
+                {
+                    if (CharacterSettings[i].Name == name)
+                    {
+                        CharacterSettings[i] = characterSettings;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

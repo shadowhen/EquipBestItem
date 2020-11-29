@@ -10,7 +10,20 @@ namespace EquipBestItem
         public float Maneuver { get; set; } = 1f;
         public float Speed { get; set; } = 1f;
 
+        public FilterMountSettings()
+        {
 
+        }
+
+        public FilterMountSettings(FilterMountSettings other)
+        {
+            if (other == null) return;
+
+            ChargeDamage = other.ChargeDamage;
+            HitPoints = other.HitPoints;
+            Maneuver = other.Maneuver;
+            Speed = other.Speed;
+        }
 
         public bool ThisFilterNotDefault()
         {

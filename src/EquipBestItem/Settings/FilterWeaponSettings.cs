@@ -26,6 +26,28 @@
 
         //public WeaponFlags? WeaponFlags { get; set; }
 
+        public FilterWeaponSettings()
+        {
+
+        }
+
+        public FilterWeaponSettings(FilterWeaponSettings other)
+        {
+            if (other == null) return;
+
+            MaxDataValue = other.MaxDataValue;
+            ThrustSpeed = other.ThrustSpeed;
+            SwingSpeed = other.SwingSpeed;
+            MissileSpeed = other.MissileSpeed;
+            WeaponLength = other.WeaponLength;
+            ThrustSpeed = other.ThrustSpeed;
+            SwingDamage = other.SwingDamage;
+            Accuracy = other.Accuracy;
+            Handling = other.Handling;
+            WeaponWeight = other.WeaponWeight;
+            WeaponBodyArmor = other.WeaponBodyArmor;
+        }
+
         public bool ThisFilterNotDefault()
         {
             if (this.MaxDataValue != 1f) return true;
@@ -57,11 +79,6 @@
                 this.WeaponBodyArmor == 0f)
                 return true;
             return false;
-        }
-
-        public FilterWeaponSettings()
-        {
-
         }
     }
 }
