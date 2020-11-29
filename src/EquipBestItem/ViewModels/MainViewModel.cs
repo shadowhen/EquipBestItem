@@ -239,6 +239,8 @@ namespace EquipBestItem
 
             if (_inventoryLogic == null)
                 _inventoryLogic = InventoryManager.InventoryLogic;
+            if (_inventory == null)
+                _inventory = InventoryBehavior.Inventory;
 
             var character = GetCharacterByName(_inventory.CurrentCharacterName);
             var characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
