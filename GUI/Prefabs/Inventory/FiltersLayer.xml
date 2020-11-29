@@ -1,5 +1,8 @@
 <Prefab>
   <Constants>
+    <Constant Name="BottomLeftFilterButtonWidth" Value="210"/>
+    <Constant Name="CopyPasteButtonWidth" Value="240"/>
+    <Constant Name="CopyPasteButtonHeight" Value="48"/>
   </Constants>
   <VisualDefinitions>
   </VisualDefinitions>
@@ -428,23 +431,7 @@
               </Children>
             </Widget>
 
-            <!--Clear Weapon Button-->
-            <ButtonWidget IsHidden="@IsWeaponSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteWeaponClear" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
-              </Children>
-            </ButtonWidget>
-
-            <!--LOCK Weapon Button-->
-            <ButtonWidget IsHidden="@IsWeaponSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteWeaponLock" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
-              </Children>
-            </ButtonWidget>
-
-
             <!--       ARMOR SECTION           -->
-
 
             <Widget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="0">
               <Children>
@@ -710,20 +697,6 @@
               </Children>
             </Widget>
 
-            <!--Clear Armor Button-->
-            <ButtonWidget IsHidden="@IsArmorSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteArmorClear" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
-              </Children>
-            </ButtonWidget>
-
-            <!--LOCK Weapon Button-->
-            <ButtonWidget IsHidden="@IsArmorSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteArmorLock" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
-              </Children>
-            </ButtonWidget>
-
 
             <!--            MOUNT SECTION                 -->
 
@@ -860,26 +833,104 @@
               </Children>
             </Widget>
 
+          </Children>
+        </Widget>
+        
+        <Widget IsHidden="@IsHiddenFilterLayer" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="437" SuggestedHeight="830" VerticalAlignment="Center" HorizontalAlignment="Center" MarginTop="50">
+          <Children>
+            <!--LOCK Weapon Button-->
+            <!-- Armor -->
+            <ButtonWidget IsHidden="@IsArmorSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteItemLock" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
+              </Children>
+            </ButtonWidget>
+            
+            <!-- Weapon -->
+            <ButtonWidget IsHidden="@IsWeaponSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteItemLock" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
+              </Children>
+            </ButtonWidget>
+            
+            <!-- Mount -->
+            <ButtonWidget IsHidden="@IsMountSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteItemLock" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsMountSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
+              </Children>
+            </ButtonWidget>
+			
             <!--Clear Mount Button-->
-            <ButtonWidget IsHidden="@IsMountSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteMountClear" UpdateChildrenStates="true">
+            <!-- Armor -->
+            <ButtonWidget IsHidden="@IsArmorSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteItemClear" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
+              </Children>
+            </ButtonWidget>
+            
+            <!-- Weapon -->
+            <ButtonWidget IsHidden="@IsWeaponSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteItemClear" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
+              </Children>
+            </ButtonWidget>
+            
+            <!-- Mount -->
+            <ButtonWidget IsHidden="@IsMountSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteItemClear" UpdateChildrenStates="true">
               <Children>
                 <TextWidget IsHidden="@IsMountSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
               </Children>
             </ButtonWidget>
 
-            <!--LOCK Weapon Button-->
-            <ButtonWidget IsHidden="@IsMountSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteMountLock" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsMountSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
-              </Children>
-            </ButtonWidget>
-
-            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="300" SuggestedHeight="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="0" Brush="Popup.Done.Button.NineGrid" Command.Click="ExecuteWeaponClose" UpdateChildrenStates="true">
+            <!-- Close button -->
+            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="0" Brush="Popup.Done.Button.NineGrid" Command.Click="ExecuteWeaponClose" UpdateChildrenStates="true">
               <Children>
                 <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="CLOSE" />
               </Children>
             </ButtonWidget>
-
+			
+            <!-- Copy filter button -->
+            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="110" Brush="Popup.Button.Base" Command.Click="ExecuteCopyFilterSettings" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Copy Filter" />
+              </Children>
+            </ButtonWidget>
+			
+            <!-- Paste filter button section -->
+            <!-- Paste armor filter button -->
+            <ButtonWidget IsHidden="@IsArmorSlotHidden" IsEnabled="@IsFilterArmorSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="75" Brush="Popup.Button.Base" Command.Click="ExecutePasteFilterSettings" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsArmorSlotHidden" IsEnabled="@IsFilterArmorSettingsCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Filter" />
+              </Children>
+            </ButtonWidget>
+			
+            <!-- Paste weapon filter button -->
+            <ButtonWidget IsHidden="@IsWeaponSlotHidden" IsEnabled="@IsFilterWeaponSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="75" Brush="Popup.Button.Base" Command.Click="ExecutePasteFilterSettings" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsWeaponSlotHidden" IsEnabled="@IsFilterWeaponSettingsCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Filter" />
+              </Children>
+            </ButtonWidget>
+			
+            <!-- Paste mount filter button -->
+            <ButtonWidget IsHidden="@IsMountSlotHidden" IsEnabled="@IsFilterMountSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="75" Brush="Popup.Button.Base" Command.Click="ExecutePasteFilterSettings" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsMountSlotHidden" IsEnabled="@IsFilterMountSettingsCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Filter" />
+              </Children>
+            </ButtonWidget>
+			
+            <!-- Copy character settings button -->
+            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="40" Brush="Popup.Button.Base" Command.Click="ExecuteCopyCharacterSettings" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Copy Character" />
+              </Children>
+            </ButtonWidget>
+			
+            <!-- Paste character settings button -->
+            <ButtonWidget IsHidden="@IsFilterLayer" IsEnabled="@IsCharacterSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="5" Brush="Popup.Button.Base" Command.Click="ExecutePasteCharacterSettings" UpdateChildrenStates="true">
+              <Children>
+                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Character" />
+              </Children>
+            </ButtonWidget>
           </Children>
         </Widget>
 

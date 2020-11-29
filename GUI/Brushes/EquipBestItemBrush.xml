@@ -154,4 +154,10 @@
       </EventSounds>
     </SoundProperties>
   </Brush>
+  <Brush Name="Inventory.CopyPasteText">
+    <Styles>
+      <Style Name="Default" FontColor="#F8E3BEFF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0" TextGlowRadius="0" TextBlur="0" FontSize="18" />
+      <Style Name="Disabled" TextAlphaFactor="0.5" />
+    </Styles>
+  </Brush>
 </Brushes>
