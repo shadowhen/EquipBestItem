@@ -313,13 +313,6 @@ namespace EquipBestItem
             {
                 value = CalculateArmorValue(sourceItem, slot);
 
-#if DEBUG
-                InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: HA {1}, BA {2}, LA {3}, AA {4}, W {5}",
-                                sourceItem.Item.Name, HeadArmor, BodyArmor, LegArmor, ArmArmor, Weight)));
-
-                InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
-#endif
-
                 return value;
             }
 
@@ -327,12 +320,6 @@ namespace EquipBestItem
             if (sourceItem.Item.PrimaryWeapon != null)
             {
                 value = CalculateWeaponValue(sourceItem, slot);
-#if DEBUG
-                InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: Acc {1}, BA {2}, HL {3}, HP {4}, MS {5}, SD {6}, SS {7}, TD {8}, TS {9}, WL {10}, W {11}",
-                                sourceItem.Item.Name, Accuracy, BodyArmor, Handling, MaxDataValue, MissileSpeed, SwingDamage, SwingSpeed, ThrustDamage, ThrustSpeed, WeaponLength, WeaponWeight)));
-
-                InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
-#endif
 
                 return value;
             }
@@ -341,12 +328,6 @@ namespace EquipBestItem
             if (sourceItem.Item.HasHorseComponent)
             {
                 value = CalculateHorseValue(sourceItem);
-#if DEBUG
-                InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: CD {1}, HP {2}, MR {3}, SD {4}",
-                                sourceItem.Item.Name, ChargeDamage, HitPoints, Maneuver, Speed)));
-
-                InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
-#endif
 
                 return value;
             }
@@ -410,6 +391,12 @@ namespace EquipBestItem
                 Weight * filterArmor.ArmorWeight
             ) / sum;
 
+#if DEBUG
+            InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: HA {1}, BA {2}, LA {3}, AA {4}, W {5}",
+                            sourceItem.Item.Name, HeadArmor, BodyArmor, LegArmor, ArmArmor, Weight)));
+
+            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
+#endif
             return value;
         }
 
@@ -491,6 +478,14 @@ namespace EquipBestItem
                 WeaponWeight * weights.WeaponWeight
             ) / sum;
 
+
+#if DEBUG
+            InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: Acc {1}, BA {2}, HL {3}, HP {4}, MS {5}, SD {6}, SS {7}, TD {8}, TS {9}, WL {10}, W {11}",
+                            sourceItem.Item.Name, Accuracy, BodyArmor, Handling, MaxDataValue, MissileSpeed, SwingDamage, SwingSpeed, ThrustDamage, ThrustSpeed, WeaponLength, WeaponWeight)));
+
+            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
+#endif
+
             return value;
         }
 
@@ -530,6 +525,13 @@ namespace EquipBestItem
                 Maneuver * weights.Maneuver +
                 Speed * weights.Speed
             ) / sum;
+
+#if DEBUG
+            InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: CD {1}, HP {2}, MR {3}, SD {4}",
+                            sourceItem.Item.Name, ChargeDamage, HitPoints, Maneuver, Speed)));
+
+            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
+#endif
 
             return value;
         }
