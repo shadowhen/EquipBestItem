@@ -321,6 +321,7 @@ namespace EquipBestItem
         /// </summary>
         public void EquipEveryCharacter()
         {
+            bestEquipmentUpgrader.RefreshValues();
             foreach (TroopRosterElement rosterElement in _inventoryLogic.RightMemberRoster)
             {
                 if (rosterElement.Character.IsHero)
