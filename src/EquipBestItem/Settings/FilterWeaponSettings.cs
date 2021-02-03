@@ -40,7 +40,7 @@
             SwingSpeed = other.SwingSpeed;
             MissileSpeed = other.MissileSpeed;
             WeaponLength = other.WeaponLength;
-            ThrustSpeed = other.ThrustSpeed;
+            ThrustDamage = other.ThrustDamage;
             SwingDamage = other.SwingDamage;
             Accuracy = other.Accuracy;
             Handling = other.Handling;
