@@ -20,6 +20,10 @@ namespace EquipBestItem
 
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="other">armor settings</param>
         public FilterArmorSettings(FilterArmorSettings other)
         {
             if (other == null) return;

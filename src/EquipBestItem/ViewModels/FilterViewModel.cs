@@ -894,6 +894,7 @@ namespace EquipBestItem
                 throw;
             }
 
+            // Updates the title whether we are looking at weapon, armor, or mount filter settings window
             if (!IsWeaponSlotHidden)
                 this.Title = "Weapon " + (CurrentSlot + 1) + " filter";
             if (!IsArmorSlotHidden)

@@ -32,6 +32,7 @@ namespace EquipBestItem.Layers
                 _leftMouseButtonWasReleased = false;
             }
 
+            // Hides the filter buttons in the inventory slots when pressing down a certain key
             if (TaleWorlds.InputSystem.Input.IsKeyDown(TaleWorlds.InputSystem.InputKey.LeftAlt) && !IsAltPressed)
             {
                 IsAltPressed = true;

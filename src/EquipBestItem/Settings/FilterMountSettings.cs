@@ -15,6 +15,10 @@ namespace EquipBestItem
 
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="other">mount settings</param>
         public FilterMountSettings(FilterMountSettings other)
         {
             if (other == null) return;

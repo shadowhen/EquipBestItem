@@ -73,6 +73,10 @@ namespace EquipBestItem
 
         }
 
+        /// <summary>
+        /// Constructor using name
+        /// </summary>
+        /// <param name="name">character name</param>
         public CharacterSettings(string name)
         {
             Name = name;
@@ -90,6 +94,10 @@ namespace EquipBestItem
             _filterMount = new FilterMountSettings();
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="other">character settings</param>
         public CharacterSettings(CharacterSettings other)
         {
             if (other == null) return;

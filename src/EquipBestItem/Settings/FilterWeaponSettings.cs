@@ -31,6 +31,10 @@
 
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="other">weapon settings</param>
         public FilterWeaponSettings(FilterWeaponSettings other)
         {
             if (other == null) return;

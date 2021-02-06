@@ -98,6 +98,14 @@ namespace EquipBestItem
             return bestEquipmentElement;
         }
 
+        /// <summary>
+        /// Returns the best equipment element
+        /// </summary>
+        /// <param name="slot">Equipment slot</param>
+        /// <param name="inventoryEquipmentElement">inventory equipment</param>
+        /// <param name="currentEquipmentElement">current equipment</param>
+        /// <param name="bestEquipmentElement">best equipment</param>
+        /// <returns></returns>
         private EquipmentElement GetBestEquipmentElement(EquipmentIndex slot, EquipmentElement inventoryEquipmentElement, EquipmentElement currentEquipmentElement, EquipmentElement bestEquipmentElement)
         {
             float inventoryItemValue = ItemIndexCalculation(inventoryEquipmentElement, slot);
@@ -152,7 +160,14 @@ namespace EquipBestItem
         }
 
         /// <summary>
-        /// Equips the character with the best items
+        /// Equips the character with the best items.
+        ///
+        /// With a given character, a character data is created using the character and character settings loaded from
+        /// settings loader using the character's name. Character's equipment is obtained either from the
+        /// battle equipment or civilian equipment depending if the inventory is in war set or civilian set.
+        /// After getting the character data and equipment, the character equipment can be upgraded
+        /// with the best equipment.
+        /// 
         /// </summary>
         /// <param name="character">hero</param>
         public void EquipCharacter(CharacterObject character)
