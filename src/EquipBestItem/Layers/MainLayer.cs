@@ -12,7 +12,7 @@ namespace EquipBestItem
         public MainLayer(int localOrder, string categoryId = "GauntletLayer") : base(localOrder, categoryId)
         {
             _viewModel = new MainViewModel();
-            this.LoadMovie("EBIInventory", this._viewModel);
+            this.LoadMovie("EBIInventory", _viewModel);
         }
 
         protected override void OnLateUpdate(float dt)

@@ -237,17 +237,26 @@ namespace EquipBestItem
             base.RefreshValues();
             bestEquipmentUpgrader.RefreshValues();
 
+            // Check for null for logic and inventory, so we won't crash in some cases beyond our control
+            // when using other mods
             if (_inventoryLogic == null)
                 _inventoryLogic = InventoryManager.InventoryLogic;
             if (_inventory == null)
                 _inventory = InventoryBehavior.Inventory;
 
+            // Create a character data based on given character name and character settings
             var character = GetCharacterByName(_inventory.CurrentCharacterName);
             var characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
-            bestEquipmentUpgrader.SetCharacterData(new CharacterData(character, characterSettings));
-            var characterData = bestEquipmentUpgrader.GetCharacterData();
+            var characterData = new CharacterData(character, characterSettings);
 
+            // Update the equipment upgrader with the newest character data
+            bestEquipmentUpgrader.SetCharacterData(characterData);
+
+            // Fetch the character's current equipment depending we are in 
+            // a war set or civilian set
             Equipment equipment = _inventory.IsInWarSet ? characterData.GetBattleEquipment() : characterData.GetCivilianEquipment();
+            
+            // These two would be used to get the best equipment from both sides
             _bestLeftEquipment = new Equipment();
             _bestRightEquipment = new Equipment();
 
@@ -261,6 +270,7 @@ namespace EquipBestItem
                 EquipmentElement bestLeftEquipmentElement;
                 EquipmentElement bestRightEquipmentElement;
 
+                // Depending on the panel locks, the best equipment would be fetched if the panel is not locked.
                 if (!SettingsLoader.Instance.Settings.IsLeftPanelLocked)
                 {
                     bestLeftEquipmentElement = bestEquipmentUpgrader.GetBetterItemFromSide(_inventory.LeftItemListVM, equipment[equipmentIndex], equipmentIndex, !_inventory.IsInWarSet);
@@ -272,9 +282,19 @@ namespace EquipBestItem
                 
                 }
 
+                // After getting the best items from both panels, we need to find the best item between
+                // the two items
                 if (bestLeftEquipmentElement.Item != null || bestRightEquipmentElement.Item != null)
                 {
-                    if (bestEquipmentUpgrader.ItemIndexCalculation(bestLeftEquipmentElement, equipmentIndex) > bestEquipmentUpgrader.ItemIndexCalculation(bestRightEquipmentElement, equipmentIndex))
+                    if (bestRightEquipmentElement.Item == null)
+                    {
+                        _bestLeftEquipment[equipmentIndex] = bestLeftEquipmentElement;
+                    }
+                    else if (bestLeftEquipmentElement.Item == null)
+                    {
+                        _bestRightEquipment[equipmentIndex] = bestRightEquipmentElement;
+                    }
+                    else if (bestEquipmentUpgrader.ItemIndexCalculation(bestLeftEquipmentElement, equipmentIndex) > bestEquipmentUpgrader.ItemIndexCalculation(bestRightEquipmentElement, equipmentIndex))
                     {
                         _bestLeftEquipment[equipmentIndex] = bestLeftEquipmentElement;
                     }
@@ -303,7 +323,9 @@ namespace EquipBestItem
             for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.NumEquipmentSetSlots; equipmentIndex++)
             {
                 if (_bestLeftEquipment[equipmentIndex].IsEmpty && _bestRightEquipment[equipmentIndex].IsEmpty)
+                {
                     IsEquipCurrentCharacterButtonEnabled = false;
+                }
                 else
                 {
                     IsEquipCurrentCharacterButtonEnabled = true;
@@ -361,7 +383,7 @@ namespace EquipBestItem
         public void EquipBestItem(EquipmentIndex equipmentIndex)
         {
             Equipment equipment = _inventory.IsInWarSet ? bestEquipmentUpgrader.GetCharacterData().GetBattleEquipment() : bestEquipmentUpgrader.GetCharacterData().GetCivilianEquipment();
-            //Unequip current equipment element
+            // Unequip current equipment element
             if (!equipment[equipmentIndex].IsEmpty)
             {
                 TransferCommand transferCommand = TransferCommand.Transfer(
@@ -376,7 +398,8 @@ namespace EquipBestItem
                 );
                 _inventoryLogic.AddTransferCommand(transferCommand);
             }
-            //Equip
+            
+            // Equip
             if (bestEquipmentUpgrader.ItemIndexCalculation(_bestLeftEquipment[equipmentIndex], equipmentIndex) > bestEquipmentUpgrader.ItemIndexCalculation(_bestRightEquipment[equipmentIndex], equipmentIndex))
             {
                 TransferCommand equipCommand = TransferCommand.Transfer(

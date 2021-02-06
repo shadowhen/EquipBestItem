@@ -46,51 +46,30 @@ namespace EquipBestItem
             // Loops through the inventory list to find the best equipment item
             foreach (SPItemVM item in itemListVM)
             {
+                // Skips through the process if the item is camel or camel harness
                 if (IsCamel(item) || IsCamelHarness(item))
                     continue;
-                
-                if (isCivilian)
+
+                // Skips only if the character cannot use the item or the item is not equipable
+                if (!CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement) || !item.IsEquipableItem)
+                    continue;
+
+                // Skips only if we are looking for civilian equipment and item is not civilian equipment
+                if (isCivilian && !item.IsCivilianItem)
+                    continue;
+
+                if (slot < EquipmentIndex.NonWeaponItemBeginSlot &&
+                    item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null)
                 {
-                    if (slot < EquipmentIndex.NonWeaponItemBeginSlot &&
-                        item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null &&
-                        item.IsEquipableItem &&
-                        item.IsCivilianItem &&
-                        CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement)
-                        )
-                    {
-                        if (equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass &&
-                            GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage)
-                        {
-                            bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
-                        }
-                    }
-                    else if (item.ItemType == slot && 
-                        item.IsEquipableItem && 
-                        item.IsCivilianItem && 
-                        CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement))
+                    if (equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass &&
+                        GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage)
                     {
                         bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
                     }
                 }
-                else
+                else if (item.ItemType == slot)
                 {
-                    if (slot < EquipmentIndex.NonWeaponItemBeginSlot && 
-                        item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null && 
-                        item.IsEquipableItem &&
-                        CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement))
-                    {
-                        if (equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass &&
-                            GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage)
-                        {
-                            bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
-                        }
-                    }
-                    else if (item.ItemType == slot && 
-                        item.IsEquipableItem &&
-                        CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement))
-                    {
-                        bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
-                    }
+                    bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
                 }
 
             }
@@ -141,9 +120,7 @@ namespace EquipBestItem
         /// <returns></returns>
         private static bool IsCamelHarness(SPItemVM item)
         {
-            if (item != null && item.StringId.StartsWith("camel_sadd"))
-                return true;
-            return false;
+            return item != null && item.StringId.StartsWith("camel_sadd");
         }
 
         /// <summary>
@@ -155,8 +132,7 @@ namespace EquipBestItem
         {
             if (item == null || item.ItemRosterElement.IsEmpty || item.ItemRosterElement.EquipmentElement.IsEmpty || item.ItemRosterElement.EquipmentElement.Item.WeaponComponent == null)
                 return "";
-            string value = item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.ItemUsage;
-            return value;
+            return item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.ItemUsage;
         }
 
         /// <summary>
@@ -322,29 +298,22 @@ namespace EquipBestItem
             float value = 0f;
             CharacterSettings characterSettings = _characterData.GetCharacterSettings();
 
-            
             // Calculation for armor items
             if (sourceItem.Item.HasArmorComponent)
             {
-                value = CalculateArmorValue(sourceItem, slot);
-
-                return value;
+                return CalculateArmorValue(sourceItem, slot);
             }
 
             // Calculation for weapon items
             if (sourceItem.Item.PrimaryWeapon != null)
             {
-                value = CalculateWeaponValue(sourceItem, slot);
-
-                return value;
+                return CalculateWeaponValue(sourceItem, slot);
             }
-
+            
             // Calculation for horse component
             if (sourceItem.Item.HasHorseComponent)
             {
-                value = CalculateHorseValue(sourceItem);
-
-                return value;
+                return CalculateHorseValue(sourceItem);
             }
 
             return value;

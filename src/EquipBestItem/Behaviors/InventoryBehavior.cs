@@ -4,7 +4,6 @@ using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
-using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.Library;
 
@@ -18,9 +17,9 @@ namespace EquipBestItem
         }
 
         public static SPInventoryVM Inventory;
-        InventoryGauntletScreen _inventoryScreen;
-        GauntletLayer _mainLayer;
-        FilterLayer _filterLayer;
+        private InventoryGauntletScreen _inventoryScreen;
+        private MainLayer _mainLayer;
+        private FilterLayer _filterLayer;
 
         private void AddNewInventoryLayer(TutorialContextChangedEvent tutorialContextChangedEvent)
         {
@@ -33,13 +32,13 @@ namespace EquipBestItem
                         _inventoryScreen = ScreenManager.TopScreen as InventoryGauntletScreen;
                         Inventory = _inventoryScreen.GetField("_dataSource") as SPInventoryVM;
 
-                        this._mainLayer = new MainLayer(1000, "GauntletLayer");
-                        _inventoryScreen.AddLayer(this._mainLayer);
-                        this._mainLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
+                        _mainLayer = new MainLayer(1000, "GauntletLayer");
+                        _inventoryScreen.AddLayer(_mainLayer);
+                        _mainLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
 
                         _filterLayer = new FilterLayer(1001, "GauntletLayer");
-                        _inventoryScreen.AddLayer(this._filterLayer);
-                        this._filterLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
+                        _inventoryScreen.AddLayer(_filterLayer);
+                        _filterLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
                     }
 
                     //Temporarily disabled clearing settings file for characters
@@ -60,24 +59,21 @@ namespace EquipBestItem
                     //    }
                     //}
                 }
-                else
+                else if (tutorialContextChangedEvent.NewContext == TutorialContexts.None)
                 {
-                    if (tutorialContextChangedEvent.NewContext == TutorialContexts.None)
+                    if (_inventoryScreen != null && _mainLayer != null)
                     {
-                        if (_inventoryScreen != null && this._mainLayer != null)
-                        {
 
-                            _inventoryScreen.RemoveLayer(this._mainLayer);
-                            this._mainLayer = null;
-                            SettingsLoader.Instance.SaveSettings();
-                            SettingsLoader.Instance.SaveCharacterSettings();
-                        }
+                        _inventoryScreen.RemoveLayer(this._mainLayer);
+                        _mainLayer = null;
+                        SettingsLoader.Instance.SaveSettings();
+                        SettingsLoader.Instance.SaveCharacterSettings();
+                    }
 
-                        if (_inventoryScreen != null && this._filterLayer != null)
-                        {
-                            _inventoryScreen.RemoveLayer(this._filterLayer);
-                            this._filterLayer = null;
-                        }
+                    if (_inventoryScreen != null && _filterLayer != null)
+                    {
+                        _inventoryScreen.RemoveLayer(_filterLayer);
+                        _filterLayer = null;
                     }
                 }
             }
