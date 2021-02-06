@@ -2,17 +2,17 @@
 <Module>
 	<Name value="EquipBestItem"/>
 	<Id value="EquipBestItem"/>
-	<Version value="v1.5.7.0"/>
+	<Version value="v1.5.8.0"/>
 	<DefaultModule value="false"/>
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
 	<Official value="false" />
 	<DependedModules>
-		<DependedModule Id="Native" DependentVersion="e1.5.7"/>
-		<DependedModule Id="SandBoxCore" DependentVersion="e1.5.7"/>
-		<DependedModule Id="Sandbox" DependentVersion="e1.5.7"/>
-		<DependedModule Id="CustomBattle" DependentVersion="e1.5.7"/>
-		<DependedModule Id="StoryMode" DependentVersion="e1.5.7"/>
+		<DependedModule Id="Native" DependentVersion="e1.5.8"/>
+		<DependedModule Id="SandBoxCore" DependentVersion="e1.5.8"/>
+		<DependedModule Id="Sandbox" DependentVersion="e1.5.8"/>
+		<DependedModule Id="CustomBattle" DependentVersion="e1.5.8"/>
+		<DependedModule Id="StoryMode" DependentVersion="e1.5.8"/>
 	</DependedModules>
 	<SubModules>
 		<SubModule>
