@@ -358,22 +358,31 @@ namespace EquipBestItem
         /// <returns>character object</returns>
         public CharacterObject GetCharacterByName(string name)
         {
-            foreach (TroopRosterElement rosterElement in _inventoryLogic.RightMemberRoster.GetTroopRoster())
+            var rightMemberRoster = _inventoryLogic.RightMemberRoster;
+            if (rightMemberRoster != null)
             {
-                if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
-                    return rosterElement.Character;
-            }
-
-            // Crash fix for the mod Party AI Overhaul and Commands
-            foreach (TroopRosterElement rosterElement in _inventoryLogic.MerchantParty.MemberRoster.GetTroopRoster())
-            {
-                if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
+                foreach (TroopRosterElement rosterElement in rightMemberRoster)
                 {
-                    return rosterElement.Character;
+                    if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
+                        return rosterElement.Character;
                 }
             }
 
-            return null;
+            // Crash fix for the mod Party AI Overhaul and Commands
+            if (_inventoryLogic.MerchantParty != null)
+            {
+                var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster;
+                foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster)
+                {
+                    if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
+                    {
+                        return rosterElement.Character;
+                    }
+                }
+            }
+            
+            // Returns only the initial equipment character 
+            return _inventoryLogic.InitialEquipmentCharacter;
         }
 
         /// <summary>
