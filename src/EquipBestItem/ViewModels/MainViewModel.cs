@@ -361,7 +361,7 @@ namespace EquipBestItem
             var rightMemberRoster = _inventoryLogic.RightMemberRoster;
             if (rightMemberRoster != null)
             {
-                foreach (TroopRosterElement rosterElement in rightMemberRoster)
+                foreach (TroopRosterElement rosterElement in rightMemberRoster.GetTroopRoster())
                 {
                     if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
                         return rosterElement.Character;
@@ -372,7 +372,7 @@ namespace EquipBestItem
             if (_inventoryLogic.MerchantParty != null)
             {
                 var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster;
-                foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster)
+                foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster.GetTroopRoster())
                 {
                     if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
                     {
