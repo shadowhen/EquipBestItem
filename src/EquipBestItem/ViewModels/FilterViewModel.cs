@@ -9,6 +9,30 @@ namespace EquipBestItem
 
         public static int CurrentSlot = 0;
 
+        private int _incrementValue = 1;
+        private bool _incrementBy10;
+        public bool IncrementBy10
+        {
+            get => _incrementBy10;
+            set
+            {
+                _incrementBy10 = value;
+                _incrementValue = _incrementBy10 && !_incrementBy5 ? 10 : (!_incrementBy10 && !_incrementBy5 ? 1 : _incrementValue);
+            }
+        }
+
+        private bool _incrementBy5;
+
+        public bool IncrementBy5
+        {
+            get => _incrementBy5;
+            set
+            {
+                _incrementBy5 = value;
+                _incrementValue = !_incrementBy10 && _incrementBy5 ? 5 : (!_incrementBy10 && !_incrementBy5 ? 1 : _incrementValue);
+            }
+        }
+
         private enum FilterItemState { None, Armor, Weapon, Mount }
         private FilterItemState _filterItemState = FilterItemState.None;
 
@@ -1087,143 +1111,143 @@ namespace EquipBestItem
         #region ExecuteMethods
         public void ExecuteSwingDamagePrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage -= _incrementValue;
             SwingDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage.ToString();
             this.RefreshValues();
         }
         public void ExecuteSwingDamageNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage += _incrementValue;
             SwingDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteSwingSpeedPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed -= _incrementValue;
             SwingSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed.ToString();
             this.RefreshValues();
         }
         public void ExecuteSwingSpeedNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed += _incrementValue;
             SwingSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteThrustDamagePrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage -= _incrementValue;
             ThrustDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage.ToString();
             this.RefreshValues();
         }
         public void ExecuteThrustDamageNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage += _incrementValue;
             ThrustDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteThrustSpeedPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed -= _incrementValue;
             ThrustSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed.ToString();
             this.RefreshValues();
         }
         public void ExecuteThrustSpeedNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed += _incrementValue;
             ThrustSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteWeaponLengthPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength -= _incrementValue;
             WeaponLength = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength.ToString();
             this.RefreshValues();
         }
         public void ExecuteWeaponLengthNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength += _incrementValue;
             WeaponLength = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteHandlingPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling -= _incrementValue;
             Handling = this.CharacterSettings.FilterWeapon[CurrentSlot].Handling.ToString();
             this.RefreshValues();
         }
         public void ExecuteHandlingNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling += _incrementValue;
             Handling = this.CharacterSettings.FilterWeapon[CurrentSlot].Handling.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteWeaponWeightPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight -= _incrementValue;
             WeaponWeight = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight.ToString();
             this.RefreshValues();
         }
         public void ExecuteWeaponWeightNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight += _incrementValue;
             WeaponWeight = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteMissileSpeedPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed -= _incrementValue;
             MissileSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed.ToString();
             this.RefreshValues();
         }
         public void ExecuteMissileSpeedNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed += _incrementValue;
             MissileSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteAccuracyPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy -= _incrementValue;
             Accuracy = this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy.ToString();
             this.RefreshValues();
         }
         public void ExecuteAccuracyNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy += _incrementValue;
             Accuracy = this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteWeaponBodyArmorPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor -= _incrementValue;
             WeaponBodyArmor = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor.ToString();
             this.RefreshValues();
         }
         public void ExecuteWeaponBodyArmorNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor += _incrementValue;
             WeaponBodyArmor = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteMaxDataValuePrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue -= 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue -= _incrementValue;
             MaxDataValue = this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue.ToString();
             this.RefreshValues();
         }
         public void ExecuteMaxDataValueNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue += 1f;
+            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue += _incrementValue;
             MaxDataValue = this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue.ToString();
             this.RefreshValues();
         }
@@ -1231,156 +1255,156 @@ namespace EquipBestItem
 
         public void ExecuteHeadArmorPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor -= _incrementValue;
             HeadArmor = this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor.ToString();
             this.RefreshValues();
         }
         public void ExecuteHeadArmorNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor += _incrementValue;
             HeadArmor = this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteArmorBodyArmorPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor -= _incrementValue;
             ArmorBodyArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor.ToString();
             this.RefreshValues();
         }
         public void ExecuteArmorBodyArmorNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor += _incrementValue;
             ArmorBodyArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteLegArmorPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor -= _incrementValue;
             LegArmor = this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor.ToString();
             this.RefreshValues();
         }
         public void ExecuteLegArmorNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor += _incrementValue;
             LegArmor = this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteArmArmorPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor -= _incrementValue;
             ArmArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor.ToString();
             this.RefreshValues();
         }
         public void ExecuteArmArmorNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor += _incrementValue;
             ArmArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteManeuverBonusPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus -= _incrementValue;
             ManeuverBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus.ToString();
             this.RefreshValues();
         }
         public void ExecuteManeuverBonusNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus += _incrementValue;
             ManeuverBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteSpeedBonusPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus -= _incrementValue;
             SpeedBonus = this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus.ToString();
             this.RefreshValues();
         }
         public void ExecuteSpeedBonusNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus += _incrementValue;
             SpeedBonus = this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteChargeBonusPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus -= _incrementValue;
             ChargeBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus.ToString();
             this.RefreshValues();
         }
         public void ExecuteChargeBonusNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus += _incrementValue;
             ChargeBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteArmorWeightPrev()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight -= 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight -= _incrementValue;
             ArmorWeight = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight.ToString();
             this.RefreshValues();
         }
         public void ExecuteArmorWeightNext()
         {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight += 1f;
+            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight += _incrementValue;
             ArmorWeight = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteChargeDamagePrev()
         {
-            this.CharacterSettings.FilterMount.ChargeDamage -= 1f;
+            this.CharacterSettings.FilterMount.ChargeDamage -= _incrementValue;
             ChargeDamage = this.CharacterSettings.FilterMount.ChargeDamage.ToString();
             this.RefreshValues();
         }
         public void ExecuteChargeDamageNext()
         {
-            this.CharacterSettings.FilterMount.ChargeDamage += 1f;
+            this.CharacterSettings.FilterMount.ChargeDamage += _incrementValue;
             ChargeDamage = this.CharacterSettings.FilterMount.ChargeDamage.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteHitPointsPrev()
         {
-            this.CharacterSettings.FilterMount.HitPoints -= 1f;
+            this.CharacterSettings.FilterMount.HitPoints -= _incrementValue;
             HitPoints = this.CharacterSettings.FilterMount.HitPoints.ToString();
             this.RefreshValues();
         }
         public void ExecuteHitPointsNext()
         {
-            this.CharacterSettings.FilterMount.HitPoints += 1f;
+            this.CharacterSettings.FilterMount.HitPoints += _incrementValue;
             HitPoints = this.CharacterSettings.FilterMount.HitPoints.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteManeuverPrev()
         {
-            this.CharacterSettings.FilterMount.Maneuver -= 1f;
+            this.CharacterSettings.FilterMount.Maneuver -= _incrementValue;
             Maneuver = this.CharacterSettings.FilterMount.Maneuver.ToString();
             this.RefreshValues();
         }
         public void ExecuteManeuverNext()
         {
-            this.CharacterSettings.FilterMount.Maneuver += 1f;
+            this.CharacterSettings.FilterMount.Maneuver += _incrementValue;
             Maneuver = this.CharacterSettings.FilterMount.Maneuver.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteSpeedPrev()
         {
-            this.CharacterSettings.FilterMount.Speed -= 1f;
+            this.CharacterSettings.FilterMount.Speed -= _incrementValue;
             Speed = this.CharacterSettings.FilterMount.Speed.ToString();
             this.RefreshValues();
         }
         public void ExecuteSpeedNext()
         {
-            this.CharacterSettings.FilterMount.Speed += 1f;
+            this.CharacterSettings.FilterMount.Speed += _incrementValue;
             Speed = this.CharacterSettings.FilterMount.Speed.ToString();
             this.RefreshValues();
         }
