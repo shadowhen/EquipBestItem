@@ -394,83 +394,212 @@ namespace EquipBestItem
         {
             WeaponComponentData primaryWeaponItem = sourceItem.Item.PrimaryWeapon;
             FilterWeaponSettings filterWeapon = _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)];
-            float sum =
-                Math.Abs(filterWeapon.Accuracy) +
-                Math.Abs(filterWeapon.WeaponBodyArmor) +
-                Math.Abs(filterWeapon.Handling) +
-                Math.Abs(filterWeapon.MaxDataValue) +
-                Math.Abs(filterWeapon.MissileSpeed) +
-                Math.Abs(filterWeapon.SwingDamage) +
-                Math.Abs(filterWeapon.SwingSpeed) +
-                Math.Abs(filterWeapon.ThrustDamage) +
-                Math.Abs(filterWeapon.ThrustSpeed) +
-                Math.Abs(filterWeapon.WeaponLength) +
-                Math.Abs(filterWeapon.WeaponWeight);
+            FilterWeaponSettings weights = filterWeapon;
 
-            int Accuracy = primaryWeaponItem.Accuracy,
-                BodyArmor = primaryWeaponItem.BodyArmor,
-                Handling = primaryWeaponItem.Handling,
-                MaxDataValue = primaryWeaponItem.MaxDataValue,
-                MissileSpeed = primaryWeaponItem.MissileSpeed,
-                SwingDamage = primaryWeaponItem.SwingDamage,
-                SwingSpeed = primaryWeaponItem.SwingSpeed,
-                ThrustDamage = primaryWeaponItem.ThrustDamage,
-                ThrustSpeed = primaryWeaponItem.ThrustSpeed,
-                WeaponLength = primaryWeaponItem.WeaponLength;
-            float WeaponWeight = sourceItem.Weight;
+            // Fetch direct values from the weapon item
+            int accuracy = primaryWeaponItem.Accuracy;
+            int bodyArmor = primaryWeaponItem.BodyArmor;
+            int handling = primaryWeaponItem.Handling;
+            int maxDataValue = primaryWeaponItem.MaxDataValue;
+            int missileSpeed = primaryWeaponItem.MissileSpeed;
+            int swingDamage = primaryWeaponItem.SwingDamage;
+            int swingSpeed = primaryWeaponItem.SwingSpeed;
+            int thrustDamage = primaryWeaponItem.ThrustDamage;
+            int thrustSpeed = primaryWeaponItem.ThrustSpeed;
+            int weaponLength = primaryWeaponItem.WeaponLength;
+            float weaponWeight = sourceItem.Weight;
 
+            // Modification calculation
             ItemModifier mod = sourceItem.ItemModifier;
             if (mod != null)
             {
-                if (BodyArmor > 0f)
-                    BodyArmor = mod.ModifyArmor(BodyArmor);
-                if (MissileSpeed > 0f)
-                    MissileSpeed = mod.ModifyMissileSpeed(MissileSpeed);
-                if (SwingDamage > 0f)
-                    SwingDamage = mod.ModifyDamage(SwingDamage);
-                if (SwingSpeed > 0f)
-                    SwingSpeed = mod.ModifySpeed(SwingSpeed);
-                if (ThrustDamage > 0f)
-                    ThrustDamage = mod.ModifyDamage(ThrustDamage);
-                if (ThrustSpeed > 0f)
-                    ThrustSpeed = mod.ModifySpeed(ThrustSpeed);
-                if (MaxDataValue > 0f)
-                    MaxDataValue = mod.ModifyHitPoints((short)MaxDataValue);
+                if (bodyArmor > 0f)
+                    bodyArmor = mod.ModifyArmor(bodyArmor);
+                if (missileSpeed > 0f)
+                    missileSpeed = mod.ModifyMissileSpeed(missileSpeed);
+                if (swingDamage > 0f)
+                    swingDamage = mod.ModifyDamage(swingDamage);
+                if (swingSpeed > 0f)
+                    swingSpeed = mod.ModifySpeed(swingSpeed);
+                if (thrustDamage > 0f)
+                    thrustDamage = mod.ModifyDamage(thrustDamage);
+                if (thrustDamage > 0f)
+                    thrustSpeed = mod.ModifySpeed(thrustSpeed);
+                if (maxDataValue > 0f)
+                    maxDataValue = mod.ModifyHitPoints((short)maxDataValue);
                 //WeaponWeight *= mod.WeightMultiplier;
 
-                BodyArmor = BodyArmor < 0 ? 0 : BodyArmor;
-                MissileSpeed = MissileSpeed < 0 ? 0 : MissileSpeed;
-                SwingDamage = SwingDamage < 0 ? 0 : SwingDamage;
-                SwingSpeed = SwingSpeed < 0 ? 0 : SwingSpeed;
-                ThrustDamage = ThrustDamage < 0 ? 0 : ThrustDamage;
-                ThrustSpeed = ThrustSpeed < 0 ? 0 : ThrustSpeed;
-                MaxDataValue = MaxDataValue < 0 ? 0 : MaxDataValue;
+                bodyArmor = bodyArmor < 0 ? 0 : bodyArmor;
+                missileSpeed = missileSpeed < 0 ? 0 : missileSpeed;
+                swingDamage = swingDamage < 0 ? 0 : swingDamage;
+                swingSpeed = swingSpeed < 0 ? 0 : swingSpeed;
+                thrustDamage = thrustDamage < 0 ? 0 : thrustDamage;
+                thrustSpeed = thrustSpeed < 0 ? 0 : thrustSpeed;
+                maxDataValue = maxDataValue < 0 ? 0 : maxDataValue;
             }
 
-            var weights = _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)];
-            float value = (
-                Accuracy * weights.Accuracy +
-                BodyArmor * weights.WeaponBodyArmor +
-                Handling * weights.Handling +
-                MaxDataValue * weights.MaxDataValue +
-                MissileSpeed * weights.MissileSpeed +
-                SwingDamage * weights.SwingDamage +
-                SwingSpeed * weights.SwingSpeed +
-                ThrustDamage * weights.ThrustDamage +
-                ThrustSpeed * weights.ThrustSpeed +
-                WeaponLength * weights.WeaponLength +
-                WeaponWeight * weights.WeaponWeight
-            ) / sum;
+            // Weighted value
+            float weightAccuracy = accuracy * weights.Accuracy;
+            float weightBodyArmor = bodyArmor * weights.WeaponBodyArmor;
+            float weightHandling = handling * weights.Handling;
+            float weightMaxDataValue = maxDataValue * weights.MaxDataValue;
+            float weightMissileSpeed = missileSpeed * weights.MissileSpeed;
+            float weightSwingDamage = swingDamage * weights.SwingDamage;
+            float weightSwingSpeed = swingSpeed * weights.SwingSpeed;
+            float weightThrustDamage = thrustDamage * weights.ThrustDamage; // It is also missile damage for bows and crossbows
+            float weightThrustSpeed = thrustSpeed * weights.ThrustSpeed;
+            float weightWeaponLength = weaponLength * weights.WeaponLength;
+            float weightWeaponWeight = weaponWeight * weights.WeaponWeight;
 
+            float sum = 0.0f;
+            float value = 0.0f;
+
+            switch (primaryWeaponItem.WeaponClass)
+            {
+                case WeaponClass.SmallShield:
+                case WeaponClass.LargeShield:
+                    // Weight, HitPoints
+                    sum = Math.Abs(filterWeapon.MaxDataValue) + Math.Abs(filterWeapon.WeaponWeight);
+                    value = weightMaxDataValue + weightWeaponWeight;
+
+#if DEBUG
+                    InformationManager.DisplayMessage(new InformationMessage("Shield"));
+#endif
+                    break;
+                case WeaponClass.Crossbow:
+                case WeaponClass.Bow:
+                    // Weight, Thrust Damage, Accuracy, Missile Speed
+                    sum = Math.Abs(filterWeapon.WeaponWeight) + 
+                          Math.Abs(filterWeapon.ThrustDamage) +
+                          Math.Abs(filterWeapon.Accuracy) + 
+                          Math.Abs(filterWeapon.MissileSpeed);
+                    value = weightWeaponWeight + weightThrustDamage + weightAccuracy + weightMissileSpeed;
+
+#if DEBUG
+                    InformationManager.DisplayMessage(new InformationMessage("Shield"));
+#endif
+                    break;
+                case WeaponClass.Javelin:
+                case WeaponClass.ThrowingAxe:
+                case WeaponClass.ThrowingKnife:
+                    // Weight, Length, Thrust Damage, Missile Speed, Accuracy, MaxDataValue (Stack Amount)
+                    sum = Math.Abs(filterWeapon.WeaponWeight) + 
+                          Math.Abs(filterWeapon.WeaponLength) +
+                          Math.Abs(filterWeapon.ThrustDamage) +
+                          Math.Abs(filterWeapon.MissileSpeed) + 
+                          Math.Abs(filterWeapon.Accuracy) +
+                          Math.Abs(filterWeapon.MaxDataValue);
+                    value = weightWeaponWeight + 
+                            weightWeaponLength + 
+                            weightThrustDamage + 
+                            weightMissileSpeed +
+                            weightAccuracy + 
+                            weightMaxDataValue;
+
+#if DEBUG
+                    InformationManager.DisplayMessage(new InformationMessage("Javelin/Throwing Axe/Throwing Knife"));
+#endif
+                    break;
+                case WeaponClass.OneHandedSword:
+                case WeaponClass.TwoHandedSword:
+                case WeaponClass.LowGripPolearm:
+                case WeaponClass.OneHandedPolearm:
+                case WeaponClass.TwoHandedPolearm:
+                    // Weight, Length, Handling, Swing Speed, Swing Damage, Thrust Speed, Thrust Damage
+                    sum = Math.Abs(filterWeapon.WeaponWeight) +
+                          Math.Abs(filterWeapon.WeaponLength) +
+                          Math.Abs(filterWeapon.Handling) +
+                          Math.Abs(filterWeapon.SwingSpeed) +
+                          Math.Abs(filterWeapon.SwingDamage) +
+                          Math.Abs(filterWeapon.ThrustSpeed) +
+                          Math.Abs(filterWeapon.ThrustDamage);
+                    value = weightWeaponWeight + 
+                            weightWeaponLength + 
+                            weightHandling + 
+                            weightSwingSpeed + 
+                            weightSwingDamage + 
+                            weightThrustSpeed + 
+                            weightThrustDamage;
+
+#if DEBUG
+                    if (primaryWeaponItem.WeaponClass >= WeaponClass.OneHandedPolearm &&
+                        primaryWeaponItem.WeaponClass <= WeaponClass.LowGripPolearm)
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage("Low Grip/One Handed/Two Handed Polearm"));
+                    }
+                    else
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage("One Handed/Two Handed Sword"));
+                    }
+#endif
+                    break;
+                case WeaponClass.OneHandedAxe:
+                case WeaponClass.TwoHandedAxe:
+                case WeaponClass.Mace:
+                case WeaponClass.TwoHandedMace:
+                    // Weight, Swing Speed, Swing Damage, Length, Handling
+                    sum = Math.Abs(filterWeapon.WeaponWeight) + 
+                          Math.Abs(filterWeapon.SwingSpeed) +
+                          Math.Abs(filterWeapon.SwingDamage) + 
+                          Math.Abs(filterWeapon.WeaponLength) +
+                          Math.Abs(filterWeapon.Handling);
+                    value = weightWeaponWeight + 
+                            weightSwingSpeed + 
+                            weightSwingDamage +
+                            weightWeaponLength +
+                            weightHandling;
+#if DEBUG
+                    if (primaryWeaponItem.WeaponClass >= WeaponClass.OneHandedAxe &&
+                        primaryWeaponItem.WeaponClass <= WeaponClass.TwoHandedAxe)
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage("One Handed/Two Handed Axe"));
+                    }
+                    else
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage("One Handed/Two Handed Mace"));
+                    }
+#endif
+                    break;
+                default:
+                    sum =
+                        Math.Abs(filterWeapon.Accuracy) +
+                        Math.Abs(filterWeapon.WeaponBodyArmor) +
+                        Math.Abs(filterWeapon.Handling) +
+                        Math.Abs(filterWeapon.MaxDataValue) +
+                        Math.Abs(filterWeapon.MissileSpeed) +
+                        Math.Abs(filterWeapon.SwingDamage) +
+                        Math.Abs(filterWeapon.SwingSpeed) +
+                        Math.Abs(filterWeapon.ThrustDamage) +
+                        Math.Abs(filterWeapon.ThrustSpeed) +
+                        Math.Abs(filterWeapon.WeaponLength) +
+                        Math.Abs(filterWeapon.WeaponWeight);
+                    value = weightAccuracy +
+                            weightBodyArmor +
+                            weightHandling +
+                            weightMaxDataValue +
+                            weightMissileSpeed +
+                            weightSwingDamage +
+                            weightSwingSpeed +
+                            weightThrustDamage +
+                            weightThrustSpeed +
+                            weightWeaponLength +
+                            weightWeaponWeight;
+#if DEBUG
+                    InformationManager.DisplayMessage(new InformationMessage("Other"));
+#endif
+                    break;
+            }
+
+            float finalValue = value / sum;
 
 #if DEBUG
             InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: Acc {1}, BA {2}, HL {3}, HP {4}, MS {5}, SD {6}, SS {7}, TD {8}, TS {9}, WL {10}, W {11}",
-                            sourceItem.Item.Name, Accuracy, BodyArmor, Handling, MaxDataValue, MissileSpeed, SwingDamage, SwingSpeed, ThrustDamage, ThrustSpeed, WeaponLength, WeaponWeight)));
+                            sourceItem.Item.Name, accuracy, bodyArmor, handling, maxDataValue, missileSpeed, swingDamage, swingSpeed, thrustDamage, thrustSpeed, weaponLength, weaponWeight)));
 
-            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
+            InformationManager.DisplayMessage(new InformationMessage("Total score: " + finalValue));
 #endif
 
-            return value;
+            return finalValue;
         }
 
         /// <summary>
