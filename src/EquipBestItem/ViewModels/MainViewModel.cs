@@ -344,7 +344,7 @@ namespace EquipBestItem
         public void EquipEveryCharacter()
         {
             bestEquipmentUpgrader.RefreshValues();
-            foreach (TroopRosterElement rosterElement in _inventoryLogic.RightMemberRoster)
+            foreach (TroopRosterElement rosterElement in _inventoryLogic.RightMemberRoster.GetTroopRoster())
             {
                 if (rosterElement.Character.IsHero)
                     bestEquipmentUpgrader.EquipCharacter(rosterElement.Character);
@@ -358,7 +358,7 @@ namespace EquipBestItem
         /// <returns>character object</returns>
         public CharacterObject GetCharacterByName(string name)
         {
-            var rightMemberRoster = _inventoryLogic.RightMemberRoster;
+            var rightMemberRoster = _inventoryLogic.RightMemberRoster.GetTroopRoster();
             if (rightMemberRoster != null)
             {
                 foreach (TroopRosterElement rosterElement in rightMemberRoster)
@@ -371,7 +371,7 @@ namespace EquipBestItem
             // Crash fix for the mod Party AI Overhaul and Commands
             if (_inventoryLogic.MerchantParty != null)
             {
-                var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster;
+                var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster.GetTroopRoster();
                 foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster)
                 {
                     if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
