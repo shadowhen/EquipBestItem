@@ -358,10 +358,10 @@ namespace EquipBestItem
         /// <returns>character object</returns>
         public CharacterObject GetCharacterByName(string name)
         {
-            var rightMemberRoster = _inventoryLogic.RightMemberRoster;
+            var rightMemberRoster = _inventoryLogic.RightMemberRoster.GetTroopRoster();
             if (rightMemberRoster != null)
             {
-                foreach (TroopRosterElement rosterElement in rightMemberRoster.GetTroopRoster())
+                foreach (TroopRosterElement rosterElement in rightMemberRoster)
                 {
                     if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
                         return rosterElement.Character;
@@ -371,8 +371,8 @@ namespace EquipBestItem
             // Crash fix for the mod Party AI Overhaul and Commands
             if (_inventoryLogic.MerchantParty != null)
             {
-                var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster;
-                foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster.GetTroopRoster())
+                var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster.GetTroopRoster();
+                foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster)
                 {
                     if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
                     {

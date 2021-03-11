@@ -15,9 +15,12 @@ namespace EquipBestItem
         private SPInventoryVM _inventory;
         private InventoryLogic _inventoryLogic;
 
+        private BestEquipmentCalculator _bestEquipmentCalculator;
+
         public BestEquipmentUpgrader()
         {
             _characterData = null;
+            _bestEquipmentCalculator = new BestEquipmentCalculator();
         }
 
         /// <summary>
@@ -290,7 +293,7 @@ namespace EquipBestItem
         /// <returns>item value</returns>
         public float ItemIndexCalculation(EquipmentElement sourceItem, EquipmentIndex slot)
         {
-            
+
             // Given a item is "empty", return with big negative number
             if (sourceItem.IsEmpty)
                 return -9999f;
@@ -301,221 +304,23 @@ namespace EquipBestItem
             // Calculation for armor items
             if (sourceItem.Item.HasArmorComponent)
             {
-                return CalculateArmorValue(sourceItem, slot);
+                return _bestEquipmentCalculator.CalculateArmorValue(sourceItem,
+                    _characterData.GetCharacterSettings().FilterArmor[GetEquipmentSlot(slot)]);
             }
 
             // Calculation for weapon items
             if (sourceItem.Item.PrimaryWeapon != null)
             {
-                return CalculateWeaponValue(sourceItem, slot);
+                return _bestEquipmentCalculator.CalculateWeaponValue(sourceItem,
+                    _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)]);
             }
             
             // Calculation for horse component
             if (sourceItem.Item.HasHorseComponent)
             {
-                return CalculateHorseValue(sourceItem);
+                return _bestEquipmentCalculator.CalculateHorseValue(sourceItem,
+                    _characterData.GetCharacterSettings().FilterMount);
             }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculate the value for armor using its properties and filter settings
-        /// </summary>
-        /// <param name="sourceItem">Armor item</param>
-        /// <param name="slot">Armor equipment slot</param>
-        /// <returns>calculated value for armor</returns>
-        private float CalculateArmorValue(EquipmentElement sourceItem, EquipmentIndex slot)
-        {
-            ArmorComponent armorComponentItem = sourceItem.Item.ArmorComponent;
-            FilterArmorSettings filterArmor = _characterData.GetCharacterSettings().FilterArmor[GetEquipmentSlot(slot)];
-
-            float sum =
-                Math.Abs(filterArmor.HeadArmor) +
-                Math.Abs(filterArmor.ArmArmor) +
-                Math.Abs(filterArmor.ArmorBodyArmor) +
-                Math.Abs(filterArmor.ArmorWeight) +
-                Math.Abs(filterArmor.LegArmor);
-
-            ItemModifier mod = sourceItem.ItemModifier;
-
-            int HeadArmor = armorComponentItem.HeadArmor,
-                BodyArmor = armorComponentItem.BodyArmor,
-                LegArmor = armorComponentItem.LegArmor,
-                ArmArmor = armorComponentItem.ArmArmor;
-            float Weight = sourceItem.Weight;
-
-            if (mod != null)
-            {
-                // Since armor values are positive numbers, we need to check 
-                // if the given values have positive number before we apply
-                // any modifiers to it.
-                if (HeadArmor > 0f)
-                    HeadArmor = mod.ModifyArmor(HeadArmor);
-                if (BodyArmor > 0f)
-                    BodyArmor = mod.ModifyArmor(BodyArmor);
-                if (LegArmor > 0f)
-                    LegArmor = mod.ModifyArmor(LegArmor);
-                if (ArmArmor > 0f)
-                    ArmArmor = mod.ModifyArmor(ArmArmor);
-                //Weight *= mod.WeightMultiplier;
-
-                HeadArmor = HeadArmor < 0 ? 0 : HeadArmor;
-                BodyArmor = BodyArmor < 0 ? 0 : BodyArmor;
-                LegArmor = LegArmor < 0 ? 0 : LegArmor;
-                ArmArmor = ArmArmor < 0 ? 0 : ArmArmor;
-
-            }
-
-            float value = (
-                HeadArmor * filterArmor.HeadArmor +
-                BodyArmor * filterArmor.ArmorBodyArmor +
-                LegArmor * filterArmor.LegArmor +
-                ArmArmor * filterArmor.ArmArmor +
-                Weight * filterArmor.ArmorWeight
-            ) / sum;
-
-#if DEBUG
-            InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: HA {1}, BA {2}, LA {3}, AA {4}, W {5}",
-                            sourceItem.Item.Name, HeadArmor, BodyArmor, LegArmor, ArmArmor, Weight)));
-
-            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
-#endif
-            return value;
-        }
-
-        /// <summary>
-        /// Calculate the value for weapon using its properties and filter settings
-        /// </summary>
-        /// <param name="sourceItem">Weapon item</param>
-        /// <param name="slot">Weapon equipment slot</param>
-        /// <returns>calculated value for weapon</returns>
-        private float CalculateWeaponValue(EquipmentElement sourceItem, EquipmentIndex slot)
-        {
-            WeaponComponentData primaryWeaponItem = sourceItem.Item.PrimaryWeapon;
-            FilterWeaponSettings filterWeapon = _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)];
-            float sum =
-                Math.Abs(filterWeapon.Accuracy) +
-                Math.Abs(filterWeapon.WeaponBodyArmor) +
-                Math.Abs(filterWeapon.Handling) +
-                Math.Abs(filterWeapon.MaxDataValue) +
-                Math.Abs(filterWeapon.MissileSpeed) +
-                Math.Abs(filterWeapon.SwingDamage) +
-                Math.Abs(filterWeapon.SwingSpeed) +
-                Math.Abs(filterWeapon.ThrustDamage) +
-                Math.Abs(filterWeapon.ThrustSpeed) +
-                Math.Abs(filterWeapon.WeaponLength) +
-                Math.Abs(filterWeapon.WeaponWeight);
-
-            int Accuracy = primaryWeaponItem.Accuracy,
-                BodyArmor = primaryWeaponItem.BodyArmor,
-                Handling = primaryWeaponItem.Handling,
-                MaxDataValue = primaryWeaponItem.MaxDataValue,
-                MissileSpeed = primaryWeaponItem.MissileSpeed,
-                SwingDamage = primaryWeaponItem.SwingDamage,
-                SwingSpeed = primaryWeaponItem.SwingSpeed,
-                ThrustDamage = primaryWeaponItem.ThrustDamage,
-                ThrustSpeed = primaryWeaponItem.ThrustSpeed,
-                WeaponLength = primaryWeaponItem.WeaponLength;
-            float WeaponWeight = sourceItem.Weight;
-
-            ItemModifier mod = sourceItem.ItemModifier;
-            if (mod != null)
-            {
-                if (BodyArmor > 0f)
-                    BodyArmor = mod.ModifyArmor(BodyArmor);
-                if (MissileSpeed > 0f)
-                    MissileSpeed = mod.ModifyMissileSpeed(MissileSpeed);
-                if (SwingDamage > 0f)
-                    SwingDamage = mod.ModifyDamage(SwingDamage);
-                if (SwingSpeed > 0f)
-                    SwingSpeed = mod.ModifySpeed(SwingSpeed);
-                if (ThrustDamage > 0f)
-                    ThrustDamage = mod.ModifyDamage(ThrustDamage);
-                if (ThrustSpeed > 0f)
-                    ThrustSpeed = mod.ModifySpeed(ThrustSpeed);
-                if (MaxDataValue > 0f)
-                    MaxDataValue = mod.ModifyHitPoints((short)MaxDataValue);
-                //WeaponWeight *= mod.WeightMultiplier;
-
-                BodyArmor = BodyArmor < 0 ? 0 : BodyArmor;
-                MissileSpeed = MissileSpeed < 0 ? 0 : MissileSpeed;
-                SwingDamage = SwingDamage < 0 ? 0 : SwingDamage;
-                SwingSpeed = SwingSpeed < 0 ? 0 : SwingSpeed;
-                ThrustDamage = ThrustDamage < 0 ? 0 : ThrustDamage;
-                ThrustSpeed = ThrustSpeed < 0 ? 0 : ThrustSpeed;
-                MaxDataValue = MaxDataValue < 0 ? 0 : MaxDataValue;
-            }
-
-            var weights = _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)];
-            float value = (
-                Accuracy * weights.Accuracy +
-                BodyArmor * weights.WeaponBodyArmor +
-                Handling * weights.Handling +
-                MaxDataValue * weights.MaxDataValue +
-                MissileSpeed * weights.MissileSpeed +
-                SwingDamage * weights.SwingDamage +
-                SwingSpeed * weights.SwingSpeed +
-                ThrustDamage * weights.ThrustDamage +
-                ThrustSpeed * weights.ThrustSpeed +
-                WeaponLength * weights.WeaponLength +
-                WeaponWeight * weights.WeaponWeight
-            ) / sum;
-
-
-#if DEBUG
-            InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: Acc {1}, BA {2}, HL {3}, HP {4}, MS {5}, SD {6}, SS {7}, TD {8}, TS {9}, WL {10}, W {11}",
-                            sourceItem.Item.Name, Accuracy, BodyArmor, Handling, MaxDataValue, MissileSpeed, SwingDamage, SwingSpeed, ThrustDamage, ThrustSpeed, WeaponLength, WeaponWeight)));
-
-            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
-#endif
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculate the value for horse using its properties and filter settings
-        /// </summary>
-        /// <param name="sourceItem">Horse item</param>
-        /// <returns>calculated value for horse</returns>
-        private float CalculateHorseValue(EquipmentElement sourceItem)
-        {
-            HorseComponent horseComponentItem = sourceItem.Item.HorseComponent;
-            FilterMountSettings filterMount = _characterData.GetCharacterSettings().FilterMount;
-
-            float sum =
-                Math.Abs(filterMount.ChargeDamage) +
-                Math.Abs(filterMount.HitPoints) +
-                Math.Abs(filterMount.Maneuver) +
-                Math.Abs(filterMount.Speed);
-
-            int ChargeDamage = horseComponentItem.ChargeDamage,
-                HitPoints = horseComponentItem.HitPoints,
-                Maneuver = horseComponentItem.Maneuver,
-                Speed = horseComponentItem.Speed;
-
-            ItemModifier mod = sourceItem.ItemModifier;
-            if (mod != null)
-            {
-                ChargeDamage = mod.ModifyMountCharge(ChargeDamage);
-                Maneuver = mod.ModifyMountManeuver(Maneuver);
-                Speed = mod.ModifyMountSpeed(Speed);
-            }
-
-            var weights = _characterData.GetCharacterSettings().FilterMount;
-            float value = (
-                ChargeDamage * weights.ChargeDamage +
-                HitPoints * weights.HitPoints +
-                Maneuver * weights.Maneuver +
-                Speed * weights.Speed
-            ) / sum;
-
-#if DEBUG
-            InformationManager.DisplayMessage(new InformationMessage(String.Format("{0}: CD {1}, HP {2}, MR {3}, SD {4}",
-                            sourceItem.Item.Name, ChargeDamage, HitPoints, Maneuver, Speed)));
-
-            InformationManager.DisplayMessage(new InformationMessage("Total score: " + value));
-#endif
 
             return value;
         }
