@@ -3,7 +3,7 @@
 namespace EquipBestItem
 {
     [Serializable]
-    public class FilterMountSettings
+    public class FilterMountSettings : IFilterSettings
     {
         public float ChargeDamage { get; set; } = 1f;
         public float HitPoints { get; set; } = 1f;
@@ -29,7 +29,7 @@ namespace EquipBestItem
             Speed = other.Speed;
         }
 
-        public bool ThisFilterNotDefault()
+        public bool IsNotDefault()
         {
             if (this.ChargeDamage != 1f) return true;
             if (this.HitPoints != 1f) return true;
@@ -38,7 +38,7 @@ namespace EquipBestItem
             return false;
         }
 
-        public bool ThisFilterLocked()
+        public bool IsZero()
         {
             if (this.ChargeDamage == 0f &&
                 this.HitPoints == 0f &&
@@ -46,6 +46,22 @@ namespace EquipBestItem
                 this.Speed == 0f)
                 return true;
             return false;
+        }
+
+        public void Clear()
+        {
+            ChargeDamage = 1f;
+            HitPoints = 1f;
+            Maneuver = 1f;
+            Speed = 1f;
+        }
+
+        public void ClearZero()
+        {
+            ChargeDamage = 0;
+            HitPoints = 0;
+            Maneuver = 0;
+            Speed = 0;
         }
     }
 }

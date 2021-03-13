@@ -1,6 +1,6 @@
 ﻿namespace EquipBestItem
 {
-    public class FilterWeaponSettings
+    public class FilterWeaponSettings : IFilterSettings
     {
         public float MaxDataValue { get; set; } = 1f;
         public float ThrustSpeed { get; set; } = 1f;
@@ -52,7 +52,7 @@
             WeaponBodyArmor = other.WeaponBodyArmor;
         }
 
-        public bool ThisFilterNotDefault()
+        public bool IsNotDefault()
         {
             if (this.MaxDataValue != 1f) return true;
             if (this.ThrustSpeed != 1f) return true;
@@ -68,7 +68,7 @@
             return false;
         }
 
-        public bool ThisFilterLocked()
+        public bool IsZero()
         {
             if (this.MaxDataValue == 0f &&
                 this.ThrustSpeed == 0f &&
@@ -83,6 +83,36 @@
                 this.WeaponBodyArmor == 0f)
                 return true;
             return false;
+        }
+
+        public void Clear()
+        {
+            Accuracy = 1f;
+            WeaponBodyArmor = 1f;
+            Handling = 1f;
+            MaxDataValue = 1f;
+            MissileSpeed = 1f;
+            SwingDamage = 1f;
+            SwingSpeed = 1f;
+            ThrustDamage = 1f;
+            ThrustSpeed = 1f;
+            WeaponLength = 1f;
+            WeaponWeight = 0;
+        }
+
+        public void ClearZero()
+        {
+            Accuracy = 0;
+            WeaponBodyArmor = 0;
+            Handling = 0;
+            MaxDataValue = 0;
+            MissileSpeed = 0;
+            SwingDamage = 0;
+            SwingSpeed = 0;
+            ThrustDamage = 0;
+            ThrustSpeed = 0;
+            WeaponLength = 0;
+            WeaponWeight = 0;
         }
     }
 }

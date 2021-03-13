@@ -1,9 +1,10 @@
 ﻿using System;
+using TaleWorlds.Core;
 
 namespace EquipBestItem
 {
     [Serializable]
-    public class FilterArmorSettings
+    public class FilterArmorSettings : IFilterSettings
     {
         public float HeadArmor { get; set; } = 1f;
         public float ArmorBodyArmor { get; set; } = 1f;
@@ -38,7 +39,7 @@ namespace EquipBestItem
             ArmorWeight = other.ArmorWeight;
         }
 
-        public bool ThisFilterNotDefault()
+        public bool IsNotDefault()
         {
             if (this.HeadArmor != 1f) return true;
             if (this.ArmorBodyArmor != 1f) return true;
@@ -51,7 +52,7 @@ namespace EquipBestItem
             return false;
         }
 
-        public bool ThisFilterLocked()
+        public bool IsZero()
         {
             if (this.HeadArmor == 0f &&
                 this.ArmorBodyArmor == 0f &&
@@ -63,6 +64,30 @@ namespace EquipBestItem
                 this.ArmorWeight == 0f)
                 return true;
             return false;
+        }
+
+        public void Clear()
+        {
+            HeadArmor = 1f;
+            ArmorBodyArmor = 1f;
+            LegArmor = 1f;
+            ArmArmor = 1f;
+            ManeuverBonus = 1f;
+            SpeedBonus = 1f;
+            ChargeBonus = 1f;
+            ArmorWeight = 0;
+        }
+
+        public void ClearZero()
+        {
+            HeadArmor = 0;
+            ArmorBodyArmor = 0;
+            LegArmor = 0;
+            ArmArmor = 0;
+            ManeuverBonus = 0;
+            SpeedBonus = 0;
+            ChargeBonus = 0;
+            ArmorWeight = 0;
         }
     }
 }

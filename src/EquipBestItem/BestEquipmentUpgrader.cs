@@ -93,7 +93,7 @@ namespace EquipBestItem
             float inventoryItemValue = ItemIndexCalculation(inventoryEquipmentElement, slot);
             float currentItemValue = bestEquipmentElement.IsEmpty ? ItemIndexCalculation(currentEquipmentElement, slot) : ItemIndexCalculation(bestEquipmentElement, slot);
 
-            if (inventoryItemValue > currentItemValue && inventoryItemValue != 0f)
+            if (inventoryItemValue > currentItemValue && Math.Abs(inventoryItemValue) > 0.0001f)
             {
                 return inventoryEquipmentElement;
             }
@@ -152,7 +152,13 @@ namespace EquipBestItem
         public void EquipCharacter(CharacterObject character)
         {
             _characterData = new CharacterData(character, SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString()));
-            Equipment characterEquipment = _inventory.IsInWarSet ? character.FirstBattleEquipment : character.FirstCivilianEquipment;
+            EquipCharacter(_characterData);
+        }
+
+        public void EquipCharacter(CharacterData characterData)
+        {
+            _characterData = characterData;
+            Equipment characterEquipment = _inventory.IsInWarSet ? _characterData.GetBattleEquipment() : _characterData.GetCivilianEquipment();
             EquipCharacterEquipment(characterEquipment, !_inventory.IsInWarSet);
         }
 
@@ -200,38 +206,38 @@ namespace EquipBestItem
                 }
 
                 if (bestLeftEquipmentElement.Item != null || bestRightEquipmentElement.Item != null)
-                    if (ItemIndexCalculation(bestLeftEquipmentElement, equipmentIndex) > ItemIndexCalculation(bestRightEquipmentElement, equipmentIndex))
-                    {
-                        TransferCommand equipCommand = TransferCommand.Transfer(
-                            1,
-                            InventoryLogic.InventorySide.OtherInventory,
-                            InventoryLogic.InventorySide.Equipment,
-                            new ItemRosterElement(bestLeftEquipmentElement, 1),
-                            EquipmentIndex.None,
-                            equipmentIndex,
-                            _characterData.GetCharacterObject(),
-                            isCivilian
-                        );
+                {
+                    InventoryLogic.InventorySide fromSide;
+                    ItemRosterElement itemRosterElement;
 
-                        EquipMessage(equipmentIndex);
-                        _inventoryLogic.AddTransferCommand(equipCommand);
+                    if (ItemIndexCalculation(bestLeftEquipmentElement, equipmentIndex) >
+                        ItemIndexCalculation(bestRightEquipmentElement, equipmentIndex))
+                    {
+                        fromSide = InventoryLogic.InventorySide.OtherInventory;
+                        itemRosterElement = new ItemRosterElement(bestLeftEquipmentElement, 1);
+
                     }
                     else
                     {
-                        TransferCommand equipCommand = TransferCommand.Transfer(
-                            1,
-                            InventoryLogic.InventorySide.PlayerInventory,
-                            InventoryLogic.InventorySide.Equipment,
-                            new ItemRosterElement(bestRightEquipmentElement, 1),
-                            EquipmentIndex.None,
-                            equipmentIndex,
-                            _characterData.GetCharacterObject(),
-                            isCivilian
-                        );
+                        fromSide = InventoryLogic.InventorySide.PlayerInventory;
+                        itemRosterElement = new ItemRosterElement(bestRightEquipmentElement, 1);
 
-                        EquipMessage(equipmentIndex);
-                        _inventoryLogic.AddTransferCommand(equipCommand);
                     }
+                    TransferCommand equipCommand = TransferCommand.Transfer(
+                        1,
+                        fromSide,
+                        InventoryLogic.InventorySide.Equipment,
+                        itemRosterElement,
+                        EquipmentIndex.None,
+                        equipmentIndex,
+                        _characterData.GetCharacterObject(),
+                        isCivilian
+                    );
+
+                    EquipMessage(equipmentIndex);
+                    _inventoryLogic.AddTransferCommand(equipCommand);
+                }
+
                 _inventory.GetMethod("ExecuteRemoveZeroCounts");
             }
             _inventory.GetMethod("RefreshInformationValues");
@@ -243,7 +249,7 @@ namespace EquipBestItem
         /// <param name="equipmentIndex">Equipment Index Slot</param>
         private void EquipMessage(EquipmentIndex equipmentIndex)
         {
-            var name = _characterData.GetCharacterObject().Name.ToString();
+            var name = _characterData.GetCharacterName();
 
             switch (equipmentIndex)
             {
@@ -304,22 +310,19 @@ namespace EquipBestItem
             // Calculation for armor items
             if (sourceItem.Item.HasArmorComponent)
             {
-                return _bestEquipmentCalculator.CalculateArmorValue(sourceItem,
-                    _characterData.GetCharacterSettings().FilterArmor[GetEquipmentSlot(slot)]);
+                return _bestEquipmentCalculator.CalculateArmorValue(sourceItem, _characterData.GetFilterArmor(slot));
             }
 
             // Calculation for weapon items
             if (sourceItem.Item.PrimaryWeapon != null)
             {
-                return _bestEquipmentCalculator.CalculateWeaponValue(sourceItem,
-                    _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)]);
+                return _bestEquipmentCalculator.CalculateWeaponValue(sourceItem, _characterData.GetFilterWeapon(slot));
             }
             
             // Calculation for horse component
             if (sourceItem.Item.HasHorseComponent)
             {
-                return _bestEquipmentCalculator.CalculateHorseValue(sourceItem,
-                    _characterData.GetCharacterSettings().FilterMount);
+                return _bestEquipmentCalculator.CalculateHorseValue(sourceItem, _characterData.GetFilterMount());
             }
 
             return value;

@@ -407,38 +407,32 @@ namespace EquipBestItem
                 );
                 _inventoryLogic.AddTransferCommand(transferCommand);
             }
-            
+
             // Equip
+            InventoryLogic.InventorySide fromSide;
+            ItemRosterElement itemRosterElement;
             if (bestEquipmentUpgrader.ItemIndexCalculation(_bestLeftEquipment[equipmentIndex], equipmentIndex) > bestEquipmentUpgrader.ItemIndexCalculation(_bestRightEquipment[equipmentIndex], equipmentIndex))
             {
-                TransferCommand equipCommand = TransferCommand.Transfer(
-                    1,
-                    InventoryLogic.InventorySide.OtherInventory,
-                    InventoryLogic.InventorySide.Equipment,
-                    new ItemRosterElement(_bestLeftEquipment[equipmentIndex], 1),
-                    EquipmentIndex.None,
-                    equipmentIndex,
-                    bestEquipmentUpgrader.GetCharacterData().GetCharacterObject(),
-                    !_inventory.IsInWarSet
-                );
-
-                _inventoryLogic.AddTransferCommand(equipCommand);
+                fromSide = InventoryLogic.InventorySide.OtherInventory;
+                itemRosterElement = new ItemRosterElement(_bestLeftEquipment[equipmentIndex], 1);
             }
             else
             {
-                TransferCommand equipCommand = TransferCommand.Transfer(
-                    1,
-                    InventoryLogic.InventorySide.PlayerInventory,
-                    InventoryLogic.InventorySide.Equipment,
-                    new ItemRosterElement(_bestRightEquipment[equipmentIndex], 1),
-                    EquipmentIndex.None,
-                    equipmentIndex,
-                    bestEquipmentUpgrader.GetCharacterData().GetCharacterObject(),
-                    !_inventory.IsInWarSet
-                );
-
-                _inventoryLogic.AddTransferCommand(equipCommand);
+                fromSide = InventoryLogic.InventorySide.PlayerInventory;
+                itemRosterElement = new ItemRosterElement(_bestRightEquipment[equipmentIndex], 1);
             }
+            
+            TransferCommand equipCommand = TransferCommand.Transfer(
+                1, 
+                fromSide, 
+                InventoryLogic.InventorySide.Equipment,
+                itemRosterElement,
+                EquipmentIndex.None, 
+                equipmentIndex, 
+                bestEquipmentUpgrader.GetCharacterData().GetCharacterObject(), 
+                !_inventory.IsInWarSet);
+            _inventoryLogic.AddTransferCommand(equipCommand);
+
             _inventory.GetMethod("ExecuteRemoveZeroCounts");
             _inventory.GetMethod("RefreshInformationValues");
         }

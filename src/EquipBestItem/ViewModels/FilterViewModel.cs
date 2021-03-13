@@ -1,13 +1,16 @@
-﻿using TaleWorlds.Core;
+﻿using System;
+using System.Collections.Generic;
+using EquipBestItem.ViewModels;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace EquipBestItem
 {
     class FilterViewModel : ViewModel
     {
-        public CharacterSettings CharacterSettings;
+        private CharacterSettings _characterSettings;
 
-        public static int CurrentSlot = 0;
+        private FilterInventorySlot _currentInventorySlot;
 
         private int _incrementValue = 1;
         private bool _incrementBy10;
@@ -42,6 +45,127 @@ namespace EquipBestItem
         private CharacterSettings _clipboardCharacterSettings;
 
         private bool _pastedCharacterSettings = false;
+
+        private FilterAdjusterVM _armorHelmAdjuster;
+        private FilterAdjusterVM _armorBodyAdjuster;
+        private FilterAdjusterVM _armorBootAdjuster;
+        private FilterAdjusterVM _armorGlovesAdjuster;
+        private FilterAdjusterVM _armorManeuverAdjuster;
+        private FilterAdjusterVM _armorSpeedAdjuster;
+        private FilterAdjusterVM _armorChargeAdjuster;
+        private FilterAdjusterVM _armorWeightAdjuster;
+
+        private FilterAdjusterVM _mountChargeDamageAdjuster;
+        private FilterAdjusterVM _mountHitPointsAdjuster;
+        private FilterAdjusterVM _mountManeuverAdjuster;
+        private FilterAdjusterVM _mountSpeedAdjuster;
+
+        private List<FilterAdjusterVM> _armorFilterAdjusterList;
+        private List<FilterAdjusterVM> _mountFilterAdjusterList;
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorHelmAdjuster
+        {
+            get => _armorHelmAdjuster;
+            set
+            {
+                if (value == ArmorHelmAdjuster)
+                    return;
+                _armorHelmAdjuster = value;
+                OnPropertyChanged(nameof(ArmorHelmAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorBodyAdjuster
+        {
+            get => _armorBodyAdjuster;
+            set
+            {
+                if (value == ArmorBodyAdjuster)
+                    return;
+                _armorBodyAdjuster = value;
+                OnPropertyChanged(nameof(ArmorBodyAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorBootAdjuster
+        {
+            get => _armorBootAdjuster;
+            set
+            {
+                if (value == ArmorBootAdjuster)
+                    return;
+                _armorBootAdjuster = value;
+                OnPropertyChanged(nameof(ArmorBootAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorGlovesAdjuster
+        {
+            get => _armorGlovesAdjuster;
+            set
+            {
+                if (value == ArmorGlovesAdjuster)
+                    return;
+                _armorGlovesAdjuster = value;
+                OnPropertyChanged(nameof(ArmorGlovesAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorManeuverAdjuster
+        {
+            get => _armorManeuverAdjuster;
+            set
+            {
+                if (value == ArmorManeuverAdjuster)
+                    return;
+                _armorManeuverAdjuster = value;
+                OnPropertyChanged(nameof(ArmorManeuverAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorSpeedAdjuster
+        {
+            get => _armorSpeedAdjuster;
+            set
+            {
+                if (value == ArmorSpeedAdjuster)
+                    return;
+                _armorSpeedAdjuster = value;
+                OnPropertyChanged(nameof(ArmorSpeedAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorChargeAdjuster
+        {
+            get => _armorChargeAdjuster;
+            set
+            {
+                if (value == ArmorChargeAdjuster)
+                    return;
+                _armorChargeAdjuster = value;
+                OnPropertyChanged(nameof(ArmorChargeAdjuster));
+            }
+        }
+
+        [DataSourceProperty]
+        public FilterAdjusterVM ArmorWeightAdjuster
+        {
+            get => _armorWeightAdjuster;
+            set
+            {
+                if (value == ArmorWeightAdjuster)
+                    return;
+                _armorWeightAdjuster = value;
+                OnPropertyChanged(nameof(ArmorWeightAdjuster));
+            }
+        }
 
         #region DataSourcePropertys
         private bool _isHelmFilterSelected;
@@ -696,6 +820,7 @@ namespace EquipBestItem
         }
 
         private string _maxDataValue;
+
         [DataSourceProperty]
         public string MaxDataValue
         {
@@ -710,190 +835,86 @@ namespace EquipBestItem
             }
         }
 
-        private string _headArmor;
         [DataSourceProperty]
-        public string HeadArmor
+        public FilterAdjusterVM MountChargeDamageAdjuster
         {
-            get => _headArmor;
+            get => _mountChargeDamageAdjuster;
             set
             {
-                if (_headArmor != value)
-                {
-                    _headArmor = value;
-                    OnPropertyChanged();
-                }
+                if (value == MountChargeDamageAdjuster)
+                    return;
+                _mountChargeDamageAdjuster = value;
+                OnPropertyChanged(nameof(MountChargeDamageAdjuster));
             }
         }
 
-        private string _armorBodyArmor;
         [DataSourceProperty]
-        public string ArmorBodyArmor
+        public FilterAdjusterVM MountHitPointsAdjuster
         {
-            get => _armorBodyArmor;
+            get => _mountHitPointsAdjuster;
             set
             {
-                if (_armorBodyArmor != value)
-                {
-                    _armorBodyArmor = value;
-                    OnPropertyChanged();
-                }
+                if (value == MountHitPointsAdjuster)
+                    return;
+                _mountHitPointsAdjuster = value;
+                OnPropertyChanged(nameof(MountHitPointsAdjuster));
             }
         }
 
-        private string _legArmor;
         [DataSourceProperty]
-        public string LegArmor
+        public FilterAdjusterVM MountManeuverAdjuster
         {
-            get => _legArmor;
+            get => _mountManeuverAdjuster;
             set
             {
-                if (_legArmor != value)
-                {
-                    _legArmor = value;
-                    OnPropertyChanged();
-                }
+                if (value == MountManeuverAdjuster)
+                    return;
+                _mountManeuverAdjuster = value;
+                OnPropertyChanged(nameof(MountManeuverAdjuster));
             }
         }
 
-        private string _armArmor;
         [DataSourceProperty]
-        public string ArmArmor
+        public FilterAdjusterVM MountSpeedAdjuster
         {
-            get => _armArmor;
+            get => _mountSpeedAdjuster;
             set
             {
-                if (_armArmor != value)
-                {
-                    _armArmor = value;
-                    OnPropertyChanged();
-                }
+                if (value == MountSpeedAdjuster)
+                    return;
+                _mountSpeedAdjuster = value;
+                OnPropertyChanged(nameof(MountSpeedAdjuster));
             }
         }
 
-        private string _maneuverBonus;
-        [DataSourceProperty]
-        public string ManeuverBonus
-        {
-            get => _maneuverBonus;
-            set
-            {
-                if (_maneuverBonus != value)
-                {
-                    _maneuverBonus = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _speedBonus;
-        [DataSourceProperty]
-        public string SpeedBonus
-        {
-            get => _speedBonus;
-            set
-            {
-                if (_speedBonus != value)
-                {
-                    _speedBonus = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _chargeBonus;
-        [DataSourceProperty]
-        public string ChargeBonus
-        {
-            get => _chargeBonus;
-            set
-            {
-                if (_chargeBonus != value)
-                {
-                    _chargeBonus = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _armorWeight;
-        [DataSourceProperty]
-        public string ArmorWeight
-        {
-            get => _armorWeight;
-            set
-            {
-                if (_armorWeight != value)
-                {
-                    _armorWeight = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _chargeDamage;
-        [DataSourceProperty]
-        public string ChargeDamage
-        {
-            get => _chargeDamage;
-            set
-            {
-                if (_chargeDamage != value)
-                {
-                    _chargeDamage = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _hitPoints;
-        [DataSourceProperty]
-        public string HitPoints
-        {
-            get => _hitPoints;
-            set
-            {
-                if (_hitPoints != value)
-                {
-                    _hitPoints = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _maneuver;
-        [DataSourceProperty]
-        public string Maneuver
-        {
-            get => _maneuver;
-            set
-            {
-                if (_maneuver != value)
-                {
-                    _maneuver = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string _speed;
-        [DataSourceProperty]
-        public string Speed
-        {
-            get => _speed;
-            set
-            {
-                if (_speed != value)
-                {
-                    _speed = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         #endregion DataSourceProperties
 
         public FilterViewModel()
         {
+            _armorHelmAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorBodyAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorBootAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorGlovesAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorSpeedAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorChargeAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorManeuverAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+            _armorWeightAdjuster = CreateAdjusterVM(ref _armorFilterAdjusterList);
+
+            _mountChargeDamageAdjuster = CreateAdjusterVM(ref _mountFilterAdjusterList);
+            _mountHitPointsAdjuster = CreateAdjusterVM(ref _mountFilterAdjusterList);
+            _mountManeuverAdjuster = CreateAdjusterVM(ref _mountFilterAdjusterList);
+            _mountSpeedAdjuster = CreateAdjusterVM(ref _mountFilterAdjusterList);
+
             this.RefreshValues();
+        }
+
+        private FilterAdjusterVM CreateAdjusterVM(ref List<FilterAdjusterVM> list)
+        {
+            var temp = new FilterAdjusterVM();
+            if (list == null)
+                list = new List<FilterAdjusterVM>();
+            list.Add(temp);
+            return temp;
         }
 
         public override void RefreshValues()
@@ -901,15 +922,7 @@ namespace EquipBestItem
             base.RefreshValues();
             try
             {
-                if (!_pastedCharacterSettings)
-                {
-                    this.CharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
-                }
-                else
-                {
-                    SettingsLoader.Instance.SetCharacterSettingsByName(CharacterSettings, InventoryBehavior.Inventory.CurrentCharacterName);
-                    _pastedCharacterSettings = false;
-                }
+                SetupFilterProfile();
             }
             catch (MBException e)
             {
@@ -918,27 +931,134 @@ namespace EquipBestItem
             }
 
             // Updates the title whether we are looking at weapon, armor, or mount filter settings window
+            UpdateInformationValues();
+            UpdateIcons();
+
+#if DEBUG
+            InformationManager.DisplayMessage(new InformationMessage("FilterVMRefreshValue")); 
+#endif
+        }
+
+        private void SetupFilterProfile()
+        {
+            if (!_pastedCharacterSettings)
+            {
+                _characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
+            }
+            else
+            {
+                SettingsLoader.Instance.SetCharacterSettingsByName(_characterSettings, InventoryBehavior.Inventory.CurrentCharacterName);
+                _pastedCharacterSettings = false;
+            }
+
+            SetupArmorAdjusters();
+            SetupMountAdjusters();
+        }
+
+        private void SetupArmorAdjusters()
+        {
+            if (_currentInventorySlot >= FilterInventorySlot.Weapon1)
+                return;
+
+            _armorHelmAdjuster.ExecuteAction = delegate(float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).HeadArmor += value;
+            };
+            _armorBodyAdjuster.ExecuteAction = delegate(float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).ArmorBodyArmor += value;
+            };
+            _armorBootAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).LegArmor += value;
+            };
+            _armorGlovesAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).ArmArmor += value;
+            };
+            _armorManeuverAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).ManeuverBonus += value;
+            };
+            _armorSpeedAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).SpeedBonus += value;
+            };
+            _armorChargeAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).ChargeBonus += value;
+            };
+            _armorWeightAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterArmorSettings)_characterSettings.GetFilter(_currentInventorySlot)).ArmorWeight += value;
+            };
+        }
+
+        private void SetupMountAdjusters()
+        {
+            _mountChargeDamageAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterMountSettings)_characterSettings.GetFilter(FilterInventorySlot.Horse)).ChargeDamage += value;
+            };
+            _mountHitPointsAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterMountSettings)_characterSettings.GetFilter(FilterInventorySlot.Horse)).HitPoints += value;
+            };
+            _mountManeuverAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterMountSettings)_characterSettings.GetFilter(FilterInventorySlot.Horse)).Maneuver += value;
+            };
+            _mountSpeedAdjuster.ExecuteAction = delegate (float value)
+            {
+                ((FilterMountSettings)_characterSettings.GetFilter(FilterInventorySlot.Horse)).Speed += value;
+            };
+        }
+
+        private void UpdateInformationValues()
+        {
             if (!IsWeaponSlotHidden)
-                this.Title = "Weapon " + (CurrentSlot + 1) + " filter";
-            if (!IsArmorSlotHidden)
-                switch (CurrentSlot)
+            {
+                int slotNumber;
+                switch (_currentInventorySlot)
                 {
-                    case 0:
+                    case FilterInventorySlot.Weapon1:
+                        slotNumber = 1;
+                        break;
+                    case FilterInventorySlot.Weapon2:
+                        slotNumber = 2;
+                        break;
+                    case FilterInventorySlot.Weapon3:
+                        slotNumber = 3;
+                        break;
+                    case FilterInventorySlot.Weapon4:
+                        slotNumber = 4;
+                        break;
+                    default:
+                        slotNumber = 0;
+                        break;
+                }
+                this.Title = "Weapon " + slotNumber + " filter";
+            }
+                
+            if (!IsArmorSlotHidden)
+                switch (_currentInventorySlot)
+                {
+                    case FilterInventorySlot.Helm:
                         this.Title = "Helm filter";
                         break;
-                    case 1:
+                    case FilterInventorySlot.Cloak:
                         this.Title = "Cloak filter";
                         break;
-                    case 2:
+                    case FilterInventorySlot.Body:
                         this.Title = "Armor filter";
                         break;
-                    case 3:
+                    case FilterInventorySlot.Gloves:
                         this.Title = "Glove filter";
                         break;
-                    case 4:
+                    case FilterInventorySlot.Boot:
                         this.Title = "Boot filter";
                         break;
-                    case 5:
+                    case FilterInventorySlot.HorseHarness:
                         this.Title = "Harness filter";
                         break;
                     default:
@@ -946,648 +1066,356 @@ namespace EquipBestItem
                         break;
                 }
             if (!IsMountSlotHidden)
-                this.Title = "Mount " + "filter";
+                this.Title = "Mount filter";
 
             if (!IsWeaponSlotHidden)
             {
-                this.Accuracy = this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy.ToString();
-                this.WeaponBodyArmor = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor.ToString();
-                this.Handling = this.CharacterSettings.FilterWeapon[CurrentSlot].Handling.ToString();
-                this.MaxDataValue = this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue.ToString();
-                this.MissileSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed.ToString();
-                this.SwingDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage.ToString();
-                this.SwingSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed.ToString();
-                this.ThrustDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage.ToString();
-                this.ThrustSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed.ToString();
-                this.WeaponLength = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength.ToString();
-                this.WeaponWeight = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight.ToString();
+                FilterWeaponSettings filterWeapon = (FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot);
+
+                Accuracy = filterWeapon.Accuracy.ToString();
+                WeaponBodyArmor = filterWeapon.WeaponBodyArmor.ToString();
+                Handling = filterWeapon.Handling.ToString();
+                MaxDataValue = filterWeapon.MaxDataValue.ToString();
+                MissileSpeed = filterWeapon.MissileSpeed.ToString();
+                SwingDamage = filterWeapon.SwingDamage.ToString();
+                SwingSpeed = filterWeapon.SwingSpeed.ToString();
+                ThrustDamage = filterWeapon.ThrustDamage.ToString();
+                ThrustSpeed = filterWeapon.ThrustSpeed.ToString();
+                WeaponLength = filterWeapon.WeaponLength.ToString();
+                WeaponWeight = filterWeapon.WeaponWeight.ToString();
             }
 
             if (!IsArmorSlotHidden)
             {
-                this.HeadArmor = this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor.ToString();
-                this.ArmorBodyArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor.ToString();
-                this.LegArmor = this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor.ToString();
-                this.ArmArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor.ToString();
-                this.ManeuverBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus.ToString();
-                this.SpeedBonus = this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus.ToString();
-                this.ChargeBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus.ToString();
-                this.ArmorWeight = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight.ToString();
+                FilterArmorSettings filterArmor = (FilterArmorSettings) _characterSettings.GetFilter(_currentInventorySlot);
+
+                _armorHelmAdjuster.Text = filterArmor.HeadArmor.ToString();
+                _armorBodyAdjuster.Text = filterArmor.ArmorBodyArmor.ToString();
+                _armorBootAdjuster.Text = filterArmor.LegArmor.ToString();
+                _armorGlovesAdjuster.Text = filterArmor.ArmArmor.ToString();
+                _armorManeuverAdjuster.Text = filterArmor.ManeuverBonus.ToString();
+                _armorSpeedAdjuster.Text = filterArmor.SpeedBonus.ToString();
+                _armorChargeAdjuster.Text = filterArmor.ChargeBonus.ToString();
+                _armorWeightAdjuster.Text = filterArmor.ArmorWeight.ToString();
             }
 
             if (!IsMountSlotHidden)
             {
-                this.ChargeDamage = this.CharacterSettings.FilterMount.ChargeDamage.ToString();
-                this.HitPoints = this.CharacterSettings.FilterMount.HitPoints.ToString();
-                this.Maneuver = this.CharacterSettings.FilterMount.Maneuver.ToString();
-                this.Speed = this.CharacterSettings.FilterMount.Speed.ToString();
+                var settings = (FilterMountSettings) _characterSettings.GetFilter(FilterInventorySlot.Horse);
+                _mountChargeDamageAdjuster.Text = settings.ChargeDamage.ToString();
+                _mountHitPointsAdjuster.Text = settings.HitPoints.ToString();
+                _mountManeuverAdjuster.Text = settings.Maneuver.ToString();
+                _mountSpeedAdjuster.Text = settings.Speed.ToString();
             }
+        }
 
+        private void UpdateIcons()
+        {
             //Helmet icon state
-            if (this.CharacterSettings.FilterArmor[0].ThisFilterNotDefault())
-                this.IsHelmFilterSelected = true;
-            else
-                this.IsHelmFilterSelected = false;
-
-            if (this.CharacterSettings.FilterArmor[0].ThisFilterLocked())
-                this.IsHelmFilterLocked = true;
-            else
-                this.IsHelmFilterLocked = false;
+            this.IsHelmFilterSelected = this._characterSettings.FilterArmor[0].IsNotDefault();
+            this.IsHelmFilterLocked = this._characterSettings.FilterArmor[0].IsZero();
 
             //Cloak icon state
-            if (this.CharacterSettings.FilterArmor[1].ThisFilterNotDefault())
-                this.IsCloakFilterSelected = true;
-            else
-                this.IsCloakFilterSelected = false;
-
-            if (this.CharacterSettings.FilterArmor[1].ThisFilterLocked())
-                this.IsCloakFilterLocked = true;
-            else
-                this.IsCloakFilterLocked = false;
+            this.IsCloakFilterSelected = this._characterSettings.FilterArmor[1].IsNotDefault();
+            this.IsCloakFilterLocked = this._characterSettings.FilterArmor[1].IsZero();
 
             //Armor icon state
-            if (this.CharacterSettings.FilterArmor[2].ThisFilterNotDefault())
-                this.IsArmorFilterSelected = true;
-            else
-                this.IsArmorFilterSelected = false;
-
-            if (this.CharacterSettings.FilterArmor[2].ThisFilterLocked())
-                this.IsArmorFilterLocked = true;
-            else
-                this.IsArmorFilterLocked = false;
+            this.IsArmorFilterSelected = this._characterSettings.FilterArmor[2].IsNotDefault();
+            this.IsArmorFilterLocked = this._characterSettings.FilterArmor[2].IsZero();
 
             //Gloves icon state
-            if (this.CharacterSettings.FilterArmor[3].ThisFilterNotDefault())
-                this.IsGloveFilterSelected = true;
-            else
-                this.IsGloveFilterSelected = false;
-
-            if (this.CharacterSettings.FilterArmor[3].ThisFilterLocked())
-                this.IsGloveFilterLocked = true;
-            else
-                this.IsGloveFilterLocked = false;
+            this.IsGloveFilterSelected = this._characterSettings.FilterArmor[3].IsNotDefault();
+            this.IsGloveFilterLocked = this._characterSettings.FilterArmor[3].IsZero();
 
             //Boots icon state
-            if (this.CharacterSettings.FilterArmor[4].ThisFilterNotDefault())
-                this.IsBootFilterSelected = true;
-            else
-                this.IsBootFilterSelected = false;
-
-            if (this.CharacterSettings.FilterArmor[4].ThisFilterLocked())
-                this.IsBootFilterLocked = true;
-            else
-                this.IsBootFilterLocked = false;
+            this.IsBootFilterSelected = this._characterSettings.FilterArmor[4].IsNotDefault();
+            this.IsBootFilterLocked = this._characterSettings.FilterArmor[4].IsZero();
 
             //Mount icon state
-            if (this.CharacterSettings.FilterMount.ThisFilterNotDefault())
-                this.IsMountFilterSelected = true;
-            else
-                this.IsMountFilterSelected = false;
-
-            if (this.CharacterSettings.FilterMount.ThisFilterLocked())
-                this.IsMountFilterLocked = true;
-            else
-                this.IsMountFilterLocked = false;
+            this.IsMountFilterSelected = this._characterSettings.FilterMount.IsNotDefault();
+            this.IsMountFilterLocked = this._characterSettings.FilterMount.IsZero();
 
             //Harness icon state
-            if (this.CharacterSettings.FilterArmor[5].ThisFilterNotDefault())
-                this.IsHarnessFilterSelected = true;
-            else
-                this.IsHarnessFilterSelected = false;
-
-            if (this.CharacterSettings.FilterArmor[5].ThisFilterLocked())
-                this.IsHarnessFilterLocked = true;
-            else
-                this.IsHarnessFilterLocked = false;
+            this.IsHarnessFilterSelected = this._characterSettings.FilterArmor[5].IsNotDefault();
+            this.IsHarnessFilterLocked = this._characterSettings.FilterArmor[5].IsZero();
 
             //Weapon1 icon state
-            if (this.CharacterSettings.FilterWeapon[0].ThisFilterNotDefault())
-                this.IsWeapon1FilterSelected = true;
-            else
-                this.IsWeapon1FilterSelected = false;
-
-            if (this.CharacterSettings.FilterWeapon[0].ThisFilterLocked())
-                this.IsWeapon1FilterLocked = true;
-            else
-                this.IsWeapon1FilterLocked = false;
+            this.IsWeapon1FilterSelected = this._characterSettings.FilterWeapon[0].IsNotDefault();
+            this.IsWeapon1FilterLocked = this._characterSettings.FilterWeapon[0].IsZero();
 
             //Weapon2 icon state
-            if (this.CharacterSettings.FilterWeapon[1].ThisFilterNotDefault())
-                this.IsWeapon2FilterSelected = true;
-            else
-                this.IsWeapon2FilterSelected = false;
-
-            if (this.CharacterSettings.FilterWeapon[1].ThisFilterLocked())
-                this.IsWeapon2FilterLocked = true;
-            else
-                this.IsWeapon2FilterLocked = false;
+            this.IsWeapon2FilterSelected = this._characterSettings.FilterWeapon[1].IsNotDefault();
+            this.IsWeapon2FilterLocked = this._characterSettings.FilterWeapon[1].IsZero();
 
             //Weapon3 icon state
-            if (this.CharacterSettings.FilterWeapon[2].ThisFilterNotDefault())
-                this.IsWeapon3FilterSelected = true;
-            else
-                this.IsWeapon3FilterSelected = false;
-
-            if (this.CharacterSettings.FilterWeapon[2].ThisFilterLocked())
-                this.IsWeapon3FilterLocked = true;
-            else
-                this.IsWeapon3FilterLocked = false;
+            this.IsWeapon3FilterSelected = this._characterSettings.FilterWeapon[2].IsNotDefault();
+            this.IsWeapon3FilterLocked = this._characterSettings.FilterWeapon[2].IsZero();
 
             //Weapon4 icon state
-            if (this.CharacterSettings.FilterWeapon[3].ThisFilterNotDefault())
-                this.IsWeapon4FilterSelected = true;
-            else
-                this.IsWeapon4FilterSelected = false;
-
-            if (this.CharacterSettings.FilterWeapon[3].ThisFilterLocked())
-                this.IsWeapon4FilterLocked = true;
-            else
-                this.IsWeapon4FilterLocked = false;
-#if DEBUG
-            InformationManager.DisplayMessage(new InformationMessage("FilterVMRefreshValue")); 
-#endif
+            this.IsWeapon4FilterSelected = this._characterSettings.FilterWeapon[3].IsNotDefault();
+            this.IsWeapon4FilterLocked = this._characterSettings.FilterWeapon[3].IsZero();
         }
 
         #region ExecuteMethods
         public void ExecuteSwingDamagePrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage -= _incrementValue;
-            SwingDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingDamage -= _incrementValue;
+            SwingDamage = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingDamage.ToString();
             this.RefreshValues();
         }
         public void ExecuteSwingDamageNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage += _incrementValue;
-            SwingDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingDamage += _incrementValue;
+            SwingDamage = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingDamage.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteSwingSpeedPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed -= _incrementValue;
-            SwingSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingSpeed -= _incrementValue;
+            SwingSpeed = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingSpeed.ToString();
             this.RefreshValues();
         }
         public void ExecuteSwingSpeedNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed += _incrementValue;
-            SwingSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingSpeed += _incrementValue;
+            SwingSpeed = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).SwingSpeed.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteThrustDamagePrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage -= _incrementValue;
-            ThrustDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustDamage -= _incrementValue;
+            ThrustDamage = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustDamage.ToString();
             this.RefreshValues();
         }
         public void ExecuteThrustDamageNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage += _incrementValue;
-            ThrustDamage = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustDamage += _incrementValue;
+            ThrustDamage = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustDamage.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteThrustSpeedPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed -= _incrementValue;
-            ThrustSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustSpeed -= _incrementValue;
+            ThrustSpeed = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustSpeed.ToString();
             this.RefreshValues();
         }
         public void ExecuteThrustSpeedNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed += _incrementValue;
-            ThrustSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustSpeed += _incrementValue;
+            ThrustSpeed = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ThrustSpeed.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteWeaponLengthPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength -= _incrementValue;
-            WeaponLength = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponLength -= _incrementValue;
+            WeaponLength = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponLength.ToString();
             this.RefreshValues();
         }
         public void ExecuteWeaponLengthNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength += _incrementValue;
-            WeaponLength = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponLength += _incrementValue;
+            WeaponLength = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponLength.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteHandlingPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling -= _incrementValue;
-            Handling = this.CharacterSettings.FilterWeapon[CurrentSlot].Handling.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Handling -= _incrementValue;
+            Handling = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Handling.ToString();
             this.RefreshValues();
         }
         public void ExecuteHandlingNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling += _incrementValue;
-            Handling = this.CharacterSettings.FilterWeapon[CurrentSlot].Handling.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Handling += _incrementValue;
+            Handling = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Handling.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteWeaponWeightPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight -= _incrementValue;
-            WeaponWeight = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponWeight -= _incrementValue;
+            WeaponWeight = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponWeight.ToString();
             this.RefreshValues();
         }
         public void ExecuteWeaponWeightNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight += _incrementValue;
-            WeaponWeight = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponWeight += _incrementValue;
+            WeaponWeight = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponWeight.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteMissileSpeedPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed -= _incrementValue;
-            MissileSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MissileSpeed -= _incrementValue;
+            MissileSpeed = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MissileSpeed.ToString();
             this.RefreshValues();
         }
         public void ExecuteMissileSpeedNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed += _incrementValue;
-            MissileSpeed = this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MissileSpeed += _incrementValue;
+            MissileSpeed = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MissileSpeed.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteAccuracyPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy -= _incrementValue;
-            Accuracy = this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Accuracy -= _incrementValue;
+            Accuracy = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Accuracy.ToString();
             this.RefreshValues();
         }
         public void ExecuteAccuracyNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy += _incrementValue;
-            Accuracy = this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Accuracy += _incrementValue;
+            Accuracy = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Accuracy.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteWeaponBodyArmorPrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor -= _incrementValue;
-            WeaponBodyArmor = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponBodyArmor -= _incrementValue;
+            WeaponBodyArmor = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponBodyArmor.ToString();
             this.RefreshValues();
         }
         public void ExecuteWeaponBodyArmorNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor += _incrementValue;
-            WeaponBodyArmor = this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponBodyArmor += _incrementValue;
+            WeaponBodyArmor = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).WeaponBodyArmor.ToString();
             this.RefreshValues();
         }
 
         public void ExecuteMaxDataValuePrev()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue -= _incrementValue;
-            MaxDataValue = this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MaxDataValue -= _incrementValue;
+            MaxDataValue = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MaxDataValue.ToString();
             this.RefreshValues();
         }
         public void ExecuteMaxDataValueNext()
         {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue += _incrementValue;
-            MaxDataValue = this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue.ToString();
+            ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MaxDataValue += _incrementValue;
+            MaxDataValue = ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).MaxDataValue.ToString();
             this.RefreshValues();
         }
 
+        public void ShowHideFilter(FilterInventorySlot inventorySlot)
+        {
+            if (inventorySlot >= FilterInventorySlot.Weapon1 && inventorySlot <= FilterInventorySlot.Weapon4)
+            {
+                if (_currentInventorySlot != inventorySlot || this.IsWeaponSlotHidden)
+                    this.IsHiddenFilterLayer = false;
+                else
+                    this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
 
-        public void ExecuteHeadArmorPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor -= _incrementValue;
-            HeadArmor = this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteHeadArmorNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor += _incrementValue;
-            HeadArmor = this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor.ToString();
-            this.RefreshValues();
-        }
+                this.IsWeaponSlotHidden = false;
+                this.IsArmorSlotHidden = true;
+                this.IsMountSlotHidden = true;
 
-        public void ExecuteArmorBodyArmorPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor -= _incrementValue;
-            ArmorBodyArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteArmorBodyArmorNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor += _incrementValue;
-            ArmorBodyArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor.ToString();
-            this.RefreshValues();
-        }
+                _filterItemState = FilterItemState.Weapon;
+            }
+            else if (inventorySlot >= FilterInventorySlot.Helm && inventorySlot <= FilterInventorySlot.HorseHarness)
+            {
+                if (_currentInventorySlot != inventorySlot || this.IsArmorSlotHidden)
+                    this.IsHiddenFilterLayer = false;
+                else
+                    this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
 
-        public void ExecuteLegArmorPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor -= _incrementValue;
-            LegArmor = this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteLegArmorNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor += _incrementValue;
-            LegArmor = this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor.ToString();
-            this.RefreshValues();
-        }
+                this.IsArmorSlotHidden = false;
+                this.IsWeaponSlotHidden = true;
+                this.IsMountSlotHidden = true;
+                _filterItemState = FilterItemState.Armor;
+            }
+            else if (inventorySlot == FilterInventorySlot.Horse)
+            {
+                if (this.IsMountSlotHidden)
+                    this.IsHiddenFilterLayer = false;
+                else
+                    this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
 
-        public void ExecuteArmArmorPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor -= _incrementValue;
-            ArmArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteArmArmorNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor += _incrementValue;
-            ArmArmor = this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor.ToString();
-            this.RefreshValues();
-        }
+                this.IsArmorSlotHidden = true;
+                this.IsWeaponSlotHidden = true;
+                this.IsMountSlotHidden = false;
+                _filterItemState = FilterItemState.Mount;
+            }
 
-        public void ExecuteManeuverBonusPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus -= _incrementValue;
-            ManeuverBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteManeuverBonusNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus += _incrementValue;
-            ManeuverBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus.ToString();
-            this.RefreshValues();
-        }
+            foreach (var adjuster in _armorFilterAdjusterList)
+            {
+                adjuster.Hidden = IsArmorSlotHidden;
+            }
+            foreach (var adjuster in _mountFilterAdjusterList)
+            {
+                adjuster.Hidden = IsMountSlotHidden;
+            }
 
-        public void ExecuteSpeedBonusPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus -= _incrementValue;
-            SpeedBonus = this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus.ToString();
-            this.RefreshValues();
+            _currentInventorySlot = inventorySlot;
+            SetupArmorAdjusters();
         }
-        public void ExecuteSpeedBonusNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus += _incrementValue;
-            SpeedBonus = this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus.ToString();
-            this.RefreshValues();
-        }
-
-        public void ExecuteChargeBonusPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus -= _incrementValue;
-            ChargeBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteChargeBonusNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus += _incrementValue;
-            ChargeBonus = this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus.ToString();
-            this.RefreshValues();
-        }
-
-        public void ExecuteArmorWeightPrev()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight -= _incrementValue;
-            ArmorWeight = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteArmorWeightNext()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight += _incrementValue;
-            ArmorWeight = this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight.ToString();
-            this.RefreshValues();
-        }
-
-        public void ExecuteChargeDamagePrev()
-        {
-            this.CharacterSettings.FilterMount.ChargeDamage -= _incrementValue;
-            ChargeDamage = this.CharacterSettings.FilterMount.ChargeDamage.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteChargeDamageNext()
-        {
-            this.CharacterSettings.FilterMount.ChargeDamage += _incrementValue;
-            ChargeDamage = this.CharacterSettings.FilterMount.ChargeDamage.ToString();
-            this.RefreshValues();
-        }
-
-        public void ExecuteHitPointsPrev()
-        {
-            this.CharacterSettings.FilterMount.HitPoints -= _incrementValue;
-            HitPoints = this.CharacterSettings.FilterMount.HitPoints.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteHitPointsNext()
-        {
-            this.CharacterSettings.FilterMount.HitPoints += _incrementValue;
-            HitPoints = this.CharacterSettings.FilterMount.HitPoints.ToString();
-            this.RefreshValues();
-        }
-
-        public void ExecuteManeuverPrev()
-        {
-            this.CharacterSettings.FilterMount.Maneuver -= _incrementValue;
-            Maneuver = this.CharacterSettings.FilterMount.Maneuver.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteManeuverNext()
-        {
-            this.CharacterSettings.FilterMount.Maneuver += _incrementValue;
-            Maneuver = this.CharacterSettings.FilterMount.Maneuver.ToString();
-            this.RefreshValues();
-        }
-
-        public void ExecuteSpeedPrev()
-        {
-            this.CharacterSettings.FilterMount.Speed -= _incrementValue;
-            Speed = this.CharacterSettings.FilterMount.Speed.ToString();
-            this.RefreshValues();
-        }
-        public void ExecuteSpeedNext()
-        {
-            this.CharacterSettings.FilterMount.Speed += _incrementValue;
-            Speed = this.CharacterSettings.FilterMount.Speed.ToString();
-            this.RefreshValues();
-        }
-
 
         public void ExecuteShowHideWeapon1Filter()
         {
-            if (CurrentSlot != 0 || this.IsWeaponSlotHidden)
-            {
-                CurrentSlot = 0;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-            this.IsWeaponSlotHidden = false;
-            this.IsArmorSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Weapon;
+            ShowHideFilter(FilterInventorySlot.Weapon1);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideWeapon2Filter()
         {
-            if (CurrentSlot != 1 || this.IsWeaponSlotHidden)
-            {
-                CurrentSlot = 1;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-            this.IsWeaponSlotHidden = false;
-            this.IsArmorSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Weapon;
+            ShowHideFilter(FilterInventorySlot.Weapon2);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideWeapon3Filter()
         {
-            if (CurrentSlot != 2 || this.IsWeaponSlotHidden)
-            {
-                CurrentSlot = 2;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-            this.IsWeaponSlotHidden = false;
-            this.IsArmorSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Weapon;
+            ShowHideFilter(FilterInventorySlot.Weapon3);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideWeapon4Filter()
         {
-            if (CurrentSlot != 3 || this.IsWeaponSlotHidden)
-            {
-                CurrentSlot = 3;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-            this.IsWeaponSlotHidden = false;
-            this.IsArmorSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Weapon;
+            ShowHideFilter(FilterInventorySlot.Weapon4);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideHelmFilter()
         {
-            if (CurrentSlot != 0 || this.IsArmorSlotHidden)
-            {
-                CurrentSlot = 0;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            this.IsArmorSlotHidden = false;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Armor;
+            ShowHideFilter(FilterInventorySlot.Helm);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideCloakFilter()
         {
-            if (CurrentSlot != 1 || this.IsArmorSlotHidden)
-            {
-                CurrentSlot = 1;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            this.IsArmorSlotHidden = false;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Armor;
+            ShowHideFilter(FilterInventorySlot.Cloak);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideArmorFilter()
         {
-            if (CurrentSlot != 2 || this.IsArmorSlotHidden)
-            {
-                CurrentSlot = 2;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            this.IsArmorSlotHidden = false;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Armor;
+            ShowHideFilter(FilterInventorySlot.Body);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideGloveFilter()
         {
-            if (CurrentSlot != 3 || this.IsArmorSlotHidden)
-            {
-                CurrentSlot = 3;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            this.IsArmorSlotHidden = false;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Armor;
+            ShowHideFilter(FilterInventorySlot.Gloves);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideBootFilter()
         {
-            if (CurrentSlot != 4 || this.IsArmorSlotHidden)
-            {
-                CurrentSlot = 4;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            
-            this.IsArmorSlotHidden = false;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Armor;
+            ShowHideFilter(FilterInventorySlot.Boot);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideMountFilter()
         {
-            if (this.IsMountSlotHidden)
-                this.IsHiddenFilterLayer = false;
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            this.IsArmorSlotHidden = true;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = false;
-            _filterItemState = FilterItemState.Mount;
+            ShowHideFilter(FilterInventorySlot.Horse);
             this.RefreshValues();
         }
 
         public void ExecuteShowHideHarnessFilter()
         {
-            if (CurrentSlot != 5 || this.IsArmorSlotHidden)
-            {
-                CurrentSlot = 5;
-                this.IsHiddenFilterLayer = false;
-            }
-            else
-                this.IsHiddenFilterLayer = !IsHiddenFilterLayer;
-
-            this.IsArmorSlotHidden = false;
-            this.IsWeaponSlotHidden = true;
-            this.IsMountSlotHidden = true;
-            _filterItemState = FilterItemState.Armor;
+            ShowHideFilter(FilterInventorySlot.HorseHarness);
             this.RefreshValues();
         }
 
@@ -1597,96 +1425,21 @@ namespace EquipBestItem
             this.RefreshValues();
         }
 
-        public void ExecuteMountClear()
-        {
-            this.CharacterSettings.FilterMount.ChargeDamage = 1f;
-            this.CharacterSettings.FilterMount.HitPoints = 1f;
-            this.CharacterSettings.FilterMount.Maneuver = 1f;
-            this.CharacterSettings.FilterMount.Speed = 1f;
-            this.RefreshValues();
-        }
-
-        public void ExecuteArmorClear()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus = 1f;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight = 0;
-            this.RefreshValues();
-        }
-
-        public void ExecuteWeaponClear()
-        {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength = 1f;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight = 0;
-            this.RefreshValues();
-        }
-
         public void ExecuteItemClear()
         {
             switch (_filterItemState)
             {
                 case FilterItemState.Armor:
-                    ExecuteArmorClear();
+                    ((FilterArmorSettings) _characterSettings.GetFilter(_currentInventorySlot)).Clear();
                     break;
                 case FilterItemState.Weapon:
-                    ExecuteWeaponClear();
+                    ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).Clear(); ;
                     break;
                 case FilterItemState.Mount:
-                    ExecuteMountClear();
+                    ((FilterMountSettings) _characterSettings.GetFilter(_currentInventorySlot)).Clear();
                     break;
             }
-        }
-
-        public void ExecuteMountLock()
-        {
-            this.CharacterSettings.FilterMount.ChargeDamage = 0;
-            this.CharacterSettings.FilterMount.HitPoints = 0;
-            this.CharacterSettings.FilterMount.Maneuver = 0;
-            this.CharacterSettings.FilterMount.Speed = 0;
-            this.RefreshValues();
-        }
-
-        public void ExecuteArmorLock()
-        {
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmArmor = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorBodyArmor = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ChargeBonus = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].HeadArmor = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].LegArmor = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ManeuverBonus = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].SpeedBonus = 0;
-            this.CharacterSettings.FilterArmor[CurrentSlot].ArmorWeight = 0;
-            this.RefreshValues();
-        }
-
-        public void ExecuteWeaponLock()
-        {
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Accuracy = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponBodyArmor = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].Handling = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MaxDataValue = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].MissileSpeed = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingDamage = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].SwingSpeed = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustDamage = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].ThrustSpeed = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponLength = 0;
-            this.CharacterSettings.FilterWeapon[CurrentSlot].WeaponWeight = 0;
-            this.RefreshValues();
+            RefreshValues();
         }
 
         public void ExecuteItemLock()
@@ -1694,15 +1447,16 @@ namespace EquipBestItem
             switch (_filterItemState)
             {
                 case FilterItemState.Armor:
-                    ExecuteArmorLock();
+                    ((FilterArmorSettings) _characterSettings.GetFilter(_currentInventorySlot)).ClearZero();
                     break;
                 case FilterItemState.Weapon:
-                    ExecuteWeaponLock();
+                    ((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot)).ClearZero(); ;
                     break;
                 case FilterItemState.Mount:
-                    ExecuteMountLock();
+                    ((FilterMountSettings) _characterSettings.GetFilter(_currentInventorySlot)).ClearZero();
                     break;
             }
+            RefreshValues();
         }
 
         public void ExecuteCopyFilterSettings()
@@ -1710,17 +1464,17 @@ namespace EquipBestItem
             switch (_filterItemState)
             {
                 case FilterItemState.Armor:
-                    _clipboardFilterArmorSettings = new FilterArmorSettings(CharacterSettings.FilterArmor[CurrentSlot]);
+                    _clipboardFilterArmorSettings = new FilterArmorSettings((FilterArmorSettings) _characterSettings.GetFilter(_currentInventorySlot));
                     IsFilterArmorSettingsCopied = true;
                     InformationManager.DisplayMessage(new InformationMessage("Armor settings copied"));
                     break;
                 case FilterItemState.Weapon:
-                    _clipboardFilterWeaponSettings = new FilterWeaponSettings(CharacterSettings.FilterWeapon[CurrentSlot]);
+                    _clipboardFilterWeaponSettings = new FilterWeaponSettings((FilterWeaponSettings) _characterSettings.GetFilter(_currentInventorySlot));
                     IsFilterWeaponSettingsCopied = true;
                     InformationManager.DisplayMessage(new InformationMessage("Weapon settings copied"));
                     break;
                 case FilterItemState.Mount:
-                    _clipboardFilterMountSettings = new FilterMountSettings(CharacterSettings.FilterMount);
+                    _clipboardFilterMountSettings = new FilterMountSettings(_characterSettings.FilterMount);
                     IsFilterMountSettingsCopied = true;
                     InformationManager.DisplayMessage(new InformationMessage("Mount settings copied"));
                     break;
@@ -1732,15 +1486,15 @@ namespace EquipBestItem
             switch (_filterItemState)
             {
                 case FilterItemState.Armor:
-                    CharacterSettings.FilterArmor[CurrentSlot] = new FilterArmorSettings(_clipboardFilterArmorSettings);
+                    _characterSettings.SetFilter(_currentInventorySlot, new FilterArmorSettings(_clipboardFilterArmorSettings));
                     InformationManager.DisplayMessage(new InformationMessage("Armor settings pasted"));
                     break;
                 case FilterItemState.Weapon:
-                    CharacterSettings.FilterWeapon[CurrentSlot] = new FilterWeaponSettings(_clipboardFilterWeaponSettings);
+                    _characterSettings.SetFilter(_currentInventorySlot, new FilterWeaponSettings(_clipboardFilterWeaponSettings));
                     InformationManager.DisplayMessage(new InformationMessage("Weapon settings pasted"));
                     break;
                 case FilterItemState.Mount:
-                    CharacterSettings.FilterMount = new FilterMountSettings(_clipboardFilterMountSettings);
+                    _characterSettings.FilterMount = new FilterMountSettings(_clipboardFilterMountSettings);
                     InformationManager.DisplayMessage(new InformationMessage("Mount settings pasted"));
                     break;
             }
@@ -1749,16 +1503,15 @@ namespace EquipBestItem
 
         public void ExecuteCopyCharacterSettings()
         {
-            _clipboardCharacterSettings = new CharacterSettings(CharacterSettings);
+            _clipboardCharacterSettings = new CharacterSettings(_characterSettings);
             IsCharacterSettingsCopied = true;
             InformationManager.DisplayMessage(new InformationMessage("Character settings copied"));
         }
 
         public void ExecutePasteCharacterSettings()
         {
-            var tempName = CharacterSettings.Name;
-            CharacterSettings = new CharacterSettings(_clipboardCharacterSettings);
-            CharacterSettings.Name = tempName;
+            var tempName = _characterSettings.Name;
+            _characterSettings = new CharacterSettings(_clipboardCharacterSettings) {Name = tempName};
             _pastedCharacterSettings = true;
             InformationManager.DisplayMessage(new InformationMessage("Character settings pasted"));
             RefreshValues();
@@ -1816,12 +1569,12 @@ namespace EquipBestItem
 
         //public void ExecuteWeaponTypeSelectNextItem()
         //{
-        //    if (this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass == (WeaponClass)28)
-        //        this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass = (WeaponClass)0;
+        //    if (this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass == (WeaponClass)28)
+        //        this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass = (WeaponClass)0;
         //    else
-        //        this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass += 1;
+        //        this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass += 1;
 
-        //    this.WeaponClass = this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass.ToString();
+        //    this.WeaponClass = this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponClass.ToString();
         //}
 
         //public void ExecuteWeaponUsageSelectPreviousItem()
@@ -1837,9 +1590,9 @@ namespace EquipBestItem
 
 
         //    //if (_weaponFlagsList[_weaponFlagsCurrentIndex] == "None")
-        //    //    this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)0;
+        //    //    this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)0;
         //    //else
-        //    //    this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)Enum.Parse(typeof(WeaponFlags), _weaponFlagsList[_weaponFlagsCurrentIndex]);
+        //    //    this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)Enum.Parse(typeof(WeaponFlags), _weaponFlagsList[_weaponFlagsCurrentIndex]);
 
         //    //this.WeaponUsage = _weaponFlagsList[_weaponFlagsCurrentIndex];
         //}
@@ -1857,9 +1610,9 @@ namespace EquipBestItem
         //    //    _weaponFlagsCurrentIndex = 0;
 
         //    //if (_weaponFlagsList[_weaponFlagsCurrentIndex] == "None")
-        //    //    this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)0;
+        //    //    this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)0;
         //    //else
-        //    //    this.CharacterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)Enum.Parse(typeof(WeaponFlags), _weaponFlagsList[_weaponFlagsCurrentIndex]);
+        //    //    this._characterSettings.FilterWeapon[CurrentWeaponSlot].WeaponFlags = (WeaponFlags)Enum.Parse(typeof(WeaponFlags), _weaponFlagsList[_weaponFlagsCurrentIndex]);
 
         //    //this.WeaponUsage = _weaponFlagsList[_weaponFlagsCurrentIndex];
         //}

@@ -211,6 +211,8 @@
     <Compile Include="BestEquipmentUpgrader.cs" />
     <Compile Include="CharacterData.cs" />
     <Compile Include="Layers\MainLayer.cs" />
+    <Compile Include="Settings\IFilterSettings.cs" />
+    <Compile Include="ViewModels\FilterAdjusterVM.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="Settings\FilterArmorSettings.cs" />
