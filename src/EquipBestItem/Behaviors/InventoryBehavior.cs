@@ -42,7 +42,7 @@ namespace EquipBestItem
                     }
 
                     //Temporarily disabled clearing settings file for characters
-                    //foreach (CharacterSettings charSettings in SettingsLoader.Instance.CharacterSettings.ToList())
+                    //foreach (_characterSettings charSettings in SettingsLoader.Instance._characterSettings.ToList())
                     //{
                     //    bool flag = false;
                     //    foreach (TroopRosterElement element in EquipBestItemViewModel._inventory.TroopRoster)
@@ -55,7 +55,7 @@ namespace EquipBestItem
                     //    }
                     //    if (!flag)
                     //    {
-                    //        SettingsLoader.Instance.CharacterSettings.Remove(charSettings);
+                    //        SettingsLoader.Instance._characterSettings.Remove(charSettings);
                     //    }
                     //}
                 }

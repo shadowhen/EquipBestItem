@@ -3,7 +3,7 @@ using TaleWorlds.Core;
 
 namespace EquipBestItem
 {
-    class BestEquipmentCalculator
+    public static class BestEquipmentCalculator
     {
         /// <summary>
         /// Returns value for armor using its properties and filter settings
@@ -11,7 +11,7 @@ namespace EquipBestItem
         /// <param name="sourceItem">Armor item</param>
         /// <param name="slot">Armor equipment slot</param>
         /// <returns>calculated value for armor</returns>
-        public float CalculateArmorValue(EquipmentElement sourceItem, FilterArmorSettings filterArmor)
+        public static float CalculateArmorValue(EquipmentElement sourceItem, FilterArmorSettings filterArmor)
         {
             ArmorComponent armorComponentItem = sourceItem.Item.ArmorComponent;
 
@@ -75,7 +75,7 @@ namespace EquipBestItem
         /// <param name="sourceItem">Weapon item</param>
         /// <param name="slot">Weapon equipment slot</param>
         /// <returns>calculated value for weapon</returns>
-        public float CalculateWeaponValue(EquipmentElement sourceItem, FilterWeaponSettings filterWeapon)
+        public static float CalculateWeaponValue(EquipmentElement sourceItem, FilterWeaponSettings filterWeapon)
         {
             WeaponComponentData primaryWeaponItem = sourceItem.Item.PrimaryWeapon;
             FilterWeaponSettings weights = filterWeapon;
@@ -291,7 +291,7 @@ namespace EquipBestItem
         /// </summary>
         /// <param name="sourceItem">Horse item</param>
         /// <returns>calculated value for horse</returns>
-        public float CalculateHorseValue(EquipmentElement sourceItem, FilterMountSettings filterMount)
+        public static float CalculateHorseValue(EquipmentElement sourceItem, FilterMountSettings filterMount)
         {
             HorseComponent horseComponentItem = sourceItem.Item.HorseComponent;
 

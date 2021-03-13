@@ -36,6 +36,8 @@ namespace EquipBestItem
             }
         }
 
+        private Dictionary<FilterInventorySlot, IFilterSettings> _filterSettingDictionary;
+
         private FilterMountSettings _filterMount;
         public FilterMountSettings FilterMount
         {
@@ -50,6 +52,7 @@ namespace EquipBestItem
             set => _filterMount = value;
         }
 
+        /*
         public enum ArmorSlot
         {
             Helm = 0,
@@ -67,6 +70,7 @@ namespace EquipBestItem
             Weapon3 = 2,
             Weapon4 = 3
         }
+        */
 
         public CharacterSettings()
         {
@@ -92,6 +96,8 @@ namespace EquipBestItem
             }
 
             _filterMount = new FilterMountSettings();
+
+            CreateFilterDictionary();
         }
 
         /// <summary>
@@ -115,6 +121,38 @@ namespace EquipBestItem
             }
 
             FilterMount = new FilterMountSettings(other.FilterMount);
+            
+            CreateFilterDictionary();
+        }
+
+        public IFilterSettings GetFilter(FilterInventorySlot slot)
+        {
+            if (_filterSettingDictionary == null)
+                CreateFilterDictionary();
+            return _filterSettingDictionary[slot];
+        }
+
+        public void SetFilter(FilterInventorySlot slot, IFilterSettings filter)
+        {
+            _filterSettingDictionary[slot] = filter;
+        }
+
+        private void CreateFilterDictionary()
+        {
+            _filterSettingDictionary = new Dictionary<FilterInventorySlot, IFilterSettings>
+            {
+                {FilterInventorySlot.Weapon1, FilterWeapon[0]},
+                {FilterInventorySlot.Weapon2, FilterWeapon[1]},
+                {FilterInventorySlot.Weapon3, FilterWeapon[2]},
+                {FilterInventorySlot.Weapon4, FilterWeapon[3]},
+                {FilterInventorySlot.Helm, FilterArmor[0]},
+                {FilterInventorySlot.Cloak, FilterArmor[1]},
+                {FilterInventorySlot.Body, FilterArmor[2]},
+                {FilterInventorySlot.Gloves, FilterArmor[3]},
+                {FilterInventorySlot.Boot, FilterArmor[4]},
+                {FilterInventorySlot.HorseHarness, FilterArmor[5]},
+                {FilterInventorySlot.Horse, FilterMount}
+            };
         }
     }
 }
