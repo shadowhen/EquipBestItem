@@ -439,7 +439,7 @@ namespace EquipBestItem
 
                 _inventoryLogic.AddTransferCommand(equipCommand);
             }
-            _inventory.GetMethod("ExecuteRemoveZeroCounts");
+            _inventory.ExecuteRemoveZeroCounts();
             _inventory.GetMethod("RefreshInformationValues");
         }
 

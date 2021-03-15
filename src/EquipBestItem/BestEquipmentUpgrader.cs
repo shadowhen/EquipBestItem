@@ -200,6 +200,7 @@ namespace EquipBestItem
                 }
 
                 if (bestLeftEquipmentElement.Item != null || bestRightEquipmentElement.Item != null)
+                {
                     if (ItemIndexCalculation(bestLeftEquipmentElement, equipmentIndex) > ItemIndexCalculation(bestRightEquipmentElement, equipmentIndex))
                     {
                         TransferCommand equipCommand = TransferCommand.Transfer(
@@ -232,7 +233,8 @@ namespace EquipBestItem
                         EquipMessage(equipmentIndex);
                         _inventoryLogic.AddTransferCommand(equipCommand);
                     }
-                _inventory.GetMethod("ExecuteRemoveZeroCounts");
+                }
+                _inventory.ExecuteRemoveZeroCounts();
             }
             _inventory.GetMethod("RefreshInformationValues");
         }
