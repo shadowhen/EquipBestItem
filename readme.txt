@@ -8,6 +8,6 @@ Installation:
 5. Press play and confirm
 
 Controls:
-Left Ctrl - Allows to increment/decrement filter values by 10
-Left Shift - Allows to increment/decrement filter values by 5
-Left Alt - Hide the filter buttons in the inventory slots
+Left Ctrl - Hold to increment/decrement filter values by 10
+Left Shift - Hold to increment/decrement filter values by 5
+Left Alt - Hold to hide the filter buttons in the inventory slots
