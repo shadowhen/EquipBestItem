@@ -264,6 +264,8 @@ namespace EquipBestItem
 #endif
         }
 
+        #region ExecuteMethods
+
         public void ExecuteEquipBestHelm()
         {
             bestEquipmentUpgrader.EquipBestItem(EquipmentIndex.Head);
@@ -318,5 +320,8 @@ namespace EquipBestItem
         {
             bestEquipmentUpgrader.EquipBestItem(EquipmentIndex.Weapon3);
         }
+
+        #endregion
+
     }
 }

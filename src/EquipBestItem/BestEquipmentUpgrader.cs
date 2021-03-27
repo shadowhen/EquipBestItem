@@ -95,7 +95,7 @@ namespace EquipBestItem
         /// </summary>
         /// <param name="name">character name</param>
         /// <returns>character object</returns>
-        public CharacterObject GetCharacterByName(string name)
+        private CharacterObject GetCharacterByName(string name)
         {
             var rightMemberRoster = _inventoryLogic.RightMemberRoster.GetTroopRoster();
             if (rightMemberRoster != null)
@@ -132,7 +132,7 @@ namespace EquipBestItem
         /// <param name="slot">Type of item</param>
         /// <param name="isCivilian">Civilian Type</param>
         /// <returns></returns>
-        public EquipmentElement GetBetterItemFromSide(MBBindingList<SPItemVM> itemListVM, EquipmentElement equipmentElement, EquipmentIndex slot, bool isCivilian)
+        private EquipmentElement GetBetterItemFromSide(MBBindingList<SPItemVM> itemListVM, EquipmentElement equipmentElement, EquipmentIndex slot, bool isCivilian)
         {
             EquipmentElement bestEquipmentElement;
 
@@ -250,6 +250,9 @@ namespace EquipBestItem
             }
         }
 
+        /// <summary>
+        /// Equips the current character with the best equipment
+        /// </summary>
         public void EquipCurrentCharacter()
         {
             bool civilian = !_inventory.IsInWarSet;
@@ -258,7 +261,7 @@ namespace EquipBestItem
         }
 
         /// <summary>
-        /// Equips the character's equipment with the best equipment
+        /// Equips the characterwith the best equipment
         /// </summary>
         /// <param name="equipment">character's equipment</param>
         /// <param name="isCivilian">equipment civilian type</param>
@@ -296,7 +299,7 @@ namespace EquipBestItem
         }
 
         /// <summary>
-        /// Equips the current character with the best items
+        /// Equips the current character with the best item
         /// </summary>
         /// <param name="equipmentIndex">Equipment Index</param>
         public void EquipBestItem(EquipmentIndex equipmentIndex)
@@ -307,12 +310,12 @@ namespace EquipBestItem
         }
 
         /// <summary>
-        /// Equips the current character with the best items
+        /// Equips the current character with the best item
         /// </summary>
         /// <param name="equipmentIndex">Equipment Index</param>
         /// <param name="bestLeftEquipmentElement">Best Left Equipment Item</param>
         /// <param name="bestRightEquipmentElement">Best Right Equipment Item</param>
-        public void EquipBestItem(EquipmentIndex equipmentIndex, EquipmentElement bestLeftEquipmentElement, EquipmentElement bestRightEquipmentElement)
+        private void EquipBestItem(EquipmentIndex equipmentIndex, EquipmentElement bestLeftEquipmentElement, EquipmentElement bestRightEquipmentElement)
         {
             bool isCivilian = !_inventory.IsInWarSet;
             Equipment equipment = _inventory.IsInWarSet ? _characterData.GetBattleEquipment() : _characterData.GetCivilianEquipment();
@@ -401,7 +404,7 @@ namespace EquipBestItem
         /// <param name="sourceItem">inventory item</param>
         /// <param name="slot">equipment index slot</param>
         /// <returns>item value</returns>
-        public float ItemIndexCalculation(EquipmentElement sourceItem, EquipmentIndex slot)
+        private float ItemIndexCalculation(EquipmentElement sourceItem, EquipmentIndex slot)
         {
             // Given a item is "empty", return with big negative number
             if (sourceItem.IsEmpty)
@@ -428,12 +431,21 @@ namespace EquipBestItem
             return 0f;
         }
 
+        /// <summary>
+        /// Returns true if an item at this equipment index is available for upgrade
+        /// </summary>
+        /// <param name="index">equipment index</param>
+        /// <returns>bool</returns>
         public bool IsItemUpgradable(EquipmentIndex index)
         {
             return !_bestLeftEquipment[index].IsEmpty ||
                    !_bestRightEquipment[index].IsEmpty;
         }
 
+        /// <summary>
+        /// Returns true if any equipment upgrades are available
+        /// </summary>
+        /// <returns>bool</returns>
         public bool IsUpgradeAvailable()
         {
             // Loops through the equipment slots to determine if the character should be able to upgrade their
