@@ -6,13 +6,15 @@ namespace EquipBestItem.ViewModels
 {
     public class FilterAdjusterVM : ViewModel
     {
+        public static float IncrementScale = 1f;
+        
         private bool _hidden;
         private string _text;
         public Action<float> ExecuteAction;
 
         private void ExecutePrev()
         {
-            ExecuteAction?.Invoke(-1f);
+            ExecuteAction?.Invoke(-1f * IncrementScale);
 #if DEBUG
             InformationManager.DisplayMessage(new InformationMessage("ExecutePrev()"));
 #endif
@@ -20,7 +22,7 @@ namespace EquipBestItem.ViewModels
 
         private void ExecuteNext()
         {
-            ExecuteAction?.Invoke(1f);
+            ExecuteAction?.Invoke(1f * IncrementScale);
 #if DEBUG
             InformationManager.DisplayMessage(new InformationMessage("ExecuteNext()"));
 #endif

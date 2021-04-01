@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Engine.GauntletUI;
+﻿using EquipBestItem.ViewModels;
+using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 
 namespace EquipBestItem.Layers
@@ -54,8 +55,12 @@ namespace EquipBestItem.Layers
             }
 
             // Increments the value depending the following keys
-            _viewModel.IncrementBy5 = TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftShift);
-            _viewModel.IncrementBy10 = TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftControl);
+            float incrementScale = 1f;
+            if (TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftShift))
+                incrementScale = 5f;
+            if (TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftControl))
+                incrementScale = 10f;
+            FilterAdjusterVM.IncrementScale = incrementScale;
         }
     }
 }
