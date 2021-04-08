@@ -293,7 +293,42 @@ namespace EquipBestItem
                     EquipMessage(equipmentIndex);
                 }
 
-                _inventory.GetMethod("ExecuteRemoveZeroCounts");
+                if (bestLeftEquipmentElement.Item != null || bestRightEquipmentElement.Item != null)
+                {
+                    if (ItemIndexCalculation(bestLeftEquipmentElement, equipmentIndex) > ItemIndexCalculation(bestRightEquipmentElement, equipmentIndex))
+                    {
+                        TransferCommand equipCommand = TransferCommand.Transfer(
+                            1,
+                            InventoryLogic.InventorySide.OtherInventory,
+                            InventoryLogic.InventorySide.Equipment,
+                            new ItemRosterElement(bestLeftEquipmentElement, 1),
+                            EquipmentIndex.None,
+                            equipmentIndex,
+                            _characterData.GetCharacterObject(),
+                            isCivilian
+                        );
+
+                        EquipMessage(equipmentIndex);
+                        _inventoryLogic.AddTransferCommand(equipCommand);
+                    }
+                    else
+                    {
+                        TransferCommand equipCommand = TransferCommand.Transfer(
+                            1,
+                            InventoryLogic.InventorySide.PlayerInventory,
+                            InventoryLogic.InventorySide.Equipment,
+                            new ItemRosterElement(bestRightEquipmentElement, 1),
+                            EquipmentIndex.None,
+                            equipmentIndex,
+                            _characterData.GetCharacterObject(),
+                            isCivilian
+                        );
+
+                        EquipMessage(equipmentIndex);
+                        _inventoryLogic.AddTransferCommand(equipCommand);
+                    }
+                }
+                _inventory.ExecuteRemoveZeroCounts();
             }
             _inventory.GetMethod("RefreshInformationValues");
         }
