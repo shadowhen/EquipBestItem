@@ -340,7 +340,7 @@ namespace EquipBestItem
         public void EquipBestItem(EquipmentIndex equipmentIndex)
         {
             EquipBestItem(equipmentIndex, _bestLeftEquipment[equipmentIndex], _bestRightEquipment[equipmentIndex]);
-            _inventory.GetMethod("ExecuteRemoveZeroCounts");
+            _inventory.ExecuteRemoveZeroCounts();
             _inventory.GetMethod("RefreshInformationValues");
         }
 
