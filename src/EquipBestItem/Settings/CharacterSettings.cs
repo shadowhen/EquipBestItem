@@ -96,8 +96,6 @@ namespace EquipBestItem
             }
 
             _filterMount = new FilterMountSettings();
-
-            CreateFilterDictionary();
         }
 
         /// <summary>
@@ -121,38 +119,92 @@ namespace EquipBestItem
             }
 
             FilterMount = new FilterMountSettings(other.FilterMount);
-            
-            CreateFilterDictionary();
         }
 
         public IFilterSettings GetFilter(FilterInventorySlot slot)
         {
-            if (_filterSettingDictionary == null)
-                CreateFilterDictionary();
-            return _filterSettingDictionary[slot];
+            IFilterSettings temp = null;
+            switch (slot)
+            {
+                case FilterInventorySlot.Helm:
+                    temp = FilterArmor[0];
+                    break;
+                case FilterInventorySlot.Cloak:
+                    temp = FilterArmor[1];
+                    break;
+                case FilterInventorySlot.Body:
+                    temp = FilterArmor[2];
+                    break;
+                case FilterInventorySlot.Gloves:
+                    temp = FilterArmor[3];
+                    break;
+                case FilterInventorySlot.Boot:
+                    temp = FilterArmor[4];
+                    break;
+                case FilterInventorySlot.HorseHarness:
+                    temp = FilterArmor[5];
+                    break;
+                case FilterInventorySlot.Weapon1:
+                    temp = FilterWeapon[0];
+                    break;
+                case FilterInventorySlot.Weapon2:
+                    temp = FilterWeapon[1];
+                    break;
+                case FilterInventorySlot.Weapon3:
+                    temp = FilterWeapon[2];
+                    break;
+                case FilterInventorySlot.Weapon4:
+                    temp = FilterWeapon[3];
+                    break;
+                case FilterInventorySlot.Horse:
+                    temp = FilterMount;
+                    break;
+            }
+
+            return temp;
+            //if (_filterSettingDictionary == null)
+            //    CreateFilterDictionary();
+            //return _filterSettingDictionary[slot];
         }
 
         public void SetFilter(FilterInventorySlot slot, IFilterSettings filter)
         {
-            _filterSettingDictionary[slot] = filter;
-        }
-
-        private void CreateFilterDictionary()
-        {
-            _filterSettingDictionary = new Dictionary<FilterInventorySlot, IFilterSettings>
+            switch (slot)
             {
-                {FilterInventorySlot.Weapon1, FilterWeapon[0]},
-                {FilterInventorySlot.Weapon2, FilterWeapon[1]},
-                {FilterInventorySlot.Weapon3, FilterWeapon[2]},
-                {FilterInventorySlot.Weapon4, FilterWeapon[3]},
-                {FilterInventorySlot.Helm, FilterArmor[0]},
-                {FilterInventorySlot.Cloak, FilterArmor[1]},
-                {FilterInventorySlot.Body, FilterArmor[2]},
-                {FilterInventorySlot.Gloves, FilterArmor[3]},
-                {FilterInventorySlot.Boot, FilterArmor[4]},
-                {FilterInventorySlot.HorseHarness, FilterArmor[5]},
-                {FilterInventorySlot.Horse, FilterMount}
-            };
+                case FilterInventorySlot.Helm:
+                    FilterArmor[0] = (FilterArmorSettings) filter;
+                    break;
+                case FilterInventorySlot.Cloak:
+                    FilterArmor[1] = (FilterArmorSettings) filter;
+                    break;
+                case FilterInventorySlot.Body:
+                    FilterArmor[2] = (FilterArmorSettings) filter;
+                    break;
+                case FilterInventorySlot.Gloves:
+                    FilterArmor[3] = (FilterArmorSettings) filter;
+                    break;
+                case FilterInventorySlot.Boot:
+                    FilterArmor[4] = (FilterArmorSettings) filter;
+                    break;
+                case FilterInventorySlot.HorseHarness:
+                    FilterArmor[5] = (FilterArmorSettings) filter;
+                    break;
+                case FilterInventorySlot.Weapon1:
+                    FilterWeapon[0] = (FilterWeaponSettings) filter;
+                    break;
+                case FilterInventorySlot.Weapon2:
+                    FilterWeapon[1] = (FilterWeaponSettings) filter;
+                    break;
+                case FilterInventorySlot.Weapon3:
+                    FilterWeapon[2] = (FilterWeaponSettings) filter;
+                    break;
+                case FilterInventorySlot.Weapon4:
+                    FilterWeapon[3] = (FilterWeaponSettings) filter;
+                    break;
+                case FilterInventorySlot.Horse:
+                    FilterMount = (FilterMountSettings) filter;
+                    break;
+            }
         }
     }
 }

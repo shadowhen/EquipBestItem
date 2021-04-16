@@ -7,13 +7,16 @@ namespace EquipBestItem.Layers
     internal class FilterLayer : GauntletLayer
     {
         private FilterViewModel _viewModel;
-
+        private DummyVM _dummyViewModel;
 
         public FilterLayer(int localOrder, string categoryId = "GauntletLayer") : base(localOrder, categoryId)
         {
             _viewModel = new FilterViewModel();
+            _dummyViewModel = new DummyVM();
 
-            this.LoadMovie("FiltersLayer", this._viewModel);
+            //this.LoadMovie("FiltersLayer", this._viewModel);
+            LoadMovie("FilterTuple", _dummyViewModel);
+            _dummyViewModel.RefreshValues();
         }
 
         private bool _altPressed;
@@ -24,43 +27,15 @@ namespace EquipBestItem.Layers
             base.OnLateUpdate(dt);
 
             // Refresh the filter view model every time when the mouse left button is pressed
-            if (TaleWorlds.InputSystem.Input.IsKeyReleased(TaleWorlds.InputSystem.InputKey.LeftMouseButton) && !_leftMouseButtonWasReleased)
+            if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.LeftMouseButton) && !_leftMouseButtonWasReleased)
             {
-                _viewModel.RefreshValues();
+                _dummyViewModel.RefreshValues();
                 _leftMouseButtonWasReleased = true;
             }
             if (TaleWorlds.InputSystem.Input.IsKeyPressed(InputKey.LeftMouseButton) && _leftMouseButtonWasReleased)
             {
                 _leftMouseButtonWasReleased = false;
             }
-
-            // Hides the filter buttons in the inventory slots when pressing down a certain key
-            if (TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftAlt) && !_altPressed)
-            {
-                _altPressed = true;
-                if (this._viewModel.IsHiddenFilterLayer && (!this._viewModel.IsArmorSlotHidden || !this._viewModel.IsMountSlotHidden || !this._viewModel.IsWeaponSlotHidden))
-                    this._viewModel.IsArmorSlotHidden = this._viewModel.IsMountSlotHidden = this._viewModel.IsWeaponSlotHidden = true;
-                if (!this._viewModel.IsHiddenFilterLayer)
-                {
-                    this._viewModel.IsHiddenFilterLayer = true;
-                }
-
-                this._viewModel.IsLayerHidden = true;
-            }
-            if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.LeftAlt) && _altPressed)
-            {
-                _altPressed = false;
-                if (this._viewModel.IsHiddenFilterLayer && (!this._viewModel.IsArmorSlotHidden || !this._viewModel.IsMountSlotHidden || !this._viewModel.IsWeaponSlotHidden)) this._viewModel.IsHiddenFilterLayer = false;
-                this._viewModel.IsLayerHidden = false;
-            }
-
-            // Increments the value depending the following keys
-            float incrementScale = 1f;
-            if (TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftShift))
-                incrementScale = 5f;
-            if (TaleWorlds.InputSystem.Input.IsKeyDown(InputKey.LeftControl))
-                incrementScale = 10f;
-            FilterAdjusterVM.IncrementScale = incrementScale;
         }
     }
 }

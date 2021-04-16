@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EquipBestItem.ViewModels;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
