@@ -11,12 +11,12 @@ namespace EquipBestItem.ViewModels
         private FilterWeaponSettings _weaponSettings;
         private CharacterSettings _characterSettings;
 
-        private DummyVM _filterVM;
+        private FilterViewModel _filterVM;
 
         private bool _itemCopied;
         private bool _characterCopied;
 
-        public FilterCopyPasteVM(DummyVM filterVM)
+        public FilterCopyPasteVM(FilterViewModel filterVM)
         {
             _filterVM = filterVM ?? throw new NullReferenceException();
             _filterVM.UpdateActions.Add(Update);

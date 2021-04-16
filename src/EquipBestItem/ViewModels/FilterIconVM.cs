@@ -4,16 +4,16 @@ using TaleWorlds.Library;
 
 namespace EquipBestItem.ViewModels
 {
-    public class DummyIconVM : ViewModel
+    public class FilterIconVM : ViewModel
     {
         public Action<FilterInventorySlot> ExecuteAction { get; set; }
 
-        public DummyIconVM()
+        public FilterIconVM()
         {
             ExecuteAction = null;
         }
 
-        public DummyIconVM(Action<FilterInventorySlot> executeAction)
+        public FilterIconVM(Action<FilterInventorySlot> executeAction)
         {
             ExecuteAction = executeAction;
         }

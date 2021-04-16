@@ -6,17 +6,14 @@ namespace EquipBestItem.Layers
 {
     internal class FilterLayer : GauntletLayer
     {
-        private FilterViewModel _viewModel;
-        private DummyVM _dummyViewModel;
+        private FilterViewModel _filterViewModel;
 
         public FilterLayer(int localOrder, string categoryId = "GauntletLayer") : base(localOrder, categoryId)
         {
-            _viewModel = new FilterViewModel();
-            _dummyViewModel = new DummyVM();
+            _filterViewModel = new FilterViewModel();
 
-            //this.LoadMovie("FiltersLayer", this._viewModel);
-            LoadMovie("FilterTuple", _dummyViewModel);
-            _dummyViewModel.RefreshValues();
+            LoadMovie("FiltersLayer", _filterViewModel);
+            _filterViewModel.RefreshValues();
         }
 
         private bool _altPressed;
@@ -29,7 +26,7 @@ namespace EquipBestItem.Layers
             // Refresh the filter view model every time when the mouse left button is pressed
             if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.LeftMouseButton) && !_leftMouseButtonWasReleased)
             {
-                _dummyViewModel.RefreshValues();
+                _filterViewModel.RefreshValues();
                 _leftMouseButtonWasReleased = true;
             }
             if (TaleWorlds.InputSystem.Input.IsKeyPressed(InputKey.LeftMouseButton) && _leftMouseButtonWasReleased)

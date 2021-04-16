@@ -1,23 +1,35 @@
 <Prefab>
   <Constants>
-    <!-- Constants for filter buttons on inventory slots -->
     <Constant Name="LeftInventoryButtonMarignLeft" Value="680"/>
     <Constant Name="RightInventoryButtonMarignLeft" Value="580"/>
     <Constant Name="LeftInventoryLockButtonMarignLeft" Value="687"/>
     <Constant Name="RightInventoryLockButtonMarignLeft" Value="587"/>
-    
-    <!-- Constants for copy and paste -->
-    <Constant Name="BottomLeftFilterButtonWidth" Value="210"/>
-    <Constant Name="CopyPasteButtonWidth" Value="240"/>
-    <Constant Name="CopyPasteButtonHeight" Value="48"/>
+
+    <Constant Name="PanelWidth" Value="400"/>
+    <Constant Name="PanelHeight" Value="800"/>
+    <Constant Name="FrameExtendSize" Value="20"/>
+
+    <Constant Name="TopPanelHeight" Value="350"/>
+    <Constant Name="BottomPanelHeight" Value="230"/>
+    <Constant Name="BottomLeftPanelHeight" Value="180"/>
+
+    <Constant Name="SubPanelMarginLeft" Value="15"/>
+    <Constant Name="SubPanelMarginRight" Value="5"/>
+
+    <Constant Name="IncrementButtonSize" Value="50"/>
+    <Constant Name="IncrementButtonTop" Value="25"/>
+
+    <Constant Name="BottomLeftSidePanelWidth" Value="160"/>
+    <Constant Name="BottomRightSidePanelWidth" Value="210"/>
+    <Constant Name="ButtonFontSize" Value="20"/>
+    <Constant Name="ButtonBiggerFontSize" Value="24"/>
+
   </Constants>
-  <VisualDefinitions>
-  </VisualDefinitions>
   <Window>
-    <Widget DoNotAcceptEvents="true" IsHidden="@IsLayerHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+    <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
       <Children>
         <!-- Filter Buttons on the inventory slots -->
-        <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+        <Widget DataSource="{IconVM}" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
           <Children>
             <ButtonWidget IsHidden="@IsHelmFilterLocked" Id="Helm" IsSelected="@IsHelmFilterSelected" Command.Click="ExecuteShowHideHelmFilter" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="26" HorizontalAlignment="Left" MarginLeft="!LeftInventoryButtonMarignLeft" MarginTop="241" Brush="Inventory.EquipBetterItem.Filter" />
             <ButtonWidget IsEnabled="@IsHelmFilterLocked" Id="HelmLocked" Command.Click="ExecuteShowHideHelmFilter" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="21" SuggestedHeight="20" HorizontalAlignment="Left" MarginLeft="!LeftInventoryLockButtonMarignLeft" MarginTop="246" Brush="Inventory.EquipBetterItem.FilterLock" />
@@ -51,917 +63,142 @@
 
             <ButtonWidget IsHidden="@IsWeapon4FilterLocked" Id="Weapon4" IsSelected="@IsWeapon4FilterSelected" Command.Click="ExecuteShowHideWeapon4Filter" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="26" HorizontalAlignment="Right" MarginRight="!RightInventoryButtonMarignLeft" MarginTop="587" Brush="Inventory.EquipBetterItem.Filter" />
             <ButtonWidget IsEnabled="@IsWeapon4FilterLocked" Id="Weapon4Locked" Command.Click="ExecuteShowHideWeapon4Filter" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="21" SuggestedHeight="20" HorizontalAlignment="Right" MarginRight="!RightInventoryLockButtonMarignLeft" MarginTop="593" Brush="Inventory.EquipBetterItem.FilterLock" />
-
           </Children>
         </Widget>
-        
-        <!-- Filter Settings -->
-        <Widget IsHidden="@IsHiddenFilterLayer" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="437" SuggestedHeight="830" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="50">
+
+        <!-- Filter Settings Panel -->
+        <Widget IsHidden="@SettingsHidden" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!PanelWidth" SuggestedHeight="!PanelHeight" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="Frame1_canvas">
           <Children>
-
-            <Widget IsHidden="@IsHiddenFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="Frame1_canvas">
+            <!-- Panel Frame -->
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" 
+              ExtendLeft="!FrameExtendSize" ExtendRight="!FrameExtendSize" ExtendTop="!FrameExtendSize" ExtendBottom="!FrameExtendSize" Sprite="Frame1_frame">
+            </Widget>
+          
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="592" SuggestedHeight="161" HorizontalAlignment="Center" VerticalAlignment="Top" PositionYOffset="-90" Sprite="StdAssets\tabbar_popup" VerticalFlip="true" DoNotAcceptEvents="true" >
               <Children>
-                <Widget IsHidden="@IsHiddenFilterLayer" ExtendTop="27" ExtendLeft="26" ExtendRight="27" ExtendBottom="29" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="Frame1_frame"/>
+                <!-- Title Text -->
+                <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="85" HorizontalAlignment="Center" VerticalAlignment="Top"  Brush="Recruitment.Popup.Title.Text" Brush.FontSize="40" Text="@Title" DoNotAcceptEvents="true"/>
+              </Children>
+            </Widget>
+            
+
+            <!-- Top Panel -->
+            <Widget WidthSizePolicy="StretchToParent" SuggestedHeight="!TopPanelHeight" MarginTop="60" MarginLeft="!SubPanelMarginLeft" MarginRight="!SubPanelMarginRight" VerticalAlignment="Top">
+              <Children>
+
+                <!-- Scrollbar -->
+                <ScrollbarWidget Id="SavedGamesScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="24" HorizontalAlignment="Right" VerticalAlignment="Center" Sprite="StdAssets\ScrollBar01TrackBG@2x" MarginRight="5" AlignmentAxis="Vertical" Handle="SavedGamesScrollbarHandle" MaxValue="100" MinValue="0">
+                  <Children>
+                    <Widget Id="SavedGamesScrollbarHandle" WidthSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Top" Sprite="ScrollBar01Track@2x_9"/>
+                  </Children>
+                </ScrollbarWidget>
+
+                <!-- Scroll Panel -->
+                <ScrollablePanel WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="350" HorizontalAlignment="Left" AutoHideScrollBars="true" ClipRect="MyClipRect" InnerPanel="MyClipRect\OptionList" VerticalScrollbar="..\SavedGamesScrollbar" >
+                  <Children>
+                    <Widget Id="MyClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" ClipContents="true">
+                      <Children>
+                        <!--  List of options -->
+                        <ListPanel Id="OptionList" DataSource="{List}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Top" LayoutImp.LayoutMethod="VerticalBottomToTop" DoNotAcceptEvents="true">
+                          <ItemTemplate>
+                            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" DoNotAcceptEvents="true">
+                              <Children>
+                                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="220" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                  <Children>
+                                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" Brush="Inventory.FilterTitleText" Text="@Title" />
+                                  </Children>
+                                </Widget>
+
+                                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="110" HorizontalAlignment="Right">
+                                  <Children>
+                                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
+                                    <ButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!IncrementButtonSize" SuggestedHeight="!IncrementButtonSize" HorizontalAlignment="Left" Brush="SPOptions.Dropdown.Left.Button" Command.Click="ExecutePrev"/>
+                                    <ButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!IncrementButtonSize" SuggestedHeight="!IncrementButtonSize" HorizontalAlignment="Right" Brush="SPOptions.Dropdown.Right.Button" Command.Click="ExecuteNext"/>
+                                  </Children>
+                                </Widget>
+                              </Children>
+                            </Widget>
+                          </ItemTemplate>
+                        </ListPanel>
+                      </Children>
+                    </Widget>
+                  </Children>
+                </ScrollablePanel>
               </Children>
             </Widget>
 
-            <!--Top Panel Name Text-->
-            <Widget IsHidden="@IsHiddenFilterLayer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="592" SuggestedHeight="161" HorizontalAlignment="Center" PositionYOffset="-141" Sprite="StdAssets\tabbar_popup" VerticalFlip="true" IsDisabled="true">
+            <!-- Bottom Buttons Panel -->
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" MarginBottom="30" MarginLeft="10" MarginRight="10" SuggestedHeight="!BottomPanelHeight" HorizontalAlignment="Center" VerticalAlignment="Bottom">
               <Children>
-                <RichTextWidget IsHidden="@IsWeaponLayer" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="25" VerticalAlignment="Center" Brush="Recruitment.Popup.Title.Text" Brush.FontSize="40" IsDisabled="true" Text="@Title" />
-              </Children>
-            </Widget>
-
-            <!--            WEAPON SECTION                 -->
-
-            <!-- Swing Damage -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="0">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Swing Damage" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteSwingDamagePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@SwingDamage" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteSwingDamageNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Swing Speed -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="60">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-10" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Swing Speed" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteSwingSpeedPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@SwingSpeed" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteSwingSpeedNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Thrust/Missile Damage -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="120">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="160" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-3" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Thrust/Missile Damage" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteThrustDamagePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@ThrustDamage" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteThrustDamageNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Thrust Speed -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="180">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-3" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Thrust Speed" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteThrustSpeedPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@ThrustSpeed" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteThrustSpeedNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Weapon Length -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="240">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="120" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-10" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Weapon Length" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteWeaponLengthPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@WeaponLength" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteWeaponLengthNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Handling -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="300">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-28" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Handling" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteHandlingPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Handling" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteHandlingNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Weight -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="360">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-38" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Weight" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteWeaponWeightPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@WeaponWeight" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteWeaponWeightNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Accuracy -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="420">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-23" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Accuracy" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteAccuracyPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Accuracy" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteAccuracyNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Missile Speed -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="480">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="7" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Missile Speed" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteMissileSpeedPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@MissileSpeed" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteMissileSpeedNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Body Armor -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="540">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-5" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Body Armor" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteWeaponBodyArmorPrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@WeaponBodyArmor" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteWeaponBodyArmorNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- HP / Stack Amount -->
-            <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="600">
-              <Children>
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="170" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-29" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="HP / Stack amount" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteMaxDataValuePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@IsWeaponSlotHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@MaxDataValue" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteMaxDataValueNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!--       ARMOR SECTION           -->
-
-            <!-- Head Armor -->
-            <Widget DataSource="{ArmorHelmAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="0">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-35" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Head Armor" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Body Armor -->
-            <Widget DataSource="{ArmorBodyAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="60">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-35" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Body Armor" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Leg Armor -->
-            <Widget DataSource="{ArmorBootAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="120">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="160" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-104" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Leg Armor" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Arm Armor -->
-            <Widget DataSource="{ArmorGlovesAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="180">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-38" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Arm Armor" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Maneuver Bonus -->
-            <Widget DataSource="{ArmorManeuverAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="240">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="120" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-20" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Maneuver Bonus" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Speed Bonus -->
-            <Widget DataSource="{ArmorSpeedAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="300">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-20" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Speed Bonus" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Charge Bonus -->
-            <Widget DataSource="{ArmorChargeAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="360">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-15" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Charge Bonus" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Armor Weight -->
-            <Widget DataSource="{ArmorWeightAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="420">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-13" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Armor Weight" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-
-            <!--            MOUNT SECTION                 -->
-
-            <!-- Charge Damage -->
-            <Widget DataSource="{MountChargeDamageAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="0">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Charge Damage" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Hit Points -->
-            <Widget DataSource="{MountHitPointsAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="60">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-35" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Hit Points" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Maneuver -->
-            <Widget DataSource="{MountManeuverAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="120">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="160" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-93" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Maneuver" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
-                  </Children>
-                </Widget>
-
-              </Children>
-            </Widget>
-
-            <!-- Speed -->
-            <Widget DataSource="{MountSpeedAdjuster}" IsHidden="@Hidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedWidth="400" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="180">
-              <Children>
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" MarginLeft="-55" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="Speed" />
-                  </Children>
-                </Widget>
-
-                <!--Previous Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="150" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecutePrev" Brush="SPOptions.Dropdown.Left.Button"/>
-                  </Children>
-                </Widget>
-
-                <!--Type Selection-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="60" DoNotAcceptEvents="true">
-                  <Children>
-                    <RichTextWidget IsHidden="@Hidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginRight="50" VerticalAlignment="Center" Brush="SPOptions.Dropdown.Item.Text" Text="@Text" />
-                  </Children>
-                </Widget>
-
-
-                <!--Next Button-->
-                <Widget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="43" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="80" DoNotAcceptEvents="true">
-                  <Children>
-                    <ButtonWidget IsHidden="@Hidden" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" VerticalAlignment="Center" HorizontalAlignment="Center" Command.Click="ExecuteNext" Brush="SPOptions.Dropdown.Right.Button"/>
+                <!-- Left Panel -->
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftSidePanelWidth" SuggestedHeight="!BottomLeftPanelHeight" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                  <Children>
+                    <!-- Close Button-->
+                    <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Brush="Popup.Cancel.Button.NineGrid" Command.Click="ExecuteHideSettings">
+                      <Children>
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonBiggerFontSize" Text="Close" DoNotAcceptEvents="true"/>
+                      </Children>
+                    </ButtonWidget>
+
+                    <!-- Lock Button -->
+                    <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Center" Brush="Popup.Done.Button.NineGrid" Command.Click="ExecuteLockValues">
+                      <Children>
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonBiggerFontSize" Text="Lock" DoNotAcceptEvents="true"/>
+                      </Children>
+                    </ButtonWidget>
+
+                    <!-- Default Button -->
+                    <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Top" Brush="Popup.Done.Button.NineGrid" Command.Click="ExecuteDefaultValues">
+                      <Children>
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonBiggerFontSize" Text="Default" DoNotAcceptEvents="true"/>
+                      </Children>
+                    </ButtonWidget>
+
+                  </Children>
+                </Widget>
+                <!-- Right Panel -->
+                <Widget DataSource="{CopyPasteVM}" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!BottomRightSidePanelWidth" HorizontalAlignment="Right">
+                  <Children>
+                    <!-- Top -->
+                    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="120" VerticalAlignment="Top">
+                      <Children>
+                        <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Right" VerticalAlignment="Top" Brush="Popup.Done.Button.NineGrid" Command.Click="CopyFilter">
+                          <Children>
+                            <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonFontSize" Text="Copy Filter" DoNotAcceptEvents="true"/>
+                          </Children>
+                        </ButtonWidget>
+
+                        <ButtonWidget IsEnabled="@ItemCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Right" VerticalAlignment="Bottom" Brush="Popup.Cancel.Button.NineGrid" Command.Click="PasteFilter">
+                          <Children>
+                            <TextWidget IsEnabled="@ItemCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonFontSize" Text="Paste Filter" DoNotAcceptEvents="true"/>
+                          </Children>
+                        </ButtonWidget>
+                      </Children>
+                    </Widget>
+
+                    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="120" VerticalAlignment="Bottom">
+                      <Children>
+                        <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Right" VerticalAlignment="Top" Brush="Popup.Done.Button.NineGrid" Command.Click="CopyCharacter">
+                          <Children>
+                            <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonFontSize" Text="Copy Character" DoNotAcceptEvents="true"/>
+                          </Children>
+                        </ButtonWidget>
+
+                        <ButtonWidget IsEnabled="@CharacterCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="64" HorizontalAlignment="Right" VerticalAlignment="Bottom" Brush="Popup.Cancel.Button.NineGrid" Command.Click="PasteCharacter">
+                          <Children>
+                            <TextWidget IsEnabled="@CharacterCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Brush.FontSize="!ButtonFontSize" Text="Paste Character" DoNotAcceptEvents="true"/>
+                          </Children>
+                        </ButtonWidget>
+                      </Children>
+                    </Widget>
                   </Children>
                 </Widget>
-
               </Children>
             </Widget>
 
           </Children>
         </Widget>
-        
-        <!-- Filter Copy/Paste -->
-        <Widget IsHidden="@IsHiddenFilterLayer" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="437" SuggestedHeight="830" VerticalAlignment="Center" HorizontalAlignment="Center" MarginTop="50">
-          <Children>
-            <!--LOCK Weapon Button-->
-            <!-- Armor -->
-            <ButtonWidget IsHidden="@IsArmorSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteItemLock" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
-              </Children>
-            </ButtonWidget>
-            
-            <!-- Weapon -->
-            <ButtonWidget IsHidden="@IsWeaponSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteItemLock" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
-              </Children>
-            </ButtonWidget>
-            
-            <!-- Mount -->
-            <ButtonWidget IsHidden="@IsMountSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="100" Brush="Popup.Button.Base" Command.Click="ExecuteItemLock" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsMountSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="LOCK" />
-              </Children>
-            </ButtonWidget>
-      
-            <!--Clear Mount Button-->
-            <!-- Armor -->
-            <ButtonWidget IsHidden="@IsArmorSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteItemClear" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsArmorSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
-              </Children>
-            </ButtonWidget>
-            
-            <!-- Weapon -->
-            <ButtonWidget IsHidden="@IsWeaponSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteItemClear" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsWeaponSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
-              </Children>
-            </ButtonWidget>
-            
-            <!-- Mount -->
-            <ButtonWidget IsHidden="@IsMountSlotHidden" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="50" Brush="Popup.Button.Base" Command.Click="ExecuteItemClear" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsMountSlotHidden" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="DEFAULT" />
-              </Children>
-            </ButtonWidget>
 
-            <!-- Close button -->
-            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!BottomLeftFilterButtonWidth" SuggestedHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="0" Brush="Popup.Done.Button.NineGrid" Command.Click="ExecuteWeaponClose" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Popup.Button.Text" Text="CLOSE" />
-              </Children>
-            </ButtonWidget>
-      
-            <!-- Copy filter button -->
-            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="110" Brush="Popup.Button.Base" Command.Click="ExecuteCopyFilterSettings" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Copy Filter" />
-              </Children>
-            </ButtonWidget>
-      
-            <!-- Paste filter button section -->
-            <!-- Paste armor filter button -->
-            <ButtonWidget IsHidden="@IsArmorSlotHidden" IsEnabled="@IsFilterArmorSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="75" Brush="Popup.Button.Base" Command.Click="ExecutePasteFilterSettings" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsArmorSlotHidden" IsEnabled="@IsFilterArmorSettingsCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Filter" />
-              </Children>
-            </ButtonWidget>
-      
-            <!-- Paste weapon filter button -->
-            <ButtonWidget IsHidden="@IsWeaponSlotHidden" IsEnabled="@IsFilterWeaponSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="75" Brush="Popup.Button.Base" Command.Click="ExecutePasteFilterSettings" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsWeaponSlotHidden" IsEnabled="@IsFilterWeaponSettingsCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Filter" />
-              </Children>
-            </ButtonWidget>
-      
-            <!-- Paste mount filter button -->
-            <ButtonWidget IsHidden="@IsMountSlotHidden" IsEnabled="@IsFilterMountSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="75" Brush="Popup.Button.Base" Command.Click="ExecutePasteFilterSettings" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsMountSlotHidden" IsEnabled="@IsFilterMountSettingsCopied" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Filter" />
-              </Children>
-            </ButtonWidget>
-      
-            <!-- Copy character settings button -->
-            <ButtonWidget IsHidden="@IsFilterLayer" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="40" Brush="Popup.Button.Base" Command.Click="ExecuteCopyCharacterSettings" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Copy Character" />
-              </Children>
-            </ButtonWidget>
-      
-            <!-- Paste character settings button -->
-            <ButtonWidget IsHidden="@IsFilterLayer" IsEnabled="@IsCharacterSettingsCopied" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CopyPasteButtonWidth" SuggestedHeight="!CopyPasteButtonHeight" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="5" Brush="Popup.Button.Base" Command.Click="ExecutePasteCharacterSettings" UpdateChildrenStates="true">
-              <Children>
-                <TextWidget IsHidden="@IsFilterLayer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Inventory.CopyPasteText" Text="Paste Character" />
-              </Children>
-            </ButtonWidget>
-          </Children>
-        </Widget>
       </Children>
     </Widget>
   </Window>
