@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Helpers;
 
 using TaleWorlds.CampaignSystem;
@@ -64,8 +65,13 @@ namespace EquipBestItem
                 if (slot < EquipmentIndex.NonWeaponItemBeginSlot &&
                     item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null)
                 {
-                    if (equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass &&
-                        GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage)
+                    bool sameWeaponClass = equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass;
+                    bool sameItemUsage = GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage;
+                    
+                    bool couchWeapon = IsCouchWeapon(equipmentElement);
+                    bool couchUsage = !couchWeapon || IsCouchWeapon(item.ItemRosterElement.EquipmentElement);
+
+                    if (sameWeaponClass && sameItemUsage && couchUsage)
                     {
                         bestEquipmentElement = GetBestEquipmentElement(slot, item.ItemRosterElement.EquipmentElement, equipmentElement, bestEquipmentElement);
                     }
@@ -124,6 +130,18 @@ namespace EquipBestItem
         private static bool IsCamelHarness(SPItemVM item)
         {
             return item != null && item.StringId.StartsWith("camel_sadd");
+        }
+
+        private static bool IsCouchWeapon(EquipmentElement weapon)
+        {
+            foreach (var temp in weapon.Item.Weapons)
+            {
+                if (temp.ItemUsage.Contains("couch"))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
