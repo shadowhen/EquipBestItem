@@ -134,12 +134,18 @@ namespace EquipBestItem
 
         private static bool IsCouchWeapon(EquipmentElement weapon)
         {
+            if (weapon.IsEmpty)
+                return false;
+            if (weapon.Item.Weapons == null || weapon.Item.Weapons.Count == 0)
+                return false;
+
             foreach (var temp in weapon.Item.Weapons)
             {
+                if (temp.ItemUsage == null)
+                    continue;
+
                 if (temp.ItemUsage.Contains("couch"))
-                {
                     return true;
-                }
             }
             return false;
         }
