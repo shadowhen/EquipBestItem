@@ -244,6 +244,23 @@ namespace EquipBestItem
                     }
 #endif
                     break;
+
+                case WeaponClass.Arrow:
+                case WeaponClass.Bolt:
+                    // Weight, Accuracy, Missile (Thrust) Damage, Stack Amount (MaxDataPoints)
+                    sum = Math.Abs(filterWeapon.WeaponWeight) +
+                          Math.Abs(filterWeapon.Accuracy) +
+                          Math.Abs(filterWeapon.ThrustDamage) +
+                          Math.Abs(filterWeapon.MaxDataValue);
+                    value = weightWeaponWeight +
+                            weightAccuracy +
+                            weightThrustDamage +
+                            weightMaxDataValue;
+#if DEBUG
+                    InformationManager.DisplayMessage(new InformationMessage("Arrows/Bolts"));
+#endif
+                    break;
+
                 default:
                     sum =
                         Math.Abs(filterWeapon.Accuracy) +
