@@ -29,7 +29,7 @@
     <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
       <Children>
         <!-- Filter Buttons on the inventory slots -->
-        <Widget DataSource="{IconVM}" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+        <Widget DataSource="{IconVM}" IsHidden="@IconsHidden" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
           <Children>
             <ButtonWidget IsHidden="@IsHelmFilterLocked" Id="Helm" IsSelected="@IsHelmFilterSelected" Command.Click="ExecuteShowHideHelmFilter" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="26" HorizontalAlignment="Left" MarginLeft="!LeftInventoryButtonMarignLeft" MarginTop="241" Brush="Inventory.EquipBetterItem.Filter" />
             <ButtonWidget IsEnabled="@IsHelmFilterLocked" Id="HelmLocked" Command.Click="ExecuteShowHideHelmFilter" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="21" SuggestedHeight="20" HorizontalAlignment="Left" MarginLeft="!LeftInventoryLockButtonMarignLeft" MarginTop="246" Brush="Inventory.EquipBetterItem.FilterLock" />

@@ -33,6 +33,18 @@ namespace EquipBestItem.Layers
             {
                 _leftMouseButtonWasReleased = false;
             }
+
+            if (TaleWorlds.InputSystem.Input.IsKeyPressed(InputKey.LeftAlt) && !_altPressed)
+            {
+                _altPressed = true;
+                _filterViewModel.IconVM.IconsHidden = true;
+            }
+
+            if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.LeftAlt) && _altPressed)
+            {
+                _altPressed = false;
+                _filterViewModel.IconVM.IconsHidden = false;
+            }
         }
     }
 }

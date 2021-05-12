@@ -474,5 +474,20 @@ namespace EquipBestItem.ViewModels
                 }
             }
         }
+
+        private bool _iconsHidden;
+
+        [DataSourceProperty]
+        public bool IconsHidden
+        {
+            get => _iconsHidden;
+            set
+            {
+                if (_iconsHidden == value)
+                    return;
+                _iconsHidden = value;
+                OnPropertyChangedWithValue(value, nameof(IconsHidden));
+            }
+        }
     }
 }
