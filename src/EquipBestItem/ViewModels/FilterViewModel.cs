@@ -28,7 +28,7 @@ namespace EquipBestItem.ViewModels
         private string _title;
         private bool _settingsHidden;
         private FilterCopyPasteVM _copyPasteVM;
-        private FilterIconVM _iconVM;
+        private FilterIconsVM _iconsVm;
 
         public FilterViewModel()
         {
@@ -83,10 +83,10 @@ namespace EquipBestItem.ViewModels
             // Hides the filter settings upon opening the inventory
             SettingsHidden = true;
             CopyPasteVM = new FilterCopyPasteVM(this);
-            IconVM = new FilterIconVM(UpdateState);
+            IconsVM = new FilterIconsVM(UpdateState);
 
             CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
-            IconVM.UpdateIcons(_currentCharacterSettings);
+            IconsVM.UpdateIcons(_currentCharacterSettings);
         }
 
         public override void RefreshValues()
@@ -358,7 +358,7 @@ namespace EquipBestItem.ViewModels
             {
                 List[i].Value = values[i];
             }
-            IconVM.UpdateIcons(_currentCharacterSettings);
+            IconsVM.UpdateIcons(_currentCharacterSettings);
         }
 
         [DataSourceProperty]
@@ -414,15 +414,15 @@ namespace EquipBestItem.ViewModels
         }
 
         [DataSourceProperty]
-        public FilterIconVM IconVM
+        public FilterIconsVM IconsVM
         {
-            get => _iconVM;
+            get => _iconsVm;
             set
             {
-                if (value == _iconVM)
+                if (value == _iconsVm)
                     return;
-                _iconVM = value;
-                OnPropertyChangedWithValue(value, nameof(IconVM));
+                _iconsVm = value;
+                OnPropertyChangedWithValue(value, nameof(IconsVM));
             }
         }
 

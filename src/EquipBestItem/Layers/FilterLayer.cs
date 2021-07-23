@@ -37,13 +37,13 @@ namespace EquipBestItem.Layers
             if (TaleWorlds.InputSystem.Input.IsKeyPressed(InputKey.LeftAlt) && !_altPressed)
             {
                 _altPressed = true;
-                _filterViewModel.IconVM.IconsHidden = true;
+                _filterViewModel.IconsVM.IconsHidden = true;
             }
 
             if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.LeftAlt) && _altPressed)
             {
                 _altPressed = false;
-                _filterViewModel.IconVM.IconsHidden = false;
+                _filterViewModel.IconsVM.IconsHidden = false;
             }
         }
     }

@@ -212,6 +212,7 @@
     <Compile Include="CharacterData.cs" />
     <Compile Include="Layers\MainLayer.cs" />
     <Compile Include="Settings\IFilterSettings.cs" />
+    <Compile Include="ViewModels\FilterIconsVM.cs" />
     <Compile Include="ViewModels\FilterIconVM.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\FilterAdjusterVM.cs" />
