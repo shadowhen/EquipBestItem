@@ -83,7 +83,7 @@ namespace EquipBestItem.ViewModels
             // Hides the filter settings upon opening the inventory
             SettingsHidden = true;
             CopyPasteVM = new FilterCopyPasteVM(this);
-            IconsVM = new FilterIconsVM(UpdateState);
+            IconsVM = new FilterIconsVM((FilterInventorySlot state) => { UpdateState(state); });
 
             CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
             IconsVM.UpdateIcons(_currentCharacterSettings);
@@ -106,10 +106,6 @@ namespace EquipBestItem.ViewModels
             }
         }
 
-        public void UpdateState(FilterInventorySlot state)
-        {
-            UpdateState(state, false, false, false);
-        }
         private void UpdateState(FilterInventorySlot state, bool doNotHide = false, bool overrideCharacterCheck = false, bool doNotReveal = false)
         {
             // Leaves the function if the filter settings are not hidden and the state is the current one
