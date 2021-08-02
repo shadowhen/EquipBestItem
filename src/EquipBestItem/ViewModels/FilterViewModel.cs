@@ -30,54 +30,61 @@ namespace EquipBestItem.ViewModels
         private FilterCopyPasteVM _copyPasteVM;
         private FilterIconsVM _iconsVm;
 
+        private static readonly string[] ArmorAdjustTitles =
+        {
+            "Head Armor",
+            "Body Armor",
+            "Leg Armor",
+            "Glove Armor",
+            "Maneuver Bonus",
+            "Speed Bonus",
+            "Charge Bonus",
+            "Armor Weight",
+        };
+
+        private static readonly string[] MountAdjustTitles =
+        {
+            "Charge Damage",
+            "Hit Points",
+            "Maneuver",
+            "Speed"
+        };
+
+        private static readonly string[] WeaponAdjustTitle =
+        {
+            "MaxDataPoints",
+            "Thrust Speed",
+            "Swing Speed",
+            "Missile Speed",
+            "Weapon Length",
+            "Thrust Damage",
+            "Swing Damage",
+            "Accuracy",
+            "Handling",
+            "Weapon Weight",
+            "Weapon Body Armor"
+        };
+
         public FilterViewModel()
         {
-            _armorFilterAdjustList = new MBBindingList<FilterAdjusterVM>
-            {
-                new FilterAdjusterVM() {Title = "Head Armor"},
-                new FilterAdjusterVM() {Title = "Body Armor"},
-                new FilterAdjusterVM() {Title = "Leg Armor"},
-                new FilterAdjusterVM() {Title = "Glove Armor"},
-                new FilterAdjusterVM() {Title = "Maneuver Bonus"},
-                new FilterAdjusterVM() {Title = "Speed Bonus"},
-                new FilterAdjusterVM() {Title = "Charge Bonus"},
-                new FilterAdjusterVM() {Title = "Armor Weight"}
-            };
-            _mountFilterAdjustList = new MBBindingList<FilterAdjusterVM>()
-            {
-                new FilterAdjusterVM() {Title = "Charge Damage"},
-                new FilterAdjusterVM() {Title = "Hit Points"},
-                new FilterAdjusterVM() {Title = "Maneuver"},
-                new FilterAdjusterVM() {Title = "Speed"}
-            };
-            _weaponFilterAdjustList = new MBBindingList<FilterAdjusterVM>()
-            {
-                new FilterAdjusterVM() {Title = "MaxDataPoints"},
-                new FilterAdjusterVM() {Title = "Thrust Speed"},
-                new FilterAdjusterVM() {Title = "Swing Speed"},
-                new FilterAdjusterVM() {Title = "Missile Speed"},
-                new FilterAdjusterVM() {Title = "Weapon Length"},
-                new FilterAdjusterVM() {Title = "Thrust Damage"},
-                new FilterAdjusterVM() {Title = "Swing Damage"},
-                new FilterAdjusterVM() {Title = "Accuracy"},
-                new FilterAdjusterVM() {Title = "Handling"},
-                new FilterAdjusterVM() {Title = "Weapon Weight"},
-                new FilterAdjusterVM() {Title = "Weapon Body Armor"}
-            };
+            _armorFilterAdjustList = new MBBindingList<FilterAdjusterVM>();
+            _mountFilterAdjustList = new MBBindingList<FilterAdjusterVM>();
+            _weaponFilterAdjustList = new MBBindingList<FilterAdjusterVM>();
 
-            foreach (var filter in _armorFilterAdjustList)
+            foreach (var title in ArmorAdjustTitles)
             {
-                filter.ExecuteFilterAction = UpdateValues;
+                var adjuster = new FilterAdjusterVM {Title = title, ExecuteFilterAction = UpdateValues};
+                _armorFilterAdjustList.Add(adjuster);
             }
-
-            foreach (var filter in _mountFilterAdjustList)
+            foreach (var title in MountAdjustTitles)
             {
-                filter.ExecuteFilterAction = UpdateValues;
+                var adjuster = new FilterAdjusterVM { Title = title, ExecuteFilterAction = UpdateValues };
+                _mountFilterAdjustList.Add(adjuster);
             }
-
-            foreach (var filter in _weaponFilterAdjustList)
+            foreach (var title in WeaponAdjustTitle)
             {
-                filter.ExecuteFilterAction = UpdateValues;
+                var adjuster = new FilterAdjusterVM { Title = title, ExecuteFilterAction = UpdateValues };
+                _weaponFilterAdjustList.Add(adjuster);
             }
 
             // Hides the filter settings upon opening the inventory
