@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaleWorlds.SaveSystem;
 
 namespace EquipBestItem
 {
     [Serializable]
+    [SaveableRootClass(0)]
     public class CharacterSettings
     {
+        [SaveableProperty(1)]
         public string Name { get; set; }
 
+        [SaveableField(2)]
         private List<FilterWeaponSettings> _filterWeapon;
 
         public List<FilterWeaponSettings> FilterWeapon
@@ -22,6 +26,7 @@ namespace EquipBestItem
             }
         }
 
+        [SaveableField(3)]
         private List<FilterArmorSettings> _filterArmor;
 
         public List<FilterArmorSettings> FilterArmor
@@ -38,6 +43,7 @@ namespace EquipBestItem
 
         private Dictionary<FilterInventorySlot, IFilterSettings> _filterSettingDictionary;
 
+        [SaveableField(4)]
         private FilterMountSettings _filterMount;
         public FilterMountSettings FilterMount
         {

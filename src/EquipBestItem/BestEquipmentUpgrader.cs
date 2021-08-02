@@ -34,7 +34,8 @@ namespace EquipBestItem
 
             // Create a character data based on given character name and character settings
             var character = GetCharacterByName(_inventory.CurrentCharacterName);
-            var characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
+            //var characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
+            var characterSettings = InventoryBehavior.GetCharacterSettingsByName(character.Name.ToString());
             _characterData = new CharacterData(character, characterSettings);
 
             // Fetch the character's current equipment depending we are in 
@@ -265,8 +266,8 @@ namespace EquipBestItem
                 if (rosterElement.Character.IsHero)
                 {
                     var character = rosterElement.Character;
-                    var characterSettings =
-                        SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
+                    //var characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(character.Name.ToString());
+                    var characterSettings = InventoryBehavior.GetCharacterSettingsByName(character.Name.ToString());
                     _characterData = new CharacterData(character, characterSettings);
                     Equipment characterEquipment = _inventory.IsInWarSet ? _characterData.GetBattleEquipment() : _characterData.GetCivilianEquipment();
                     EquipCharacterEquipment(characterEquipment, !_inventory.IsInWarSet);

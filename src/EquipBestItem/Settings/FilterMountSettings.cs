@@ -1,13 +1,19 @@
 ﻿using System;
+using TaleWorlds.SaveSystem;
 
 namespace EquipBestItem
 {
     [Serializable]
+    [SaveableRootClass(2)]
     public class FilterMountSettings : IFilterSettings
     {
+        [SaveableProperty(1)]
         public float ChargeDamage { get; set; } = 1f;
+        [SaveableProperty(2)]
         public float HitPoints { get; set; } = 1f;
+        [SaveableProperty(3)]
         public float Maneuver { get; set; } = 1f;
+        [SaveableProperty(4)]
         public float Speed { get; set; } = 1f;
 
         public FilterMountSettings()

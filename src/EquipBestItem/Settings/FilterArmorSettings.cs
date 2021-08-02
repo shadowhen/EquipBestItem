@@ -1,19 +1,29 @@
 ﻿using System;
 using TaleWorlds.Core;
+using TaleWorlds.SaveSystem;
 
 namespace EquipBestItem
 {
     [Serializable]
+    [SaveableRootClass(1)]
     public class FilterArmorSettings : IFilterSettings
     {
+        [SaveableProperty(1)]
         public float HeadArmor { get; set; } = 1f;
+        [SaveableProperty(2)]
         public float ArmorBodyArmor { get; set; } = 1f;
+        [SaveableProperty(3)]
         public float LegArmor { get; set; } = 1f;
+        [SaveableProperty(4)]
         public float ArmArmor { get; set; } = 1f;
 
+        [SaveableProperty(5)]
         public float ManeuverBonus { get; set; } = 1f;
+        [SaveableProperty(6)]
         public float SpeedBonus { get; set; } = 1f;
+        [SaveableProperty(7)]
         public float ChargeBonus { get; set; } = 1f;
+        [SaveableProperty(8)]
         public float ArmorWeight { get; set; } = 0;
 
         public FilterArmorSettings()

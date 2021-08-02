@@ -1,6 +1,8 @@
 ﻿using EquipBestItem.Layers;
 using SandBox.GauntletUI;
 using System;
+using System.Collections.Generic;
+using Bannerlord.ButterLib.SaveSystem.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
@@ -17,9 +19,31 @@ namespace EquipBestItem
         }
 
         public static SPInventoryVM Inventory;
+        public static List<CharacterSettings> CharacterSettingsList = new List<CharacterSettings>();
+
         private InventoryGauntletScreen _inventoryScreen;
         private MainLayer _mainLayer;
         private FilterLayer _filterLayer;
+
+        public static CharacterSettings GetCurrentCharacterSettings()
+        {
+            return GetCharacterSettingsByName(Inventory.CurrentCharacterName);
+        }
+
+        public static CharacterSettings GetCharacterSettingsByName(string name)
+        {
+            foreach (var setting in CharacterSettingsList)
+            {
+                if (setting.Name == name)
+                {
+                    return setting;
+                }
+            }
+
+            CharacterSettings newSettings = new CharacterSettings(name);
+            CharacterSettingsList.Add(newSettings);
+            return newSettings;
+        }
 
         private void AddNewInventoryLayer(TutorialContextChangedEvent tutorialContextChangedEvent)
         {
@@ -66,8 +90,8 @@ namespace EquipBestItem
 
                         _inventoryScreen.RemoveLayer(this._mainLayer);
                         _mainLayer = null;
-                        SettingsLoader.Instance.SaveSettings();
-                        SettingsLoader.Instance.SaveCharacterSettings();
+                        //SettingsLoader.Instance.SaveSettings();
+                        //SettingsLoader.Instance.SaveCharacterSettings();
                     }
 
                     if (_inventoryScreen != null && _filterLayer != null)
@@ -85,7 +109,7 @@ namespace EquipBestItem
 
         public override void SyncData(IDataStore dataStore)
         {
-
+            dataStore.SyncDataAsJson("EquipBestItem.CharacterSettings", ref CharacterSettingsList);
         }
     }
 }
