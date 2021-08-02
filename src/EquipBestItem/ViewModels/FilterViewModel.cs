@@ -92,8 +92,8 @@ namespace EquipBestItem.ViewModels
             CopyPasteVM = new FilterCopyPasteVM(this);
             IconsVM = new FilterIconsVM((FilterInventorySlot state) => { UpdateState(state); });
 
-            //CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
-            CurrentCharacterSettings = InventoryBehavior.GetCurrentCharacterSettings();
+            CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
+            //CurrentCharacterSettings = InventoryBehavior.GetCurrentCharacterSettings();
 
             IconsVM.UpdateIcons(_currentCharacterSettings);
         }
@@ -129,8 +129,7 @@ namespace EquipBestItem.ViewModels
             // Check if our character matches with the correct character settings
             string currentCharacterName = InventoryBehavior.Inventory.CurrentCharacterName;
             if (CurrentCharacterSettings == null || currentCharacterName != CurrentCharacterSettings.Name || overrideCharacterCheck)
-                //CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(currentCharacterName);
-                CurrentCharacterSettings = InventoryBehavior.GetCharacterSettingsByName(currentCharacterName);
+                CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(currentCharacterName);
             _civilianOutfit = !InventoryBehavior.Inventory.IsInWarSet;
             _currentCharacterName = InventoryBehavior.Inventory.CurrentCharacterName;
 

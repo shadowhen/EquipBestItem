@@ -271,6 +271,7 @@
     <Compile Include="CharacterData.cs" />
     <Compile Include="Layers\MainLayer.cs" />
     <Compile Include="Settings\IFilterSettings.cs" />
+    <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="ViewModels\FilterIconsVM.cs" />
     <Compile Include="ViewModels\FilterIconVM.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
@@ -286,7 +287,6 @@
     <Compile Include="Widgets\LockLeftPanelWidget.cs" />
     <Compile Include="Settings\CharacterSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

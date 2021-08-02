@@ -14,7 +14,7 @@ namespace EquipBestItem
 
         public Settings Settings { get; private set; }
 
-        public List<CharacterSettings> CharacterSettings { get; private set; }
+        public Dictionary<string, CharacterSettings> CharacterSettingsDict { get; private set; } = new Dictionary<string, CharacterSettings>();
 
         private SettingsLoader()
         {
@@ -64,57 +64,65 @@ namespace EquipBestItem
             }
         }
 
-        public void LoadCharacterSettings()
-        {
-            try
-            {
-                this.CharacterSettings = Helper.Deserialize<List<CharacterSettings>>(_filePathCharacterSettings);
-            }
-            catch (MBException e)
-            {
-                InformationManager.DisplayMessage(new InformationMessage(e.Message));
-                this.CharacterSettings = new List<CharacterSettings>();
-            }
+        //public void LoadCharacterSettings()
+        //{
+        //    try
+        //    {
+        //        this.CharacterSettings = Helper.Deserialize<List<CharacterSettings>>(_filePathCharacterSettings);
+        //    }
+        //    catch (MBException e)
+        //    {
+        //        InformationManager.DisplayMessage(new InformationMessage(e.Message));
+        //        this.CharacterSettings = new List<CharacterSettings>();
+        //    }
 
-            finally
-            {
-                if (this.CharacterSettings == null)
-                {
-                    this.CharacterSettings = new List<CharacterSettings>();
-                }
-            }
-        }
+        //    finally
+        //    {
+        //        if (this.CharacterSettings == null)
+        //        {
+        //            this.CharacterSettings = new List<CharacterSettings>();
+        //        }
+        //    }
+        //}
 
-        public void SaveCharacterSettings()
-        {
-            try
-            {
-                Helper.Serialize<List<CharacterSettings>>(_filePathCharacterSettings, this.CharacterSettings);
-            }
-            catch (MBException e)
-            {
-                InformationManager.DisplayMessage(new InformationMessage(e.Message));
-            }
-        }
+        //public void SaveCharacterSettings()
+        //{
+        //    try
+        //    {
+        //        Helper.Serialize<List<CharacterSettings>>(_filePathCharacterSettings, this.CharacterSettings);
+        //    }
+        //    catch (MBException e)
+        //    {
+        //        InformationManager.DisplayMessage(new InformationMessage(e.Message));
+        //    }
+        //}
 
         public CharacterSettings GetCharacterSettingsByName(string name)
         {
             if (!InventoryBehavior.Inventory.IsInWarSet)
-                name = name + "_civil";
+                name += "_civil";
 
-            if (this.CharacterSettings != null)
+            //if (this.CharacterSettings != null)
+            //{
+            //    foreach (CharacterSettings charSettings in this.CharacterSettings)
+            //    {
+            //        if (charSettings.Name == name)
+            //        {
+            //            return charSettings;
+            //        }
+            //    }
+            //}
+
+            //CharacterSettings characterSettings = new CharacterSettings(name);
+            //this.CharacterSettings.Add(characterSettings);
+
+            if (CharacterSettingsDict.ContainsKey(name))
             {
-                foreach (CharacterSettings charSettings in this.CharacterSettings)
-                {
-                    if (charSettings.Name == name)
-                    {
-                        return charSettings;
-                    }
-                }
+                return CharacterSettingsDict[name];
             }
 
-            CharacterSettings characterSettings = new CharacterSettings(name);
-            this.CharacterSettings.Add(characterSettings);
+            var characterSettings = new CharacterSettings(name);
+            CharacterSettingsDict.Add(name, characterSettings);
 
             return characterSettings;
         }
@@ -124,19 +132,30 @@ namespace EquipBestItem
             if (!InventoryBehavior.Inventory.IsInWarSet)
                 name += "_civil";
 
-            if (this.CharacterSettings != null)
+            //if (this.CharacterSettings != null)
+            //{
+            //    for (int i = 0; i < CharacterSettings.Count; i++)
+            //    {
+            //        if (CharacterSettings[i].Name == name)
+            //        {
+            //            CharacterSettings[i] = characterSettings;
+            //            return true;
+            //        }
+            //    }
+            //}
+
+            if (CharacterSettingsDict.ContainsKey(name))
             {
-                for (int i = 0; i < CharacterSettings.Count; i++)
-                {
-                    if (CharacterSettings[i].Name == name)
-                    {
-                        CharacterSettings[i] = characterSettings;
-                        return true;
-                    }
-                }
+                CharacterSettingsDict[name] = characterSettings;
+                return true;
             }
 
             return false;
+        }
+
+        public void SetCharacterSettingsDict(Dictionary<string, CharacterSettings> dict)
+        {
+            CharacterSettingsDict = dict;
         }
     }
 }

@@ -8,13 +8,6 @@ namespace EquipBestItem
         private CharacterObject _characterObject;
         private CharacterSettings _characterSettings;
 
-        public CharacterData(CharacterObject characterObject)
-        {
-            _characterObject = characterObject;
-            _characterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(characterObject.ToString());
-
-        }
-
         public CharacterData(CharacterObject characterObject, CharacterSettings characterSettings)
         {
             _characterObject = characterObject;

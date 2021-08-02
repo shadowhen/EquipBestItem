@@ -20,26 +20,10 @@ namespace EquipBestItem
         }
 
         public static SPInventoryVM Inventory;
-        private static Dictionary<string, CharacterSettings> _characterSettingsDict = new Dictionary<string, CharacterSettings>();
 
         private InventoryGauntletScreen _inventoryScreen;
         private MainLayer _mainLayer;
         private FilterLayer _filterLayer;
-
-        public static CharacterSettings GetCurrentCharacterSettings()
-        {
-            return GetCharacterSettingsByName(Inventory.CurrentCharacterName);
-        }
-
-        public static CharacterSettings GetCharacterSettingsByName(string name)
-        {
-            if (_characterSettingsDict.ContainsKey(name))
-                return _characterSettingsDict[name];
-
-            CharacterSettings newSettings = new CharacterSettings(name);
-            _characterSettingsDict.Add(name, newSettings);
-            return newSettings;
-        }
 
         private void AddNewInventoryLayer(TutorialContextChangedEvent tutorialContextChangedEvent)
         {
@@ -105,13 +89,26 @@ namespace EquipBestItem
 
         public override void SyncData(IDataStore dataStore)
         {
+            Dictionary<string, CharacterSettings> characterSettingsDict = new Dictionary<string, CharacterSettings>();
+
             try
             {
-                dataStore.SyncDataAsJson("EquipBestItem.CharacterSettings", ref _characterSettingsDict);
+                if (dataStore.IsSaving)
+                {
+                    characterSettingsDict = SettingsLoader.Instance.CharacterSettingsDict;
+                }
+
+                dataStore.SyncDataAsJson("EquipBestItem.CharacterSettings", ref characterSettingsDict);
+
+                if (dataStore.IsLoading)
+                {
+                    SettingsLoader.Instance.SetCharacterSettingsDict(characterSettingsDict);
+                }
             }
             catch (JsonSerializationException)
             {
-                _characterSettingsDict = new Dictionary<string, CharacterSettings>();
+                InformationManager.DisplayMessage(new InformationMessage("EquipBestItem: Loading data failed. Creating new data."));
+                
             }
             
         }
