@@ -44,24 +44,6 @@ namespace EquipBestItem
                         _inventoryScreen.AddLayer(_filterLayer);
                         _filterLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
                     }
-
-                    //Temporarily disabled clearing settings file for characters
-                    //foreach (_characterSettings charSettings in SettingsLoader.Instance._characterSettings.ToList())
-                    //{
-                    //    bool flag = false;
-                    //    foreach (TroopRosterElement element in EquipBestItemViewModel._inventory.TroopRoster)
-                    //    {
-                    //        if (charSettings.Name == element.Character.Name.ToString())
-                    //        {
-                    //            flag = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    if (!flag)
-                    //    {
-                    //        SettingsLoader.Instance._characterSettings.Remove(charSettings);
-                    //    }
-                    //}
                 }
                 else if (tutorialContextChangedEvent.NewContext == TutorialContexts.None)
                 {
@@ -70,8 +52,6 @@ namespace EquipBestItem
 
                         _inventoryScreen.RemoveLayer(this._mainLayer);
                         _mainLayer = null;
-                        //SettingsLoader.Instance.SaveSettings();
-                        //SettingsLoader.Instance.SaveCharacterSettings();
                     }
 
                     if (_inventoryScreen != null && _filterLayer != null)

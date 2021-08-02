@@ -93,7 +93,6 @@ namespace EquipBestItem.ViewModels
             IconsVM = new FilterIconsVM((FilterInventorySlot state) => { UpdateState(state); });
 
             CurrentCharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);
-            //CurrentCharacterSettings = InventoryBehavior.GetCurrentCharacterSettings();
 
             IconsVM.UpdateIcons(_currentCharacterSettings);
         }

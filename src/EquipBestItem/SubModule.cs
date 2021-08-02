@@ -17,7 +17,6 @@ namespace EquipBestItem
             {
                 base.OnGameStart(game, gameStarterObject);
                 SettingsLoader.Instance.LoadSettings();
-                //SettingsLoader.Instance.LoadCharacterSettings();
 
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
             }
