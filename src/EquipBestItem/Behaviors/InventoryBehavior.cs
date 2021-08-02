@@ -3,6 +3,7 @@ using SandBox.GauntletUI;
 using System;
 using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
+using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
@@ -19,7 +20,7 @@ namespace EquipBestItem
         }
 
         public static SPInventoryVM Inventory;
-        public static List<CharacterSettings> CharacterSettingsList = new List<CharacterSettings>();
+        private static Dictionary<string, CharacterSettings> _characterSettingsDict = new Dictionary<string, CharacterSettings>();
 
         private InventoryGauntletScreen _inventoryScreen;
         private MainLayer _mainLayer;
@@ -32,16 +33,11 @@ namespace EquipBestItem
 
         public static CharacterSettings GetCharacterSettingsByName(string name)
         {
-            foreach (var setting in CharacterSettingsList)
-            {
-                if (setting.Name == name)
-                {
-                    return setting;
-                }
-            }
+            if (_characterSettingsDict.ContainsKey(name))
+                return _characterSettingsDict[name];
 
             CharacterSettings newSettings = new CharacterSettings(name);
-            CharacterSettingsList.Add(newSettings);
+            _characterSettingsDict.Add(name, newSettings);
             return newSettings;
         }
 
@@ -109,7 +105,15 @@ namespace EquipBestItem
 
         public override void SyncData(IDataStore dataStore)
         {
-            dataStore.SyncDataAsJson("EquipBestItem.CharacterSettings", ref CharacterSettingsList);
+            try
+            {
+                dataStore.SyncDataAsJson("EquipBestItem.CharacterSettings", ref _characterSettingsDict);
+            }
+            catch (JsonSerializationException)
+            {
+                _characterSettingsDict = new Dictionary<string, CharacterSettings>();
+            }
+            
         }
     }
 }
