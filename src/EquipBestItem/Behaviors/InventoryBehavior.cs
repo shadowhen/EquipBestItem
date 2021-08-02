@@ -89,7 +89,7 @@ namespace EquipBestItem
 
         public override void SyncData(IDataStore dataStore)
         {
-            Dictionary<string, CharacterSettings> characterSettingsDict = new Dictionary<string, CharacterSettings>();
+            var characterSettingsDict = new Dictionary<string, CharacterSettings>();
 
             try
             {
@@ -108,7 +108,7 @@ namespace EquipBestItem
             catch (JsonSerializationException)
             {
                 InformationManager.DisplayMessage(new InformationMessage("EquipBestItem: Loading data failed. Creating new data."));
-                
+                SettingsLoader.Instance.SetCharacterSettingsDict(new Dictionary<string, CharacterSettings>());
             }
             
         }
