@@ -43,7 +43,7 @@ namespace EquipBestItem
         /// <returns></returns>
         public EquipmentElement GetBetterItemFromSide(MBBindingList<SPItemVM> itemListVM, EquipmentElement equipmentElement, EquipmentIndex slot, bool isCivilian)
         {
-            EquipmentElement bestEquipmentElement;
+            EquipmentElement bestEquipmentElement = new EquipmentElement();
 
             CharacterObject character = _characterData.GetCharacterObject();
 
@@ -194,8 +194,8 @@ namespace EquipBestItem
                     equipment[EquipmentIndex.Horse].IsEmpty && equipmentIndex == EquipmentIndex.HorseHarness)
                     continue;
                 
-                EquipmentElement bestLeftEquipmentElement;
-                EquipmentElement bestRightEquipmentElement;
+                EquipmentElement bestLeftEquipmentElement = new EquipmentElement();
+                EquipmentElement bestRightEquipmentElement = new EquipmentElement();
 
                 // Gets the best item from sides that are unlocked
                 if (!SettingsLoader.Instance.Settings.IsLeftPanelLocked)
@@ -337,7 +337,7 @@ namespace EquipBestItem
             // Calculation for weapon items
             if (sourceItem.Item.PrimaryWeapon != null)
             {
-                return _bestEquipmentCalculator.CalculateWeaponValue(sourceItem,
+                return _bestEquipmentCalculator.CalculateWeaponsValue(sourceItem,
                     _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)]);
             }
             
