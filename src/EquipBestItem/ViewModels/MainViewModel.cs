@@ -267,8 +267,8 @@ namespace EquipBestItem
                     equipment[EquipmentIndex.Horse].IsEmpty && equipmentIndex == EquipmentIndex.HorseHarness)
                     continue;
 
-                EquipmentElement bestLeftEquipmentElement;
-                EquipmentElement bestRightEquipmentElement;
+                EquipmentElement bestLeftEquipmentElement = new EquipmentElement();
+                EquipmentElement bestRightEquipmentElement = new EquipmentElement();
 
                 // Depending on the panel locks, the best equipment would be fetched if the panel is not locked.
                 if (!SettingsLoader.Instance.Settings.IsLeftPanelLocked)
