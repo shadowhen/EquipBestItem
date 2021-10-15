@@ -55,7 +55,7 @@ namespace EquipBestItem
                     continue;
 
                 // Skips only if the character cannot use the item or the item is not equipable
-                if (!CharacterHelper.CanUseItem(character, item.ItemRosterElement.EquipmentElement) || !item.IsEquipableItem)
+                if (!CharacterHelper.CanUseItemBasedOnSkill(character, item.ItemRosterElement.EquipmentElement) || !item.IsEquipableItem)
                     continue;
 
                 // Skips only if we are looking for civilian equipment and item is not civilian equipment
