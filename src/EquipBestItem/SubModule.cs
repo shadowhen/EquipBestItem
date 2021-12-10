@@ -6,9 +6,9 @@ namespace EquipBestItem
 {
     public class SubModule : MBSubModuleBase
     {
-        public override void OnMissionBehaviourInitialize(Mission mission)
+        public override void OnMissionBehaviorInitialize(Mission mission)
         {
-            base.OnMissionBehaviourInitialize(mission);
+            base.OnMissionBehaviorInitialize(mission);
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
