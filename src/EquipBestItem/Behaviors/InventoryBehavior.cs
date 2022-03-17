@@ -6,6 +6,8 @@ using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View.Screen;
+using TaleWorlds.ScreenSystem;
 
 namespace EquipBestItem
 {
