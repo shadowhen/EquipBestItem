@@ -4,7 +4,7 @@ using Helpers;
 
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Inventory;
-using TaleWorlds.CampaignSystem.ViewModelCollection;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 

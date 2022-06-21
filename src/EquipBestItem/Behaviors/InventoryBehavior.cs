@@ -2,11 +2,9 @@
 using SandBox.GauntletUI;
 using System;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.ViewModelCollection;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
-using TaleWorlds.Engine.Screens;
 using TaleWorlds.Library;
-using TaleWorlds.MountAndBlade.View.Screen;
 using TaleWorlds.ScreenSystem;
 
 namespace EquipBestItem
@@ -19,7 +17,7 @@ namespace EquipBestItem
         }
 
         public static SPInventoryVM Inventory;
-        private InventoryGauntletScreen _inventoryScreen;
+        private GauntletInventoryScreen _inventoryScreen;
         private MainLayer _mainLayer;
         private FilterLayer _filterLayer;
 
@@ -29,9 +27,9 @@ namespace EquipBestItem
             {
                 if (tutorialContextChangedEvent.NewContext == TutorialContexts.InventoryScreen)
                 {
-                    if (ScreenManager.TopScreen is InventoryGauntletScreen)
+                    if (ScreenManager.TopScreen is GauntletInventoryScreen)
                     {
-                        _inventoryScreen = ScreenManager.TopScreen as InventoryGauntletScreen;
+                        _inventoryScreen = ScreenManager.TopScreen as GauntletInventoryScreen;
                         Inventory = _inventoryScreen.GetField("_dataSource") as SPInventoryVM;
 
                         _mainLayer = new MainLayer(1000, "GauntletLayer");

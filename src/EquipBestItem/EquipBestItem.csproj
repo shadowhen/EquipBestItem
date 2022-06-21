@@ -202,6 +202,7 @@
     </Reference>
     <Reference Include="TaleWorlds.ScreenSystem">
       <HintPath>..\..\..\..\bin\Win64_Shipping_Client\TaleWorlds.ScreenSystem.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TaleWorlds.TwoDimension">
       <HintPath>..\..\..\..\bin\Win64_Shipping_Client\TaleWorlds.TwoDimension.dll</HintPath>
