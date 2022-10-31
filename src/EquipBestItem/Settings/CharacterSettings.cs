@@ -76,7 +76,7 @@ namespace EquipBestItem
         /// <summary>
         /// Constructor using name
         /// </summary>
-        /// <param name="name">character name</param>
+        /// <param name="name">Character name</param>
         public CharacterSettings(string name)
         {
             Name = name;
@@ -95,25 +95,28 @@ namespace EquipBestItem
         }
 
         /// <summary>
-        /// Copy constructor
+        /// Creates a copy of character settings from the other character settings
         /// </summary>
-        /// <param name="other">character settings</param>
+        /// <param name="other">Character settings</param>
         public CharacterSettings(CharacterSettings other)
         {
+            // Should be the other character settings, do not run the rest of constructor
+            // TODO: It might be better to invoke NullException than returning since
+            // the constructor requires the character settings to be not null
             if (other == null) return;
 
+            // Copies the name
             Name = other.Name;
 
+            // Copies filters for weapons, armors, and mount
             for (int i = 0; i < 4; i++)
             {
                 FilterWeapon.Add(new FilterWeaponSettings(other.FilterWeapon[i]));
             }
-
             for (int i = 0; i < 6; i++)
             {
                 FilterArmor.Add(new FilterArmorSettings(other.FilterArmor[i]));
             }
-
             FilterMount = new FilterMountSettings(other.FilterMount);
         }
     }

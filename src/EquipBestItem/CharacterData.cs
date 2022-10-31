@@ -3,6 +3,7 @@ using TaleWorlds.Core;
 
 namespace EquipBestItem
 {
+    // This could be struct instead of a class since it only stores data and does nothing with it.
     class CharacterData
     {
         private CharacterObject _characterObject;

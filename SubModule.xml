@@ -2,14 +2,14 @@
 <Module>
 	<Name value="EquipBestItem"/>
 	<Id value="EquipBestItem"/>
-	<Version value="v1.8.0.0"/>
+	<Version value="v1.9.0.0"/>
 	<DefaultModule value="false"/>
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
 	<Official value="false" />
 	<DependedModules>
-		<DependedModule Id="Native" DependentVersion="e1.8.0"/>
-		<DependedModule Id="Sandbox" DependentVersion="e1.8.0"/>
+		<DependedModule Id="Native" DependentVersion="v1.0.0"/>
+		<DependedModule Id="Sandbox" DependentVersion="v1.0.0"/>
 	</DependedModules>
 	<SubModules>
 		<SubModule>

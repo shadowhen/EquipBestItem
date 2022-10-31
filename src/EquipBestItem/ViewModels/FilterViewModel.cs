@@ -36,6 +36,7 @@ namespace EquipBestItem
         private enum FilterItemState { None, Armor, Weapon, Mount }
         private FilterItemState _filterItemState = FilterItemState.None;
 
+        // Holds filter settings for clipboard usage
         private FilterArmorSettings _clipboardFilterArmorSettings;
         private FilterWeaponSettings _clipboardFilterWeaponSettings;
         private FilterMountSettings _clipboardFilterMountSettings;
@@ -901,6 +902,9 @@ namespace EquipBestItem
             base.RefreshValues();
             try
             {
+                // Should character settings be pasted from clipboard, set the new characters settings
+                // Note: This process should not be executed here since it only occurs when the values refresh.
+                // It would be wise to move this portion of code to the part where the settings are pasted.
                 if (!_pastedCharacterSettings)
                 {
                     this.CharacterSettings = SettingsLoader.Instance.GetCharacterSettingsByName(InventoryBehavior.Inventory.CurrentCharacterName);

@@ -17,9 +17,12 @@ namespace EquipBestItem
             try
             {
                 base.OnGameStart(game, gameStarterObject);
+
+                // Load mod settings and character settings
                 SettingsLoader.Instance.LoadSettings();
                 SettingsLoader.Instance.LoadCharacterSettings();
 
+                // Add behavior to campaign game starter
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
             }
             catch (MBException e)

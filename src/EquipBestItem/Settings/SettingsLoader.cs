@@ -32,6 +32,9 @@ namespace EquipBestItem
             }
         }
 
+        /// <summary>
+        /// Loads settings from a file
+        /// </summary>
         public void LoadSettings()
         {
             try
@@ -52,6 +55,9 @@ namespace EquipBestItem
             }
         }
 
+        /// <summary>
+        /// Saves settings to a file
+        /// </summary>
         public void SaveSettings()
         {
             try
@@ -64,6 +70,9 @@ namespace EquipBestItem
             }
         }
 
+        /// <summary>
+        /// Loads character settings from the file
+        /// </summary>
         public void LoadCharacterSettings()
         {
             try
@@ -85,6 +94,9 @@ namespace EquipBestItem
             }
         }
 
+        /// <summary>
+        /// Saves character settings to a file
+        /// </summary>
         public void SaveCharacterSettings()
         {
             try
@@ -97,6 +109,11 @@ namespace EquipBestItem
             }
         }
 
+        /// <summary>
+        /// Returns character settings from t
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public CharacterSettings GetCharacterSettingsByName(string name)
         {
             if (!InventoryBehavior.Inventory.IsInWarSet)

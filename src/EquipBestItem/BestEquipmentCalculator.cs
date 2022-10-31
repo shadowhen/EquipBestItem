@@ -14,8 +14,10 @@ namespace EquipBestItem
         /// <returns>calculated value for armor</returns>
         public float CalculateArmorValue(EquipmentElement sourceItem, FilterArmorSettings filterArmor)
         {
+            // Get armor component from the item
             ArmorComponent armorComponentItem = sourceItem.Item.ArmorComponent;
 
+            // Add up all of the filter values
             float sum =
                 Math.Abs(filterArmor.HeadArmor) +
                 Math.Abs(filterArmor.ArmArmor) +
@@ -23,8 +25,10 @@ namespace EquipBestItem
                 Math.Abs(filterArmor.ArmorWeight) +
                 Math.Abs(filterArmor.LegArmor);
 
+            // Get item modifer from the item
             ItemModifier mod = sourceItem.ItemModifier;
 
+            // Get values from the item and the armor component
             int HeadArmor = armorComponentItem.HeadArmor,
                 BodyArmor = armorComponentItem.BodyArmor,
                 LegArmor = armorComponentItem.LegArmor,
@@ -46,6 +50,8 @@ namespace EquipBestItem
                     ArmArmor = mod.ModifyArmor(ArmArmor);
                 //Weight *= mod.WeightMultiplier;
 
+                // Make sure that the values are not in the negative
+                // TODO: Use Math's max function instead of conditional assignments
                 HeadArmor = HeadArmor < 0 ? 0 : HeadArmor;
                 BodyArmor = BodyArmor < 0 ? 0 : BodyArmor;
                 LegArmor = LegArmor < 0 ? 0 : LegArmor;
@@ -114,6 +120,8 @@ namespace EquipBestItem
                     maxDataValue = mod.ModifyHitPoints((short)maxDataValue);
                 //WeaponWeight *= mod.WeightMultiplier;
 
+                // Ensure that the values always clamped between 0 to infinity
+                // TODO: Might be better to use Math max function instead inline if conditions
                 bodyArmor = bodyArmor < 0 ? 0 : bodyArmor;
                 missileSpeed = missileSpeed < 0 ? 0 : missileSpeed;
                 swingDamage = swingDamage < 0 ? 0 : swingDamage;
@@ -139,6 +147,7 @@ namespace EquipBestItem
             float sum = 0.0f;
             float value = 0.0f;
 
+            // Determine how the value is calculated based on the weapon class of the primary weapon
             switch (primaryWeaponItem.WeaponClass)
             {
                 case WeaponClass.SmallShield:
@@ -248,7 +257,6 @@ namespace EquipBestItem
 
                 case WeaponClass.Arrow:
                 case WeaponClass.Bolt:
-                    // Weight, Accuracy, Missile (Thrust) Damage, Stack Amount (MaxDataPoints)
                     sum = Math.Abs(filterWeapon.WeaponWeight) +
                           Math.Abs(filterWeapon.Accuracy) +
                           Math.Abs(filterWeapon.ThrustDamage) +
@@ -263,7 +271,7 @@ namespace EquipBestItem
                     break;
 
                 default:
-                    sum =
+                    sum = 
                         Math.Abs(filterWeapon.Accuracy) +
                         Math.Abs(filterWeapon.WeaponBodyArmor) +
                         Math.Abs(filterWeapon.Handling) +
@@ -308,22 +316,27 @@ namespace EquipBestItem
         /// Returns value for horse using its properties and filter settings
         /// </summary>
         /// <param name="sourceItem">Horse item</param>
+        /// <param name="filterMount">Filter settings</param>
         /// <returns>calculated value for horse</returns>
         public float CalculateHorseValue(EquipmentElement sourceItem, FilterMountSettings filterMount)
         {
+            // Get horse component from the item
             HorseComponent horseComponentItem = sourceItem.Item.HorseComponent;
 
+            // Add together filter values in absolute sum
             float sum =
                 Math.Abs(filterMount.ChargeDamage) +
                 Math.Abs(filterMount.HitPoints) +
                 Math.Abs(filterMount.Maneuver) +
                 Math.Abs(filterMount.Speed);
 
+            // Get values from the horse component
             int ChargeDamage = horseComponentItem.ChargeDamage,
                 HitPoints = horseComponentItem.HitPoints,
                 Maneuver = horseComponentItem.Maneuver,
                 Speed = horseComponentItem.Speed;
 
+            // Get item modifier from the item and modifiy the values
             ItemModifier mod = sourceItem.ItemModifier;
             if (mod != null)
             {

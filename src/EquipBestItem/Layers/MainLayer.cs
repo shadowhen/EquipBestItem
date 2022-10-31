@@ -12,6 +12,8 @@ namespace EquipBestItem
         public MainLayer(int localOrder, string categoryId = "GauntletLayer") : base(localOrder, categoryId)
         {
             _viewModel = new MainViewModel();
+
+            // Loads movie for the view model
             this.LoadMovie("EBIInventory", _viewModel);
         }
 
@@ -28,9 +30,16 @@ namespace EquipBestItem
                 return;
             }
 
+            // Refresh if the left mouse button is pressed and the left mouse button was not released yet
+            //
+            // Note: Checking input keys to refresh the view model is not good idea. There is another solution
+            // where the view model refreshes based on events only.
             if (TaleWorlds.InputSystem.Input.IsKeyReleased(TaleWorlds.InputSystem.InputKey.LeftMouseButton) && !_leftMouseButtonWasReleased)
             {
                 _viewModel.RefreshValues();
+
+                // This would keep the view model from refreshing multiple times while holding
+                // the left mouse button down
                 _leftMouseButtonWasReleased = true;
             }
 

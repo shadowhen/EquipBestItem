@@ -66,9 +66,12 @@ namespace EquipBestItem
                 if (slot < EquipmentIndex.NonWeaponItemBeginSlot &&
                     item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon != null)
                 {
+                    // Check that both weapons have same weapon class and same item usage
                     bool sameWeaponClass = equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass == item.ItemRosterElement.EquipmentElement.Item.PrimaryWeapon.WeaponClass;
                     bool sameItemUsage = GetItemUsage(item) == equipmentElement.Item.PrimaryWeapon.ItemUsage;
                     
+                    // Check that both weapons are both couch weapons or not
+                    // TODO: Rewrite this portion since it is confusing to follow
                     bool couchWeapon = IsCouchWeapon(equipmentElement);
                     bool couchUsage = !couchWeapon || IsCouchWeapon(item.ItemRosterElement.EquipmentElement);
 
@@ -135,16 +138,22 @@ namespace EquipBestItem
 
         private static bool IsCouchWeapon(EquipmentElement weapon)
         {
+            // Make sure the weapon item is not empty first
             if (weapon.IsEmpty)
                 return false;
+
+            // Make sure that there are any weapons
             if (weapon.Item.Weapons == null || weapon.Item.Weapons.Count == 0)
                 return false;
 
+            // Loop through the weapons of a given item
             foreach (var temp in weapon.Item.Weapons)
             {
+                // Check that the weapon has a usage
                 if (temp.ItemUsage == null)
                     continue;
 
+                // Check that item usage has a usage for couch weapon
                 if (temp.ItemUsage.Contains("couch"))
                     return true;
             }
@@ -259,13 +268,18 @@ namespace EquipBestItem
                         _inventoryLogic.AddTransferCommand(equipCommand);
                     }
                 }
+
+                // Since items have been transfered, there could be items with zero amount.
+                // This should remove items with zero counts in the inventory.
                 _inventory.ExecuteRemoveZeroCounts();
             }
+
+            // Reflection call the method to refresh information values in the inventory
             _inventory.GetMethod("RefreshInformationValues");
         }
 
         /// <summary>
-        /// Outputs the message based on the equipment slot
+        /// Outputs a message based on the equipment slot
         /// </summary>
         /// <param name="equipmentIndex">Equipment Index Slot</param>
         private void EquipMessage(EquipmentIndex equipmentIndex)
@@ -320,7 +334,6 @@ namespace EquipBestItem
         /// <returns>item value</returns>
         public float ItemIndexCalculation(EquipmentElement sourceItem, EquipmentIndex slot)
         {
-
             // Given a item is "empty", return with big negative number
             if (sourceItem.IsEmpty)
                 return -9999f;

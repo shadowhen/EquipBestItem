@@ -371,9 +371,9 @@ namespace EquipBestItem
             }
 
             // Crash fix for the mod Party AI Overhaul and Commands
-            if (_inventoryLogic.MerchantParty != null)
+            if (_inventoryLogic.OtherParty != null)
             {
-                var merchantPartyMemberRoster = _inventoryLogic.MerchantParty.MemberRoster.GetTroopRoster();
+                var merchantPartyMemberRoster = _inventoryLogic.OtherParty.MemberRoster.GetTroopRoster();
                 foreach (TroopRosterElement rosterElement in merchantPartyMemberRoster)
                 {
                     if (rosterElement.Character.IsHero && rosterElement.Character.Name.ToString() == name)
