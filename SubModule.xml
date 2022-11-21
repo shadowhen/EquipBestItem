@@ -8,9 +8,13 @@
 	<MultiplayerModule value="false"/>
 	<Official value="false" />
 	<DependedModules>
-		<DependedModule Id="Native" DependentVersion="v1.0.0"/>
-		<DependedModule Id="Sandbox" DependentVersion="v1.0.0"/>
+		<DependedModule Id="Native" />
+		<DependedModule Id="Sandbox" />
 	</DependedModules>
+	<DependedModuleMetadatas>
+		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.0.*" />
+		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.0.*" />
+    	</DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
 			<Name value="EquipBestItem"/>
