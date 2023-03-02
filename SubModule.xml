@@ -2,7 +2,7 @@
 <Module>
 	<Name value="EquipBestItem"/>
 	<Id value="EquipBestItem"/>
-	<Version value="v1.9.0.0"/>
+	<Version value="v1.9.2"/>
 	<DefaultModule value="false"/>
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
@@ -12,9 +12,9 @@
 		<DependedModule Id="Sandbox" />
 	</DependedModules>
 	<DependedModuleMetadatas>
-		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.0.*" />
-		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.0.*" />
-    	</DependedModuleMetadatas>
+		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.1.*" />
+		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.1.*" />
+    </DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
 			<Name value="EquipBestItem"/>
