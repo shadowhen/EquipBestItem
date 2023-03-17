@@ -351,7 +351,7 @@ namespace EquipBestItem
             // Calculation for weapon items
             if (sourceItem.Item.PrimaryWeapon != null)
             {
-                return _bestEquipmentCalculator.CalculateWeaponValue(sourceItem,
+                return _bestEquipmentCalculator.CalculateWeaponsValue(sourceItem,
                     _characterData.GetCharacterSettings().FilterWeapon[GetEquipmentSlot(slot)]);
             }
             
