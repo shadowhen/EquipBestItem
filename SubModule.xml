@@ -14,7 +14,7 @@
 	<DependedModuleMetadatas>
 		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.1.*" />
 		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.1.*" />
-    </DependedModuleMetadatas>
+    	</DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
 			<Name value="EquipBestItem"/>
