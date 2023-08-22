@@ -1,6 +1,6 @@
 # Equip Best Item
 
-This is the maintained version of [AlekseyAfonin's mod Equip Best Item](https://github.com/AlekseyAfonin/EquipBestItem) for Mount & Blade II: Bannerlord.
+This is the maintained version of [AlekseyAfonin's mod Equip Best Item](https://github.com/AlekseyAfonin/EquipBestItem) for Mount & Blade II: Bannerlord originally hosted by [shadowhen](https://github.com/shadowhen/EquipBestItem). This Version of EquipBestItem works with Mount & Blade II: Bannerlord `1.2.x`. 
 
 ## Table of Contents
 
