@@ -1,4 +1,6 @@
-EquipBestItem - Updated
+EquipBestItem - Reloaded 
+Automatically equip the best items in inventory mod. 
+For Mount & Blade II Bannerlord v1.1.6 release 18 September 2023
 
 Installation:
 1. Copy files to Mount & Blade II Bannerlord/Modules
